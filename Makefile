@@ -6,40 +6,33 @@
 #    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
+#    Updated: 2024/01/19 18:20:38 by math             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
 #    Updated: 2024/01/18 23:33:53 by math             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#COMP
+# COMP
 NAME = minishell
 CC = gcc -Wall -Werror -Wextra -fsanitize=address -g
+SRC_DIR = ./src
+OBJ_DIR = .obj
 EXT_LIBS = -lreadline
-PATH_LIBFT = ./include/libft
+PATH_LIBFT = $(SRC_DIR)/include/libft
 
-SRC =  maintest.c \
-	Parser/lexer.c \
-	Parser/Tokenizer.c \
-	Parser/utils_tokenizer.c \
-	Parser/addword.c \
-	Parser/word_quoteshandler.c \
-	Parser/lst_funcs_node.c \
-	Parser/lst_funcs_subnode.c \
-	Builtin/cd.c \
-	Builtin/echo.c \
-	Builtin/env.c \
-	Builtin/export.c \
-	Builtin/unset.c \
-	Builtin/pwd.c \
-	Builtin/run_builtins.c \
-	Env/Env.c \
-	Env/Expansor.c \
-	Env/Expansor_utils.c \
-	Redir/redir.c \
-	External/ft_exec.c \
-	Prompt.c \
-	Process/process_handler.c
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-OBJS = ${SRC:.c=.o}
 ## COLORS ##
 END = \033[0m
 RED = \033[1;31m
@@ -56,26 +49,26 @@ libft:
 	@make -sC $(PATH_LIBFT)
 	@echo "$(NAME): $(GREEN)Done!$(RESET)"
 
-%.o : %.c 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
 	@echo "${BLUE} ◎ $(YELLOW)Compiling   ${RED}→   $(WHITE)$< $(END)"
 	@$(CC) -c -o $@ $<
 
 $(NAME): libft $(OBJS)
-
 	@$(CC) -o $(NAME) $(OBJS) -lreadline $(PATH_LIBFT)/libft.a
 	clear
 	@echo "$(GREEN)You Created $(NAME)$(END)"
 
 ## CLEANING ##
 clean:
-	@$(RM) $(OBJS)
+	@$(RM) -r $(OBJ_DIR)
 	@make clean -sC $(PATH_LIBFT)
 	@echo "$(GREEN)$(NAME): $(RED)→ $(BLUE) Cleaning... $(END)"
 	@echo "$(GREEN)$(NAME): $(RED)→ $(YELLOW) the files(*.o) were deleted $(END)"
 
 ## REMOVING .O FILES AND .A FILES ##
 fclean: clean
-	$(RM) $(NAME) $(OBJS) $(libft)
+	@$(RM) $(NAME)
 	@make fclean -sC $(PATH_LIBFT)
 	@echo "$(GREEN)$(NAME): $(RED) → $(BLUE)was deleted$(END)"
 

@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/19 01:38:09 by math             ###   ########.fr       */
+/*   Updated: 2024/01/19 18:11:51 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int handleOutFileRedirectionl(void)
 int    process_handler(t_var *var)
 {
     pid_t   pid;
+    
     pid_t   last_pid;
     int     *fd_in;
     int     *fd_out;
