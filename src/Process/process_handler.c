@@ -12,16 +12,6 @@
 
 #include "../include/header.h"
 
-static int handleInFileRedirection(void)
-{
-    return (0);
-}
-
-static int handleOutFileRedirectionl(void)
-{
-    return (0);
-}
-
 // static void    print_pipe(int fd[2])
 // {
 //     char    buffer;
@@ -35,11 +25,11 @@ static int handleOutFileRedirectionl(void)
 int    process_handler(t_var *var)
 {
     pid_t   pid;
-    
     pid_t   last_pid;
     int     *fd_in;
     int     *fd_out;
     int     *temp;
+	t_node	*node_tmp;
     int		status;
 	int		last_status;
 
@@ -55,14 +45,14 @@ int    process_handler(t_var *var)
             dprintf(2, "child\n");
             if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
             {
-                if (handleInFileRedirection() != 0)
+                if (handle_infileredirection(var) != 0)
                     return (EXIT_FAILURE);
             }
             else
                 dup2(fd_in[0], STDIN_FILENO);
             if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
             {
-                if (handleOutFileRedirectionl() != 0)
+                if (handle_outfileredirection(var) != 0)
                     return (EXIT_FAILURE);
             }
             else if (var->tokens->next)
@@ -71,11 +61,10 @@ int    process_handler(t_var *var)
             close(fd_in[1]);
             close(fd_out[0]);
             close(fd_out[1]);
-
-            if (run_builtin(var))
-			    ft_exec(var);
+			if (run_builtin(var))
+				exit(ft_exec(var));
             printf("DANGER!!!\n");
-            exit (127);
+            exit(0);
 		}
         else
         {
@@ -84,27 +73,33 @@ int    process_handler(t_var *var)
             close(fd_out[1]);
             temp = fd_in;
 		    fd_in = fd_out;
-            fd_out = malloc(2 * sizeof(int));
             free(temp);
+            fd_out = malloc(2 * sizeof(int));
             pipe(fd_out);
+			node_tmp = var->tokens;
             var->tokens = var->tokens->next;
+			ft_freenode(&node_tmp);
             if (!var->tokens)
                 last_pid = pid;
         }
     }
     last_status = 0;
-	while (1)
+	while (var->nb_node--)
 	{
 		pid = waitpid(-1, &status, 0);
+		printf("Pid [%d] has finished w status: %d && errno=%d\n", pid, status,errno);
 		if (pid == last_pid)
 			last_status = status;
 		if (pid == -1)
 		{
 			//close(fd[0][1]);
 			//free_all
+			printf("last process WEXITSTATUS: %d\n", WEXITSTATUS(last_status));
 			return (WEXITSTATUS(last_status));
 		}
 	}
+	free(fd_in);
+	free(fd_out);
     // waitpid(0, NULL, 0);
     // close(fd_in[1]);
     // // print_pipe(fd_in);

@@ -55,9 +55,12 @@ char	*get_word(t_var *var, int *i, int *start)
 			&& !isdouble_operator(var->inputline, *i)))
 		(*i)++;
 	if (*start < *i)
+	{
 		str = ft_substr(var->inputline, *start, *i - *start);
+		if (*str)
+			expansor(var, &str, 0);
+	}
 	*start = *i;
-	expansor(var, &str, 0);
 	return (str);
 }
 

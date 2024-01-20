@@ -75,4 +75,4 @@ fclean: clean
 ## REMOVING AND RUNNING ##
 re: fclean all
 
-.PHONY: all libft re clean fclean norm
+.PHONY: all libft re clean fclean

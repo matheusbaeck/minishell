@@ -18,14 +18,15 @@ static	char	**malloc_flagsandparams_node(t_node *node)
 	int			size;
 	char		**args;
 
-	tmp = node->flags;
+
+	tmp = (*node).flags;
 	size = 0;
 	while (tmp)
 	{
 		size++;
 		tmp = tmp->next;
 	}
-	tmp = node->params;
+	tmp = (*node).params;
 	while (tmp)
 	{
 		size++;
@@ -44,7 +45,7 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 	int			i;
 
 	args = malloc_flagsandparams_node(node);
-	tmp = node->flags;
+	tmp = (*node).flags;
 	i = 0;
 	args[i++] = ft_strdup(node->token->content);
 	while (tmp)
@@ -52,7 +53,7 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 		args[i++] = ft_strdup(tmp->content);
 		tmp = tmp->next;
 	}
-	tmp = node->params;
+	tmp = (*node).params;
 	while (tmp)
 	{
 		args[i++] = ft_strdup(tmp->content);
@@ -118,7 +119,7 @@ static	char	*find_path(char **envp, char	*command)
 		ppath = ft_strjoin(tmp[i], "/");
 		path = ft_strjoin(ppath, command);
 		free(ppath);
-		if (access(path, X_OK) == 0)
+		if (access(path, X_OK | F_OK) == 0)//proteger más esto.
 		{
 			doublefree(tmp);
 			return (path);
@@ -129,7 +130,7 @@ static	char	*find_path(char **envp, char	*command)
 	return (NULL);
 }
 
-void	ft_exec(t_var *var)
+int		ft_exec(t_var *var)
 {
 	char	**args;
 	char	**envp;
@@ -144,7 +145,8 @@ void	ft_exec(t_var *var)
 		doublefree(args);
 		printf("Minishell: Command not found: %s\n", \
 			var->tokens->token->content);
-		return ; //exit(127)
+		return (127);
+		//exit(127);
 	}
 	var->exit_status = execve(exec_path, args, envp); //exit process
 	printf("status code: %d\n", var->exit_status);
@@ -153,10 +155,11 @@ void	ft_exec(t_var *var)
 		free(exec_path);
 		doublefree(envp);
 		doublefree(args);
-		printf("Minishell: execve failed\n");
-		return ;
+		printf("Minishell: %s\n", strerror(errno));
+		return(errno);
 	}
 	free(exec_path);
 	doublefree(envp);
 	doublefree(args);
+	return (0);
 }
