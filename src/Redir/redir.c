@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/22 17:19:32 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 18:38:58 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,53 @@ void	base_redir(t_var *var)
 		dup2(var->std_out, 1);
 		close(var->std_out);
 	}
+}
+
+static	int	here_doc_loop(int fd, char *str, char *lim)
+{
+	int		i;
+	char	buffer;
+
+	while (1)
+	{
+		write(1, ">", 1);
+		i = -1;
+		while (read(0, &buffer, 1) && ++i < (int) ft_strlen(lim)
+			&& buffer != 10 && lim[i] == buffer)
+			str[i] = buffer;
+		if (!ft_strncmp(str, lim, (int) ft_strlen(lim)) && buffer == 10)
+			return (0);
+		write(fd, str, (int)ft_strlen(str));
+		ft_bzero(str, i);
+		if (buffer != 10 && write(fd, &buffer, 1))
+		{
+			while (read(0, &buffer, 1) && buffer != 10)
+				write(fd, &buffer, 1);
+		}
+		write(fd, &buffer, 1);
+	}
+	return (-1);
+}
+
+int	here_doc_task(char *lim)
+{
+	int		fd;
+	char	*str;
+
+	fd = open("./here_doc_tmp", O_CREAT | O_RDWR, 0664);
+	str = (char *) ft_calloc((int) ft_strlen(lim) + 1, sizeof(char));
+	if (fd == -1 || str == NULL)
+	{
+		if (str)
+			free(str);
+		printf("Minishell: %s\n", strerror(errno));
+		return (1);
+	}
+	here_doc_loop(fd, str, lim);
+	free(str);
+	close(fd);
+	unlink("./here_doc_tmp");
+	return (0);
 }
 
 int		handle_outfileredirection(t_var *var)
@@ -86,13 +133,18 @@ int		handle_infileredirection(t_var *var)
 		if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
 			return (0);
 		if (ft_strncmp(sub_redir_tmp->content, "<<", 3) == 0)
-			printf("Esperate pillín aun no estoy listo para preguntarte lo que sea con un heredoc\n");
-			// redirect_input(var, sub_redir_tmp->content, O_APPEND);
+		{
+			if (here_doc_task(sub_redir_tmp->content))
+			{
+				printf("Minishell: %s\n", strerror(errno));
+				return (1);
+			}
+		}
 		else if (ft_strncmp(sub_redir_tmp->content, "<", 2) == 0)
 		{
 			var->fd_in = open(sub_wheredir_tmp->content, O_RDONLY);
 			if (!var->fd_in)
-			{	
+			{
 				printf("Minishell: %s: %s\n", \
 					strerror(errno),sub_wheredir_tmp->content);
 				return (var->fd_out);
@@ -102,27 +154,6 @@ int		handle_infileredirection(t_var *var)
 		}
 		sub_redir_tmp = sub_redir_tmp->next;
 		sub_wheredir_tmp = sub_wheredir_tmp->next;
-	}
-	return (0);
-}
-
-int		redir(t_var *var)
-{
-	if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
-	{
-		if (handle_infileredirection(var) != 0)
-		{
-			printf("error on handle_infile_builtin: %d\n", EXIT_FAILURE);
-			return (EXIT_FAILURE);
-		}
-	}
-	if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
-	{
-		if (handle_outfileredirection(var) != 0)
-		{
-			printf("error on handle_outfile_builtin: %d\n", EXIT_FAILURE);
-			return (EXIT_FAILURE);
-		}
 	}
 	return (0);
 }
