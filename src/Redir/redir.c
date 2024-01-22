@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 18:31:02 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/19 21:47:46 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	base_redir(t_var *var)
 		close(var->std_out);
 	}
 }
-
-void	handleOutFileRedirection(t_var *var)
+/*
+int	handleOutFileRedirection(t_var *var, int *status)
 {
 	t_node		*tmp;
 	t_subnode	*sub_redir_tmp;
@@ -68,7 +68,7 @@ void	handleOutFileRedirection(t_var *var)
 		sub_redir_tmp = sub_redir_tmp->next;
 		sub_wheredir_tmp = sub_wheredir_tmp->next;
 	}
-}
+}*/
 
 // void    handleInFileRedirection(t_var *var)
 // {

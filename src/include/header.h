@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/18 23:24:34 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 13:51:13 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@
 
 # define SINGLEQ '\''
 # define DOUBLEQ '\"'
+
+enum	e_main_errors {
+	OPEN_FAIL = 1000,
+	CLOSE_FAIL = 2000,
+	PIPE_FAIL = 3000,
+	FORK_FAIL = 4000,
+	MALLOC_FAIL = 5000
+};
 
 //		·· subnode for storing multiple word instead of **array (USED IN T_NODE) ··
 typedef struct s_subnode
@@ -132,8 +140,8 @@ char		**envlist_to_array(t_env *envlist);
 // <--------------------------------------------------------------->
 
 //			###### redir funcs ######
-void		handleOutFileRedirection(t_var *var);
-//void	handleInFileRedirection(t_var *var);
+// int			handleOutFileRedirection(t_var *var, int *status);
+//int	handleInFileRedirection(t_var *var, int *status);
 void		base_redir(t_var *var);
 
 // <--------------------------------------------------------------->
@@ -155,5 +163,10 @@ void		unset(t_var *var);
 // <--------------------------------------------------------------->
 
 int    process_handler(t_var *var);
+
+int close_pipe_read(int *fd, int *status);
+int close_pipe_write(int *fd, int *status);
+int close_pipe(int *fd, int *status);
+int destroy_pipe(int *fd, int *status);
 
 #endif

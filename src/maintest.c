@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/19 00:50:31 by math             ###   ########.fr       */
+/*   Updated: 2024/01/20 21:05:38 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,13 @@ int	main(int argc, char **argv, const char **envp)
 		init_values(&var);
 		lexer(&var);
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
+        {
             printNodes(&var.tokens);
-		// handleOutFileRedirection(&var);
-		// if (run_builtin(&var))
-		// 	ft_exec(&var);
-        process_handler(&var);
+        }
+        else
+        {
+            process_handler(&var);
+        }
 		base_redir(&var);
 		ft_lstclear_node(&var.tokens);
 		free(var.tokens);
