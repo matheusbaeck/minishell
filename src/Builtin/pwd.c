@@ -16,7 +16,7 @@ int	pwd(t_var	*var)
 {
 	char	*path;
 
-	if (var->tokens->flags != NULL)
+	if ((*var).tokens->flags != NULL)
 	{
 		printf("Minishell: pwd: no options can be handled.\n");
 		return (1);

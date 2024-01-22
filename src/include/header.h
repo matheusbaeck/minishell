@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/22 13:51:13 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 17:10:49 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_var
 	t_env		*envp;
 	char		*inputline;
 	int			len_inputline;
+	int			nb_node;
 	int			exit_status;
 	t_node		*tokens;
 }	t_var;
@@ -101,7 +102,7 @@ char		*get_word(t_var *var, int *i, int *start);
 // <--------------------------------------------------------------->
 
 // 						###### get input ######
-void		get_inputline(t_var *var);
+char		*get_inputline(t_var *var);
 
 // <--------------------------------------------------------------->
 
@@ -115,9 +116,11 @@ void		are_any_expansion(char **res, char **string, int ref);
 
 // 					######list node functions ######
 void		ft_lstclear_node(t_node **lst);
+void		ft_freenode(t_node **node);
 t_node		*ft_lstnew_node(void);
 t_node		*ft_lstlast_node(t_node *lst);
 void		ft_lstadd_back_node(t_node **lst, t_node *new);
+
 
 // <--------------------------------------------------------------->
 
@@ -140,14 +143,15 @@ char		**envlist_to_array(t_env *envlist);
 // <--------------------------------------------------------------->
 
 //			###### redir funcs ######
-// int			handleOutFileRedirection(t_var *var, int *status);
-//int	handleInFileRedirection(t_var *var, int *status);
+int			handle_outfileredirection(t_var *var);
+int			handle_infileredirection(t_var *var);
 void		base_redir(t_var *var);
+int			redir(t_var *var);
 
 // <--------------------------------------------------------------->
 
 //			###### External command execution ######
-void		ft_exec(t_var *var);
+int			ft_exec(t_var *var);
 
 // <--------------------------------------------------------------->
 

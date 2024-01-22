@@ -20,6 +20,7 @@ int	run_builtin(t_var *var)
 		pwd(var);
 	else if (ft_strncmp(var->tokens->token->content, "env\0", 4) == 0 || ft_strncmp(var->tokens->token->content, "env ", 4) == 0 || ft_strncmp(var->tokens->token->content, "env\n", 4) == 0)
 		env(var);
+	
 	else if (ft_strncmp(var->tokens->token->content, "cd\0", 3) == 0 || ft_strncmp(var->tokens->token->content, "cd ", 3) == 0 || ft_strncmp(var->tokens->token->content, "cd\n", 3) == 0)
 		cd(var->tokens);
 	else if (ft_strncmp(var->tokens->token->content, "export\0", 7) == 0 || ft_strncmp(var->tokens->token->content, "export ", 7) == 0 || ft_strncmp(var->tokens->token->content, "export\n", 7) == 0)
@@ -30,11 +31,11 @@ int	run_builtin(t_var *var)
 		unset(var);
 	else if (ft_strncmp(var->tokens->token->content, "clear\0", 6) == 0 || ft_strncmp(var->tokens->token->content, "clear\n", 6) == 0 || ft_strncmp(var->tokens->token->content, "clear ", 6) == 0)
 		clear_history();
-	else if (ft_strncmp(var->tokens->token->content, "exit\0", 5) == 0 || ft_strncmp(var->tokens->token->content, "exit\n", 5) == 0 || ft_strncmp(var->tokens->token->content, "clear ", 6) == 0)
-	{	
-		free(var->tokens->token->content);
+	else if (ft_strncmp(var->tokens->token->content, "exit\0", 6) == 0 || ft_strncmp(var->tokens->token->content, "exit\n", 6) == 0 || ft_strncmp(var->tokens->token->content, "exit ", 6) == 0)
+	{
+		printf("finishing on purpose\n");
+		//signal(SIGTERM, handle_signal);
 		exit(0);
-	}
 	else
 		return (1);
 	return (0);

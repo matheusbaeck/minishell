@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/20 21:05:38 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 17:10:38 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static	void	init_ms(t_var *var, const char	**envp)
 
 static void	init_values(t_var *var)
 {
-	var->tokens = ft_lstnew_node();
 	var->fd_in = 0;
 	var->fd_out = 0;
-	var->len_inputline = ft_strlen(var->inputline);
+    var->tokens = NULL;
+    var->nb_node = 0;
 	var->exit_status = 0;
 }
 
@@ -82,14 +82,16 @@ static void printNode(t_node *node)
 void    printNodes(t_node **node)
 {
     int i;
+    t_node *tmp;
 
+    tmp = *node;
     i = 0;
-    while (*node)
+    while (tmp)
     {
         ++i;
-        printf("NONE -> %i\n", i);
-        printNode(*node);
-        *node = (*node)->next;
+        printf("NODE -> %i\n", i);
+        printNode(tmp);
+        tmp = tmp->next;
     }
     printf("EXECUTION:\n");
 }
@@ -99,24 +101,16 @@ int	main(int argc, char **argv, const char **envp)
 	t_var	var;
 
 	init_ms(&var, envp);
-	while (42)
+	while (get_inputline(&var))
 	{
-		get_inputline(&var);
 		init_values(&var);
 		lexer(&var);
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {
             printNodes(&var.tokens);
-        }
-        else
-        {
-            process_handler(&var);
-        }
+        process_handler(&var);
 		base_redir(&var);
-		ft_lstclear_node(&var.tokens);
 		free(var.tokens);
-		if (var.inputline != NULL)
-			free(var.inputline);
 	}
 	ft_freeenv(&var.envp);
 	return (0);

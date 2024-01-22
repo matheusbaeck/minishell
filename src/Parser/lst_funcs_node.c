@@ -12,6 +12,24 @@
 
 #include "../include/header.h"
 
+void	ft_freenode(t_node **node)
+{
+	t_node	*current;
+
+	current = *node;
+	if (current->token != NULL)
+		ft_lstclear_subnode(&current->token);
+	if (current->flags != NULL)
+		ft_lstclear_subnode(&current->flags);
+	if (current->params != NULL)
+		ft_lstclear_subnode(&current->params);
+	if (current->redir != NULL)
+		ft_lstclear_subnode(&current->redir);
+	if (current->where_redir != NULL)
+		ft_lstclear_subnode(&current->where_redir);
+	free(current);
+}
+
 void	ft_lstclear_node(t_node **lst)
 {
 	t_node	*current;

@@ -32,10 +32,10 @@ static	void	create_prompt(t_env *envp, char **string)
     ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfrees2("\033[1;32m", expand(var->envp, "LOGNAME")), "@"), expand(var->envp, "NAME")), "\033[0m:\033[1;34m~");
     ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfrees2("\033[1;32m", expand(var->envp, "LOGNAME")), "@"), expand(var->envp, "NAME")), "\033[0m:\033[1;34m~"), cur_path);
     ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfrees2("\033[1;32m", expand(var->envp, "LOGNAME")), "@"), expand(var->envp, "NAME")), "\033[0m:\033[1;34m~"), cur_path), "\033[0m$") */
-(*string) = ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfrees2("\033[1;32m", expand(envp, "LOGNAME")), "@"), expand(envp, "NAME")), "\033[0m:\033[1;34m~"), cur_path), "\033[0m$>");
+	(*string) = ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfreee(ft_strjoinfrees1(ft_strjoinfrees2("\033[1;32m", expand(envp, "LOGNAME")), "@"), expand(envp, "NAME")), "\033[0m:\033[1;34m~"), cur_path), "\033[0m$>");
 }
 
-void	get_inputline(t_var *var)
+char	*get_inputline(t_var *var)
 {
 	char			*str;
 	char			*prompt;
@@ -45,10 +45,12 @@ void	get_inputline(t_var *var)
 	free(prompt);
 	if (!str || str == NULL)
 	{
+		printf("NULL INPUT\n");
 		var->inputline = NULL;
-		return ;
+		return (NULL);
 	}
 	var->inputline = ft_strdup(str);
 	free(str);
 	add_history(var->inputline);
+	return (var->inputline);
 }

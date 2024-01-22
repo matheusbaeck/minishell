@@ -16,6 +16,8 @@ static int	count_lines(char **str)
 {
 	int	i;
 
+	if (!str || !*str)
+		return (0);
 	i = 0;
 	while (str[i])
 		++i;
@@ -42,30 +44,31 @@ void	lexer(t_var *var)
 {
 	int			i;
 	int			start;
-	int			size;
 	char		**splitted_inputline;
 	t_node		*first_node;
 
+	first_node = NULL;
 	splitted_inputline = ft_split(var->inputline, '|');
-	size = count_lines(splitted_inputline);
+	free(var->inputline);
+	var->nb_node = count_lines(splitted_inputline);
 	i = -1;
-	while (++i < size)
+	while (++i < var->nb_node)
 	{
 		start = 0;
 		var->inputline = splitted_inputline[i];
 		var->len_inputline = ft_strlen(var->inputline);
 		var->tokens = ft_lstnew_node();
-		if (i == 0)
-			first_node = var->tokens;
 		while (start < var->len_inputline)
 			start = gnt_startpoint(var, start);
-		//free(splitted_inputline[i]);
+		if (i == 0)
+			first_node = var->tokens;
+		free(splitted_inputline[i]);
 		if (i != 0)
 			ft_lstadd_back_node(&first_node, var->tokens);
 	}
-	//free(splitted_inputline);
+	if (splitted_inputline)
+		free(splitted_inputline);
 	var->tokens = first_node;
-	
 }
 //gnt_startpoint returns the index of the next character
 

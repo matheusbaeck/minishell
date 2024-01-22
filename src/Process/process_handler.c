@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/22 16:45:11 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 17:22:09 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
     pid_t   pid;
     int     *fd_in;
     int     *fd_out;
+    t_node  *node_tmp;
 
     fd_in = malloc(2 * sizeof(int)); // mallocs and pipes protection
     fd_out = malloc(2 * sizeof(int));
@@ -136,12 +137,16 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
             main_task(&fd_in, &fd_out, status);
             // if (!main_task(var, &fd_in, &fd_out, status))
             //     return (EXIT_FAILURE);
+            node_tmp = var->tokens;
             var->tokens = var->tokens->next;
+            ft_freenode(&node_tmp);
             //print_lst(lst);
             if ((*lst)->next)
                 exit (0);
         }
     }
+    free(fd_in);
+	free(fd_out);
     return (EXIT_SUCCESS);
 }
 
@@ -161,7 +166,7 @@ int    process_handler(t_var *var)
 	}
     ft_lstclear(&pid, NULL); //verify that function acept NULL as param
     free(pid);
-    // free all data
+    // free all dat
     return (0);
 }
 

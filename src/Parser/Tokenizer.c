@@ -19,7 +19,7 @@ static	void	add_operator(t_var *var, int *start, int *i,
 		ft_lstadd_back_node(&var->tokens, ft_lstnew_node());
 	(*i) += flag_len_operator;
 	(*prev_token_string) = ft_substr(var->inputline, *start, (*i) - (*start));
-	start = i;
+	*start = *i;
 	ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(*prev_token_string)); //libero prev_token_string dentro de lstnew_subnode.
 	while (ft_isspace(var->inputline[*start])) // el token despues de un operador es el nombre del archivo al cual hay que redirigir (aplicar el operador).
 		(*start)++;
@@ -58,7 +58,7 @@ static	int	detect_flag(t_var *var, char *token_string)
 static	void	add_cmd_or_flag_or_param(t_var *var, char	**prev_token_string)
 {
 	if ((*prev_token_string) != NULL
-		&& *(*prev_token_string) != '\0' && *(*prev_token_string) != '|')
+		&& *(*prev_token_string) != '\0' && *(*prev_token_string) != '|' && var->tokens)
 	{
 		if (detect_flag(var, (*prev_token_string)))
 		{
