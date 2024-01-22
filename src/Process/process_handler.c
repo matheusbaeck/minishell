@@ -6,38 +6,28 @@
 /*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/22 19:54:51 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/01/22 20:09:43 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-// static int handleInFileRedirection(void)
-// {
-//     return (0);
-// }
-
-// static int handleOutFileRedirectionl(void)
-// {
-//     return (0);
-// }
-
 static int task_child(t_var *var, int *fd_in, int *fd_out, int *status) //check for error handle
 {
-    // if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
-    // {
-    //     if (handleInFileRedirection() != 0)
-    //         exit (EXIT_FAILURE);
-    // }
-    // else
-    //     dup2(fd_in[0], STDIN_FILENO);
-    // if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
-    // {
-    //     if (handleOutFileRedirectionl() != 0)
-    //         exit (EXIT_FAILURE);
-    // }
-    // else if (var->tokens->next)
-    //     dup2(fd_out[1], STDOUT_FILENO);
+    if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
+    {
+        if (handle_infileredirection(var) != 0)
+            exit (EXIT_FAILURE);
+    }
+    else
+        dup2(fd_in[0], STDIN_FILENO);
+    if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
+    {
+        if (handle_outfileredirection(var) != 0)
+            exit (EXIT_FAILURE);
+    }
+    else if (var->tokens->next)
+        dup2(fd_out[1], STDOUT_FILENO);
     (void)status;
     fprintf(stderr, "cmd: %s\n", var->tokens->token->content);
     fprintf(stderr, "fd_in: %d\n", fd_in[0]);

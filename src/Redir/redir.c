@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/22 18:38:58 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/22 20:11:25 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		handle_infileredirection(t_var *var)
 			return (0);
 		if (ft_strncmp(sub_redir_tmp->content, "<<", 3) == 0)
 		{
-			if (here_doc_task(sub_redir_tmp->content))
+			if (here_doc_task(sub_wheredir_tmp->content))
 			{
 				printf("Minishell: %s\n", strerror(errno));
 				return (1);
