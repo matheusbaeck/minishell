@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2024/01/22 16:42:47 by math             ###   ########.fr        #
+#    Updated: 2024/01/22 18:24:24 by mamagalh@st      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMP
 NAME = minishell
-CC = gcc -Wall -Werror -Wextra #-fsanitize=address -g
+CC = gcc -Wall -Werror -Wextra -fsanitize=address -g
 SRC_DIR = ./src
 OBJ_DIR = .obj
 EXT_LIBS = -lreadline

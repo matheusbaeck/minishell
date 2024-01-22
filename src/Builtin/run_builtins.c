@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:47:59 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/01/17 15:18:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/22 18:16:56 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	run_builtin(t_var *var)
 		printf("finishing on purpose\n");
 		//signal(SIGTERM, handle_signal);
 		exit(0);
+	}
 	else
 		return (1);
 	return (0);

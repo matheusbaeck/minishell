@@ -3,59 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/22 17:22:09 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 19:54:51 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-static int handleInFileRedirection(void)
-{
-    return (0);
-}
+// static int handleInFileRedirection(void)
+// {
+//     return (0);
+// }
 
-static int handleOutFileRedirectionl(void)
-{
-    return (0);
-}
+// static int handleOutFileRedirectionl(void)
+// {
+//     return (0);
+// }
 
 static int task_child(t_var *var, int *fd_in, int *fd_out, int *status) //check for error handle
 {
-    if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
-    {
-        if (handleInFileRedirection() != 0)
-            exit (EXIT_FAILURE);
-    }
-    else
-        dup2(fd_in[0], STDIN_FILENO);
-    if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
-    {
-        if (handleOutFileRedirectionl() != 0)
-            exit (EXIT_FAILURE);
-    }
-    else if (var->tokens->next)
+    // if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
+    // {
+    //     if (handleInFileRedirection() != 0)
+    //         exit (EXIT_FAILURE);
+    // }
+    // else
+    //     dup2(fd_in[0], STDIN_FILENO);
+    // if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
+    // {
+    //     if (handleOutFileRedirectionl() != 0)
+    //         exit (EXIT_FAILURE);
+    // }
+    // else if (var->tokens->next)
+    //     dup2(fd_out[1], STDOUT_FILENO);
+    (void)status;
+    fprintf(stderr, "cmd: %s\n", var->tokens->token->content);
+    fprintf(stderr, "fd_in: %d\n", fd_in[0]);
+    fprintf(stderr, "fd_out: %d\n", fd_out[1]);
+
+    dup2(fd_in[0], STDIN_FILENO);
+    if (var->tokens->next)
         dup2(fd_out[1], STDOUT_FILENO);
-    if (close_pipe(fd_in, status))
-        return (CLOSE_FAIL);
-    if (close_pipe(fd_out, status))
-        return (CLOSE_FAIL);
+    printf("HEY\n");
+    close(fd_in[0]);
+    close(fd_in[1]);
+    close(fd_out[0]);
+    close(fd_out[1]);
+    printf("BYE\n");
     if (run_builtin(var))
         ft_exec(var);
     printf("DANGER!!!\n");
     return (127);
 }
 
-static int main_task(int **fd_in, int **fd_out, int *status)
+static int main_task(int **fd_in, int **fd_out, void *next, int *status)
 {
     int     *temp;
 
-    if (close_pipe(*fd_in, status))
-        return (CLOSE_FAIL);
-    if (close_pipe_write(*fd_out, status))
-        return (CLOSE_FAIL);
+    close((*fd_in)[0]);
+    close((*fd_in)[1]);
+    if (!next)
+        close((*fd_out)[0]);
+    close((*fd_out)[1]);
     temp = *fd_in;
     *fd_in = *fd_out;
     *fd_out = malloc(2 * sizeof(int));
@@ -122,27 +133,17 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
         else if (pid == 0)
         {
             task_child(var, fd_in, fd_out, status);
-            // if (!task_child(var, fd_in, fd_out, status))
-            //     return (EXIT_FAILURE);
+            printf("DANGER\n");
+            exit(127);
         }
         else
         {
-            // printf("pointers lst:%p *lst:%p (*lst)->content:%p (*lst)->next:%p\n", lst, *lst, (*lst)->content, (*lst)->next);
-            if (!(*lst))
-            {
-                *lst = ft_lstnew((void *)&pid);
-            }
-            else
-                ft_lstadd_back(lst, ft_lstnew((void *)&pid));
-            main_task(&fd_in, &fd_out, status);
-            // if (!main_task(var, &fd_in, &fd_out, status))
-            //     return (EXIT_FAILURE);
+            ft_lstadd_back(lst, ft_lstnew((void *)&pid));
+            printf("parent pid: %d\n", *((pid_t *)(*lst)->content));
+            main_task(&fd_in, &fd_out, var->tokens->next, status);
             node_tmp = var->tokens;
             var->tokens = var->tokens->next;
             ft_freenode(&node_tmp);
-            //print_lst(lst);
-            if ((*lst)->next)
-                exit (0);
         }
     }
     free(fd_in);
@@ -150,17 +151,24 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
     return (EXIT_SUCCESS);
 }
 
+// pid -> NULL
+// ft_lstadd_back(&pid, ft_lstnew(42))  --> node [42][NULL]
+// pid == NULL
+// pid -> [42][0x1] -> [1337][null]
+// 
+
+
 int    process_handler(t_var *var)
 {
     t_list  *pid;
     int		status;
 
-    //pid = (t_list *)malloc(sizeof(t_list));
+    pid = NULL;
     while (var->tokens)
 		fork_handler(var, &pid, &status);
 	while (pid)
 	{
-		waitpid(*((pid_t *)pid->content), &status, 0);
+		waitpid(-1, &status, 0);
         //WEXITSTATUS(status);
 		pid = pid->next;
 	}
