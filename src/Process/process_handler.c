@@ -84,7 +84,7 @@ int    process_handler(t_var *var)
         }
     }
     last_status = 0;
-	while (var->nb_node--)
+	while (var->nb_node-- >= 0)
 	{
 		pid = waitpid(-1, &status, 0);
 		printf("Pid [%d] has finished w status: %d && errno=%d\n", pid, status,errno);
