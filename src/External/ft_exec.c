@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/22 23:44:39 by math             ###   ########.fr       */
+/*   Updated: 2024/01/23 19:14:07 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ static	char	*find_path(char **envp, char	*command)
 		return (NULL);
 	if (access(command, X_OK | F_OK) == 0)
 		return (command);
+	if (ft_strncmp(command, "./", 2))
+		return (NULL);
 	tmp = find_path_env(envp);
 	i = -1;
 	while (tmp[++i] && command)
