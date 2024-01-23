@@ -6,13 +6,13 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/23 17:28:01 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 00:33:37 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-static int task_child(t_var *var, int *fd_in, int *fd_out, int *status) //check for error handle
+static int task_child(t_var *var, int *fd_in, int *fd_out, int *status)
 {
     (void)status;
     if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, "<", 2) || ft_strncmp(var->tokens->redir->content, "<<", 3)))
@@ -20,55 +20,78 @@ static int task_child(t_var *var, int *fd_in, int *fd_out, int *status) //check 
         if (handle_infileredirection(var) != 0)
             exit (EXIT_FAILURE);
     }
-    else
+    else if (fd_in) //not first node
         dup2(fd_in[0], STDIN_FILENO);
     if (var->tokens->redir && (ft_strncmp(var->tokens->redir->content, ">", 2) || ft_strncmp(var->tokens->redir->content, ">>", 3)))
     {
         if (handle_outfileredirection(var) != 0)
             exit (EXIT_FAILURE);
     }
-    else if (var->tokens->next)
+    else if (var->tokens->next) //not last node
         dup2(fd_out[1], STDOUT_FILENO);
-    dup2(fd_in[0], STDIN_FILENO);
-    if (var->tokens->next)
-        dup2(fd_out[1], STDOUT_FILENO);
-    if (close(fd_in[0]))
-        dprintf(2, "child error: close fd_in[0]\n");
-    if(close(fd_in[1]))
-        dprintf(2, "child error: close fd_in[1]\n");
-    if (close(fd_in[0]))
+    if (fd_in)
+    {
+        if (close(fd_in[0]))
+            dprintf(2, "child error: close fd_in[0]\n");
+        if(close(fd_in[1]))
+            dprintf(2, "child error: close fd_in[1]\n");
+    }
+    if (close(fd_out[0]))
         dprintf(2, "child error: close fd_out[0]\n");
-    if(close(fd_in[1]))
+    if(close(fd_out[1]))
         dprintf(2, "child error: close fd_out[1]\n");
     if (!run_builtin(var))
         exit (0);
     return(ft_exec(var));
 }
 
-static int main_task(int **fd_in, int **fd_out, void *next, int *status)
+static int pipe_swap(int **fd_dst, int **fd_src)
 {
     int     *temp;
 
-    if (close((*fd_in)[1]))
-        dprintf(2, "main error: close fd_in[0]\n");
-    if(close((*fd_in)[0]))
-        dprintf(2, "main error: close fd_in[1]\n");
+    if (!(fd_dst && fd_src))
+        return(EXIT_FAILURE);
+    temp = *fd_dst;
+    *fd_dst = *fd_src;
+    if (temp)
+    {
+        free(temp);
+    }
+    return (EXIT_SUCCESS);
+}
+
+// in [1]pipe[0] [0]cmd[1] [1]pipe[0] [0]cmd2[1] [1]pipe[0] out
+static int main_task(int **fd_in, int **fd_out, void *next, int *status)
+{
+    if (*fd_in) //not first node
+    {
+        if(close((*fd_in)[0]))
+            dprintf(2, "main error: close fd_in[1]\n");
+    }
     if (close((*fd_out)[1]))
             dprintf(2, "main error: close fd_out[1]\n");
-    if (!next)
+    // [x]fd_in[x] [x]fd_out[0]
+    if (next) //not last node
     {
-        if (close((*fd_out)[0]))
+        // [x]fd_in[x] = [x]fd_out[0] ==> [x]fd_in[0]
+        *status = pipe_swap(fd_in, fd_out);
+        *fd_out = malloc(2 * sizeof(int));
+        if (!(*fd_out))
+            return (MALLOC_FAIL);
+        if (!pipe(*fd_out))
+            return (PIPE_FAIL);
+    } // [x]fd_in[0] [1]fd_out[0]
+    else //last node
+    {
+        if (close((*fd_out)[0])) 
             dprintf(2, "main error: close fd_out[1]\n");
+        if (*fd_in)
+        {
+            free(*fd_in);
+        }
+        free(*fd_out);
+
     }
-    temp = *fd_in;
-    *fd_in = *fd_out;
-    *fd_out = malloc(2 * sizeof(int));
-    if (!(*fd_out))
-        return (MALLOC_FAIL);
-    *status = pipe(*fd_out);
-    if (!(*status))
-        return (PIPE_FAIL);
-    free(temp);
     return (EXIT_SUCCESS);
 }
 
@@ -79,11 +102,10 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
     int     *fd_out;
     t_node  *node_tmp;
 
-    fd_in = malloc(2 * sizeof(int)); // mallocs and pipes protection
+    fd_in = NULL;
     fd_out = malloc(2 * sizeof(int));
-    pipe(fd_in);
 	pipe(fd_out);
-
+    // [x]df_in[x] [0]cmd[1] [1]fd_out[0]
     while (var->tokens)
     {
         pid = fork();
@@ -94,11 +116,8 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
         }
         else if (pid == 0)
         {
-            task_child(var, fd_in, fd_out, status);
-            printf("DANGER\n");
-            free(fd_in);
-            free(fd_out);
-            exit(127);
+            var->exit_status = task_child(var, fd_in, fd_out, status);
+            exit(var->exit_status);
         }
         else
         {
@@ -109,15 +128,6 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
             ft_freenode(&node_tmp);
         }
     }
-    if (close(fd_in[0]))
-        dprintf(2, "forking error: close fd_in[0]\n");
-    if(close(fd_out[0]))
-    if (close(fd_out[1]))
-        dprintf(2, "forking error: close fd_out[0]\n");
-    if(close(fd_out[0]))
-        dprintf(2, "forking error: close fd_out[1]\n");
-    free(fd_in);
-	free(fd_out);
     return (EXIT_SUCCESS);
 }
 
@@ -134,14 +144,17 @@ int    process_handler(t_var *var)
     int		status;
 
     pid_list = NULL;
-	printf("return:%i", fork_handler(var, &pid_list, &status));
+	var->exit_status = fork_handler(var, &pid_list, &status);
     temp = pid_list;
 	while (pid_list)
 	{
-		printf("return:%i status:%i\n", waitpid(*((pid_t *)(pid_list->content)), &status, 0), status);
-        //WEXITSTATUS(status);
+		waitpid(*((pid_t *)(pid_list->content)), &status, 0);
+        if (pid_list == ft_lstlast(temp))
+        {
+            ft_lstclear(&temp, &del);
+            return(WIFEXITED(status));
+        }
 		pid_list = pid_list->next;
 	}
-    ft_lstclear(&temp, &del);
-    return (0);
+    return (EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/23 20:24:03 by math             ###   ########.fr       */
+/*   Updated: 2024/01/23 21:50:03 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,11 @@ int		ft_exec(t_var *var)
 	if (exec_path != NULL)
 	{
 		var->exit_status = execve(exec_path, args, envp); //exit process
-		dprintf(2, "EXECV FAIL\n");
+		free(exec_path);
+		doublefree(envp);
+		doublefree(args);
+		perror("execve");
+		exit(EXIT_FAILURE);
 		// printf("status code: %d\n", var->exit_status);
 		// if (var->exit_status == -1)
 		// {
@@ -183,5 +187,5 @@ int		ft_exec(t_var *var)
 	free(exec_path);
 	doublefree(envp);
 	doublefree(args);
-	return (127);
+	return(EXIT_FAILURE);
 }
