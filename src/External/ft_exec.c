@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/23 20:20:30 by math             ###   ########.fr       */
+/*   Updated: 2024/01/23 20:24:03 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static	char	*find_path(char **envp, char	*command)
 		}
 		dprintf(2, "ACCESS DENIED\n");
 	}
-	else if (!ft_strncmp(command, "/", 1))
+	else if (!(ft_strncmp(command, "/", 1) && ft_strncmp(command, "../", 3)))
 	{
 		dprintf(2,"FULL\n");
 		if (access(command, X_OK | F_OK) == 0)
