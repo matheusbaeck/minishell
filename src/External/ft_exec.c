@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/19 01:43:08 by math             ###   ########.fr       */
+/*   Updated: 2024/01/22 23:44:39 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,27 +139,24 @@ int		ft_exec(t_var *var)
 	args = set_flagsandparams_to_array(var->tokens);
 	envp = envlist_to_array(var->envp);
 	exec_path = find_path(envp, var->tokens->token->content);
-	if (exec_path == NULL)
+	if (exec_path != NULL)
 	{
-		doublefree(envp);
-		doublefree(args);
-		printf("Minishell: Command not found: %s\n", \
-			var->tokens->token->content);
-		return (127);
-		//exit(127);
+		var->exit_status = execve(exec_path, args, envp); //exit process
+		dprintf(2, "EXECV FAIL\n");
+		// printf("status code: %d\n", var->exit_status);
+		// if (var->exit_status == -1)
+		// {
+		// 	free(exec_path);
+		// 	doublefree(envp);
+		// 	doublefree(args);
+		// 	printf("Minishell: %s\n", strerror(errno));
+		// 	return(errno);
+		// }
 	}
-	var->exit_status = execve(exec_path, args, envp); //exit process
-	printf("status code: %d\n", var->exit_status);
-	if (var->exit_status == -1)
-	{
-		free(exec_path);
-		doublefree(envp);
-		doublefree(args);
-		printf("Minishell: %s\n", strerror(errno));
-		return(errno);
-	}
+	printf("Minishell: Command not found: %s\n", \
+		var->tokens->token->content);
 	free(exec_path);
 	doublefree(envp);
 	doublefree(args);
-	return (0);
+	return (127);
 }
