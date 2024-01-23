@@ -6,7 +6,7 @@
 #    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2024/01/23 00:59:25 by math             ###   ########.fr        #
+#    Updated: 2024/01/23 01:17:47 by math             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 $(NAME): libft $(OBJS)
 	@$(CC) -o $(NAME) $(OBJS) -lreadline $(PATH_LIBFT)/libft.a
-	clear
 	@echo "$(GREEN)You Created $(NAME)$(END)"
 
 ## CLEANING ##

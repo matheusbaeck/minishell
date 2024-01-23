@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/23 00:57:39 by math             ###   ########.fr       */
+/*   Updated: 2024/01/23 01:37:21 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,14 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
         {
             task_child(var, fd_in, fd_out, status);
             printf("DANGER\n");
+            free(fd_in);
+            free(fd_out);
             exit(127);
         }
         else
         {
+            if (*lst)
+                printf("lst:%p",*lst);
             ft_lstadd_back(lst, ft_lstnew((void *)&pid));
             main_task(&fd_in, &fd_out, var->tokens->next, status);
             if (close(fd_out[1]))
@@ -124,20 +128,20 @@ static void del(void *ptr)
 
 int    process_handler(t_var *var)
 {
-    t_list  *pid;
+    t_list  *pid_list;
+    t_list  *temp;
     int		status;
 
-    pid = NULL;
+    pid_list = NULL;
     while (var->tokens)
-		fork_handler(var, &pid, &status);
-	while (pid)
+		fork_handler(var, &pid_list, &status);
+    temp = pid_list;
+	while (pid_list)
 	{
-		waitpid(*((pid_t *)(pid->content)), &status, 0);
-        WEXITSTATUS(status);
-		pid = pid->next;
+		printf("return:%i status:%i\n", waitpid(*((pid_t *)(pid_list->content)), &status, 0), status);
+        //WEXITSTATUS(status);
+		pid_list = pid_list->next;
 	}
-    ft_lstclear(&pid, &del); //verify that function acept NULL as param
-    free(pid);
-    // free all dat
+    ft_lstclear(&temp, &del);
     return (0);
 }
