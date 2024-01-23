@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/23 19:14:07 by math             ###   ########.fr       */
+/*   Updated: 2024/01/23 20:20:30 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,25 +110,48 @@ static	char	*find_path(char **envp, char	*command)
 
 	if (!command || command == NULL)
 		return (NULL);
-	if (access(command, X_OK | F_OK) == 0)
-		return (command);
-	if (ft_strncmp(command, "./", 2))
-		return (NULL);
-	tmp = find_path_env(envp);
-	i = -1;
-	while (tmp[++i] && command)
+	if (!ft_strncmp(command, "./", 2))
 	{
-		ppath = ft_strjoin(tmp[i], "/");
-		path = ft_strjoin(ppath, command);
-		free(ppath);
-		if (access(path, X_OK | F_OK) == 0)//proteger más esto.
+		dprintf(2,"RELATIVE\n");
+		if (access(command, X_OK | F_OK) == 0)
 		{
-			doublefree(tmp);
-			return (path);
+			dprintf(2, "ACCESS OK\n");
+			return (command);
 		}
-		free(path);
+		dprintf(2, "ACCESS DENIED\n");
 	}
-	doublefree(tmp);
+	else if (!ft_strncmp(command, "/", 1))
+	{
+		dprintf(2,"FULL\n");
+		if (access(command, X_OK | F_OK) == 0)
+		{
+			dprintf(2, "ACCESS OK\n");
+			return (command);
+		}
+		dprintf(2, "ACCESS DENIED\n");
+	}
+	else
+	{
+		dprintf(2,"STANDARD\n");
+		tmp = find_path_env(envp);
+		i = -1;
+		while (tmp[++i] && command)
+		{
+			ppath = ft_strjoin(tmp[i], "/");
+			path = ft_strjoin(ppath, command);
+			free(ppath);
+			printf("PATH: %s\n", path);
+			if (access(path, X_OK | F_OK) == 0)
+			{
+				dprintf(2, "ACCESS OK\n");
+				doublefree(tmp);
+				return (path);
+			}
+			dprintf(2, "ACCESS DENIED\n");
+			free(path);
+		}
+		doublefree(tmp);
+	}
 	return (NULL);
 }
 
