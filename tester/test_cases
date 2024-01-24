@@ -1,0 +1,24 @@
+test00
+<../Makefile cat
+test01
+<../Makefile grep -v z | cat | wc -l
+test02
+lss | ls | cat
+test03
+ls | lss | cat
+test04
+chmod 000 Makefile | <Makefile cat | ls -a
+test05
+chmod 664 Makefile | <Makefile cat | ls -a
+test06
+./ls
+test07
+../bin/ls
+test08
+/bin/ls
+test09
+ping 8.8.8.8 | head -3 | ls
+test10
+uahsuah | iajsiaj | aijsiaj | aijsiajsi | /bin/ls
+test11
+/bin/ls|/bin/cat |/bin/cat|/bin/cat
