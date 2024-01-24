@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/22 22:51:58 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 18:05:43 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,18 @@ void    printNodes(t_node **node)
     printf("EXECUTION:\n");
 }
 
+static int  is_exit(t_node *node)
+{
+    if (!ft_strncmp(node->token->content, "exit", 5)
+            && node->flags == NULL
+            && node->params == NULL
+            && node->redir == NULL)
+    {
+        return (1);
+    }
+    return (0);
+}
+
 int	main(int argc, char **argv, const char **envp)
 {
 	t_var	var;
@@ -105,6 +117,12 @@ int	main(int argc, char **argv, const char **envp)
 	{
 		init_values(&var);
 		lexer(&var);
+        if (is_exit(var.tokens))
+        {
+            ft_lstclear_node(&(var.tokens));
+            free(var.tokens);
+            break;
+        }
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {
             printNodes(&var.tokens);

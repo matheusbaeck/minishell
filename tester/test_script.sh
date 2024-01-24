@@ -34,3 +34,15 @@ uahsuah | iajsiaj | aijsiaj | aijsiajsi | /bin/ls > "files/original/test10_out"
 #!/bin/bash
 mkdir -p files/original
 /bin/ls|/bin/cat |/bin/cat|/bin/cat > "files/original/test11_out"
+#!/bin/bash
+mkdir -p files/original
+ls | <..Makefile cat | cat | <ls >> out > "files/original/test12_out"
+#!/bin/bash
+mkdir -p files/original
+13 > "files/original/test_out"
+#!/bin/bash
+mkdir -p files/original
+out > "files/original/cat_out"
+#!/bin/bash
+mkdir -p files/original
+rm out | cat /dev/random | head -100 | wc -l > "files/original/test14_out"

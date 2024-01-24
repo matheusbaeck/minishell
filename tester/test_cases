@@ -22,3 +22,7 @@ test10
 uahsuah | iajsiaj | aijsiaj | aijsiajsi | /bin/ls
 test11
 /bin/ls|/bin/cat |/bin/cat|/bin/cat
+test12
+ls | <..Makefile cat | cat | <ls >> out
+test 13
+cat /dev/random | head -100 | wc -l
