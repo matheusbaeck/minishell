@@ -64,7 +64,11 @@ char	*get_word(t_var *var, int *i, int *start)
 	return (str);
 }
 
+
+
+
 typedef char	*(*t_get_quoted)(t_var *, int *, int *);
+
 
 char	*get_str_doublequoted(t_var *var, int *i, int *start)
 {
@@ -75,17 +79,19 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 	{
 		if (*i >= var->len_inputline)
 		{
-			printf("> nana estamos locos o que, te has olvidado un comilla.\n \
-				Me ves con los bits necesarios para preguntartelo \
-				amablemente con un heredoc ?");
+			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `''", 2);
+			ft_putstr_fd("Minishell: syntax error: unexpected end of file", 2);
 			return (NULL);
 		}
 		(*i)++;
 	}
 	if (*start != *i && *start < *i)
+	{
 		token_string = ft_substr(var->inputline, *start, (*i - *start));
+		if (*token_string)
+			expansor(var, &token_string, 1);
+	}
 	*start = ++(*i);
-	expansor(var, &token_string, 1);
 	return (token_string);
 }
 
@@ -99,9 +105,8 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start)
 	{
 		if (*i >= var->len_inputline)
 		{
-			printf("> nana estamos locos o que, te has olvidado un comilla.\n \
-				Me ves con los bits necesarios para preguntartelo \
-				amablemente con un heredoc ?");
+			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `''", 2);
+			ft_putstr_fd("Minishell: syntax error: unexpected end of file", 2);
 			return (NULL);
 		}
 		(*i)++;

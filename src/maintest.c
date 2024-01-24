@@ -119,6 +119,7 @@ int	main(int argc, char **argv, const char **envp)
 		lexer(&var);
         if (is_exit(var.tokens))
         {
+            ft_printf("exit\n");
             ft_lstclear_node(&(var.tokens));
             free(var.tokens);
             break ;

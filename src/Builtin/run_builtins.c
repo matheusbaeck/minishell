@@ -31,12 +31,6 @@ int	run_builtin(t_var *var)
 		unset(var);
 	else if (ft_strncmp(var->tokens->token->content, "clear\0", 6) == 0 || ft_strncmp(var->tokens->token->content, "clear\n", 6) == 0 || ft_strncmp(var->tokens->token->content, "clear ", 6) == 0)
 		clear_history();
-	else if (ft_strncmp(var->tokens->token->content, "exit\0", 6) == 0 || ft_strncmp(var->tokens->token->content, "exit\n", 6) == 0 || ft_strncmp(var->tokens->token->content, "exit ", 6) == 0)
-	{
-		printf("finishing on purpose\n");
-		//signal(SIGTERM, handle_signal);
-		exit(0);
-	}
 	else
 		return (1);
 	return (0);
