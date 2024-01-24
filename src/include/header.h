@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/22 17:10:49 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 04:30:30 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,9 +168,9 @@ void		unset(t_var *var);
 
 int    process_handler(t_var *var);
 
-int close_pipe_read(int *fd, int *status);
-int close_pipe_write(int *fd, int *status);
-int close_pipe(int *fd, int *status);
-int destroy_pipe(int *fd, int *status);
+int close_pipe_read(int *fd);
+int close_pipe_write(int *fd);
+int close_pipe(int *fd);
+int destroy_pipe(int *fd);
 
 #endif

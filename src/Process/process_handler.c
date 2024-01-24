@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/24 00:33:37 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 13:15:31 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static int task_child(t_var *var, int *fd_in, int *fd_out, int *status)
         dup2(fd_out[1], STDOUT_FILENO);
     if (fd_in)
     {
-        if (close(fd_in[0]))
-            dprintf(2, "child error: close fd_in[0]\n");
         if(close(fd_in[1]))
             dprintf(2, "child error: close fd_in[1]\n");
     }
@@ -66,7 +64,7 @@ static int main_task(int **fd_in, int **fd_out, void *next, int *status)
     if (*fd_in) //not first node
     {
         if(close((*fd_in)[0]))
-            dprintf(2, "main error: close fd_in[1]\n");
+            dprintf(2, "main error: close fd_in[0]\n");
     }
     if (close((*fd_out)[1]))
             dprintf(2, "main error: close fd_out[1]\n");
@@ -84,7 +82,7 @@ static int main_task(int **fd_in, int **fd_out, void *next, int *status)
     else //last node
     {
         if (close((*fd_out)[0])) 
-            dprintf(2, "main error: close fd_out[1]\n");
+            dprintf(2, "main error: close fd_out[0]\n");
         if (*fd_in)
         {
             free(*fd_in);
@@ -97,7 +95,7 @@ static int main_task(int **fd_in, int **fd_out, void *next, int *status)
 
 static int	fork_handler(t_var *var, t_list **lst, int *status)
 {
-    pid_t   pid;
+    pid_t   *pid;
     int     *fd_in;
     int     *fd_out;
     t_node  *node_tmp;
@@ -108,20 +106,21 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
     // [x]df_in[x] [0]cmd[1] [1]fd_out[0]
     while (var->tokens)
     {
-        pid = fork();
-        if (pid == -1)
+        pid = malloc(sizeof(pid_t));
+        *pid = fork();
+        if (*pid == -1)
         {
             *status = FORK_FAIL;
             exit(EXIT_FAILURE);
         }
-        else if (pid == 0)
+        else if (*pid == 0)
         {
             var->exit_status = task_child(var, fd_in, fd_out, status);
             exit(var->exit_status);
         }
         else
         {
-            ft_lstadd_back(lst, ft_lstnew((void *)&pid));
+            ft_lstadd_back(lst, ft_lstnew((void *)pid));
             main_task(&fd_in, &fd_out, var->tokens->next, status);
             node_tmp = var->tokens;
             var->tokens = var->tokens->next;
@@ -131,9 +130,9 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
     return (EXIT_SUCCESS);
 }
 
-static void del(void *ptr)
+static void del(void *content)
 {
-    (void)ptr;
+    free((pid_t *)content);
     return ;
 }
 
@@ -146,6 +145,11 @@ int    process_handler(t_var *var)
     pid_list = NULL;
 	var->exit_status = fork_handler(var, &pid_list, &status);
     temp = pid_list;
+    while (pid_list)
+    {
+        pid_list = pid_list->next;
+    }
+    pid_list = temp;
 	while (pid_list)
 	{
 		waitpid(*((pid_t *)(pid_list->content)), &status, 0);
