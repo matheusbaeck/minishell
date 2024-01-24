@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/23 21:50:03 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 04:10:12 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,29 +110,10 @@ static	char	*find_path(char **envp, char	*command)
 
 	if (!command || command == NULL)
 		return (NULL);
-	if (!ft_strncmp(command, "./", 2))
-	{
-		dprintf(2,"RELATIVE\n");
-		if (access(command, X_OK | F_OK) == 0)
-		{
-			dprintf(2, "ACCESS OK\n");
-			return (command);
-		}
-		dprintf(2, "ACCESS DENIED\n");
-	}
-	else if (!(ft_strncmp(command, "/", 1) && ft_strncmp(command, "../", 3)))
-	{
-		dprintf(2,"FULL\n");
-		if (access(command, X_OK | F_OK) == 0)
-		{
-			dprintf(2, "ACCESS OK\n");
-			return (command);
-		}
-		dprintf(2, "ACCESS DENIED\n");
-	}
+	if (!(ft_strncmp(command, "./", 2) && ft_strncmp(command, "/", 1) && ft_strncmp(command, "../", 3)) && access(command, X_OK | F_OK) == 0)
+		return (command);
 	else
 	{
-		dprintf(2,"STANDARD\n");
 		tmp = find_path_env(envp);
 		i = -1;
 		while (tmp[++i] && command)
@@ -140,14 +121,11 @@ static	char	*find_path(char **envp, char	*command)
 			ppath = ft_strjoin(tmp[i], "/");
 			path = ft_strjoin(ppath, command);
 			free(ppath);
-			printf("PATH: %s\n", path);
 			if (access(path, X_OK | F_OK) == 0)
-			{
-				dprintf(2, "ACCESS OK\n");
+			{	
 				doublefree(tmp);
 				return (path);
 			}
-			dprintf(2, "ACCESS DENIED\n");
 			free(path);
 		}
 		doublefree(tmp);
