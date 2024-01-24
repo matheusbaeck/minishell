@@ -45,7 +45,7 @@ char	*get_inputline(t_var *var)
 	free(prompt);
 	if (!str || str == NULL)
 	{
-		printf("NULL INPUT\n");
+		ft_printf("exit\n");
 		var->inputline = NULL;
 		return (NULL);
 	}
@@ -53,4 +53,44 @@ char	*get_inputline(t_var *var)
 	free(str);
 	add_history(var->inputline);
 	return (var->inputline);
+}
+
+static	void	sigint_handler(int sig)
+{
+    (void)sig;
+    write(1, "\n", 1);
+    rl_on_new_line(); // Regenerate the prompt on a newline
+    rl_replace_line("", 0); // Clear the previous text
+    rl_redisplay();
+}
+
+void	interactive_mode_signals(void)
+{
+	struct	sigaction   act;
+
+    act.sa_flags = SA_RESTART;
+    sigemptyset(&act.sa_mask);
+	act.sa_handler = &sigint_handler;
+    if (sigaction(SIGINT, &act, NULL) == -1)
+		perror(strerror(errno));
+}
+
+int	ms_get_capabilities(void)
+{
+	struct termios	attr;
+
+	if (!isatty(0))
+	{
+		return (1);
+	}
+	if (tcgetattr(0, &attr) == -1)
+	{
+		return (1);
+	}
+	attr.c_lflag &= ~(ECHOCTL);
+	if (tcsetattr(0, TCSANOW, &attr) == -1)
+	{
+		return (1);
+	}
+	return (0);
 }

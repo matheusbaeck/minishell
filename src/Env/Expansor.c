@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 15:52:04 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 19:04:00 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:56:02 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ static	void	add_expansion_exit_status(t_var *var, char  **res, int *ref, int *i)
 		(*res)[*ref + j] = expanded[j];
 		j++;
 	}
-	free(expanded);
 	(*ref) += ft_strlen(expanded);
 	(*i) += 2;
+	free(expanded);
 }
 
 static	void	start_values_normi(int *i, int *ref, char **res)

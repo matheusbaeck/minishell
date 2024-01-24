@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maintest.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/24 18:05:43 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 20:00:37 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static	void	init_ms(t_var *var, const char	**envp)
 	var->envp = NULL;
 	var->inputline = NULL;
 	cpy_env(&var->envp, envp);
+    ms_get_capabilities();
+    interactive_mode_signals();
 }
 
 static void	init_values(t_var *var)
@@ -102,9 +104,7 @@ static int  is_exit(t_node *node)
             && node->flags == NULL
             && node->params == NULL
             && node->redir == NULL)
-    {
         return (1);
-    }
     return (0);
 }
 
@@ -121,7 +121,7 @@ int	main(int argc, char **argv, const char **envp)
         {
             ft_lstclear_node(&(var.tokens));
             free(var.tokens);
-            break;
+            break ;
         }
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {

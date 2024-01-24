@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
+#    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2024/01/23 01:17:47 by math             ###   ########.fr        #
+#    Updated: 2024/01/24 19:30:43 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,12 @@ NAME = minishell
 CC = gcc -Wall -Werror -Wextra -fsanitize=address -g
 SRC_DIR = ./src
 OBJ_DIR = .obj
-EXT_LIBS = -lreadline
+RL = /Users/${USER}/.brew/opt/readline/
 PATH_LIBFT = $(SRC_DIR)/include/libft
+PATH_EXT_LIBS = -lreadline -L $(PATH_LIBFT) -L $(addsuffix lib, $(RL)) -I $(addsuffix include, $(RL))
 
+
+	
 SRC = $(shell find $(SRC_DIR) -type f -name '*.c')
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
@@ -43,7 +46,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) -c -o $@ $<
 
 $(NAME): libft $(OBJS)
-	@$(CC) -o $(NAME) $(OBJS) -lreadline $(PATH_LIBFT)/libft.a
+	@$(CC) $(OBJS) -o $(NAME) $(PATH_EXT_LIBS) $(PATH_LIBFT)/libft.a
 	@echo "$(GREEN)You Created $(NAME)$(END)"
 
 ## CLEANING ##

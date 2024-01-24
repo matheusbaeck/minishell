@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/24 04:30:30 by math             ###   ########.fr       */
+/*   Updated: 2024/01/24 19:46:25 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include <signal.h>
+# include <termios.h>
 
 # include <stddef.h> // Incluye la librería para definir NULL
 # include <sys/wait.h>
@@ -103,6 +104,7 @@ char		*get_word(t_var *var, int *i, int *start);
 
 // 						###### get input ######
 char		*get_inputline(t_var *var);
+void		rl_replace_line(const char *text, int clear_undo);
 
 // <--------------------------------------------------------------->
 
@@ -152,6 +154,7 @@ int			redir(t_var *var);
 
 //			###### External command execution ######
 int			ft_exec(t_var *var);
+int    		process_handler(t_var *var);
 
 // <--------------------------------------------------------------->
 
@@ -164,9 +167,10 @@ int			env(t_var *var);
 int			export(t_var *var);
 void		unset(t_var *var);
 
+//			###### Signals ######
 // <--------------------------------------------------------------->
-
-int    process_handler(t_var *var);
+void	interactive_mode_signals(void);
+int		ms_get_capabilities(void);
 
 int close_pipe_read(int *fd);
 int close_pipe_write(int *fd);
