@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 03:30:58 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int		ft_exec(t_var *var)
 	exec_path = find_path(envp, var->tokens->token->content);
 	if (exec_path != NULL)
 	{
-		printf("LAUNCHING EXECVE\n");
 		if (execve(exec_path, args, envp) == -1) //exit process
 		{
 			perror("execve");

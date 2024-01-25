@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/25 02:35:14 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 04:11:05 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	task_child(t_var *var, int *fd_in, int *fd_out, int *status)
 	if (close(fd_out[1]))
 		dprintf(2, "child error: close fd_out[1]\n");
 	if (run_builtin_child(var))
-		exit(0);
+		exit(var->exit_status);
 	return (ft_exec(var));
 }
 

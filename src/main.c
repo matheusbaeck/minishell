@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 03:16:47 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 04:16:37 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,13 @@ int	main(int argc, char **argv, const char **envp)
 	{
 		init_values(&var);
 		lexer(&var);
-        if (var.tokens->next == NULL)
-            run_builtin_parent(&var);
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {
             printNodes(&var.tokens);
+            free(var.tokens);
+            break;
         }
-        else
+        if (!run_builtin_parent(&var))
             process_handler(&var);
 		base_redir(&var);
 		free(var.tokens);
