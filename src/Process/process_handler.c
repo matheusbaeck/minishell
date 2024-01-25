@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/25 04:11:05 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 20:19:35 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
 static void	del(void *content)
 {
 	free((pid_t *)content);
-	return ;
+return ;
 }
 
 int	process_handler(t_var *var)
@@ -152,9 +152,9 @@ int	process_handler(t_var *var)
 		waitpid(*((pid_t *)(pid_list->content)), &status, 0);
 		if (WIFEXITED(status))
 		{
-			// Child process exited normally
+            // Child process exited normally
             status = WEXITSTATUS(status);
-			printf("Child process exited with status: %d %i\n", WEXITSTATUS(status), status);
+			printf("Child process exited with status: %i\n", status);
 			if (WEXITSTATUS(status) == EXIT_FAILURE)
 			{
 				// Handle execve failure in the child process
@@ -168,14 +168,14 @@ int	process_handler(t_var *var)
 			// Child process terminated due to a signal
 			printf("Child process terminated by signal: %d\n",
 				WTERMSIG(status));
-		}
+					}
 		else
 		{
 			// Handle other termination conditions
 			printf("Child process terminated: %d\n", WEXITSTATUS(status));
-		}
+					}
 		pid_list = pid_list->next;
 	}
     ft_lstclear(&temp, &del);
-	return (status);
+		return (status);
 }

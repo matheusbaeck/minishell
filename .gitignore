@@ -4,4 +4,5 @@
 minishell
 *.a
 test*_out
-tester/run
+tester/
+mainahmed.c
