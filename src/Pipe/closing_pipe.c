@@ -6,11 +6,11 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 21:21:58 by math              #+#    #+#             */
-/*   Updated: 2024/01/24 04:37:06 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 int close_pipe_read(int *fd)
 {

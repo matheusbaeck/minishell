@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:53:11 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 19:17:41 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 void	*my_realloc(void *ptr, size_t originalLength, size_t newLength)
 {

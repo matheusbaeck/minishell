@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   word_quoteshandler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 18:28:51 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 char	*ft_strjoinfreee(char *s1, char *s2)
 {

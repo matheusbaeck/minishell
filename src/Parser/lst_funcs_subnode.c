@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lst_funcs_subnode.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:11:33 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 18:20:15 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 void	ft_lstclear_subnode(t_subnode **lst)
 {

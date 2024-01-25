@@ -6,11 +6,11 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/19 00:38:29 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 static int	count_lines(char **str)
 {

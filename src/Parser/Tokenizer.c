@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 18:24:14 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 static	void	add_operator(t_var *var, int *start, int *i,
 	char **prev_token_string, int flag_len_operator)

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 16:02:57 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/17 18:46:10 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 t_env	*new_node_env(const char *line_env, int exported)
 {

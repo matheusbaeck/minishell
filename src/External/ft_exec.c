@@ -6,11 +6,11 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/24 04:10:12 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/header.h"
+#include "../../header.h"
 
 static	char	**malloc_flagsandparams_node(t_node *node)
 {
@@ -110,7 +110,7 @@ static	char	*find_path(char **envp, char	*command)
 
 	if (!command || command == NULL)
 		return (NULL);
-	if (!(ft_strncmp(command, "./", 2) && ft_strncmp(command, "/", 1) && ft_strncmp(command, "../", 3)) && access(command, X_OK | F_OK) == 0)
+	if (!(ft_strncmp(command, "./", 2) && ft_strncmp(command, "/", 1) && ft_strncmp(command, "../", 3))) //  && access(command, X_OK | F_OK) == 0
 		return (command);
 	else
 	{
@@ -144,21 +144,15 @@ int		ft_exec(t_var *var)
 	exec_path = find_path(envp, var->tokens->token->content);
 	if (exec_path != NULL)
 	{
-		var->exit_status = execve(exec_path, args, envp); //exit process
-		free(exec_path);
-		doublefree(envp);
-		doublefree(args);
-		perror("execve");
-		exit(EXIT_FAILURE);
-		// printf("status code: %d\n", var->exit_status);
-		// if (var->exit_status == -1)
-		// {
-		// 	free(exec_path);
-		// 	doublefree(envp);
-		// 	doublefree(args);
-		// 	printf("Minishell: %s\n", strerror(errno));
-		// 	return(errno);
-		// }
+		printf("LAUNCHING EXECVE\n");
+		if (execve(exec_path, args, envp) == -1) //exit process
+		{
+			perror("execve");
+			free(exec_path);
+			doublefree(envp);
+			doublefree(args);
+			exit(127);
+		}
 	}
 	printf("Minishell: Command not found: %s\n", \
 		var->tokens->token->content);

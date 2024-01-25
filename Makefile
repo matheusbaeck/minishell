@@ -3,20 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
+#    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2024/01/24 19:30:43 by smagniny         ###   ########.fr        #
+#    Updated: 2024/01/25 02:44:42 by math             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMP
 NAME = minishell
-CC = gcc -Wall -Werror -Wextra -fsanitize=address -g
+CC = gcc -Wall -Werror -Wextra -fsanitize=address
 SRC_DIR = ./src
 OBJ_DIR = .obj
 RL = /Users/${USER}/.brew/opt/readline/
-PATH_LIBFT = $(SRC_DIR)/include/libft
+PATH_LIBFT = ./dep/libft
 PATH_EXT_LIBS = -lreadline -L $(PATH_LIBFT) -L $(addsuffix lib, $(RL)) -I $(addsuffix include, $(RL))
 
 

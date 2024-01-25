@@ -24,5 +24,185 @@ test11
 /bin/ls|/bin/cat |/bin/cat|/bin/cat
 test12
 ls | <..Makefile cat | cat | <ls >> out
-test 13
+test13
 cat /dev/random | head -100 | wc -l
+test14
+/bin/echo ""$?"" done
+test15
+/bin/echo $?"42" done
+test16
+/bin/echo ''$?''"42"
+test17
+/bin/echo '"$USER"'
+test18
+/bin/echo "'$USER'"
+test19
+/bin/echo ""'$USER'"" 
+test20
+/bin/echo '"'$USER'"' 
+test21
+/bin/echo "''$USER''"
+test22
+/bin/echo "''$USER''"
+test23
+/bin/echo '"'  "$USER"   '"'
+test24
+/bin/echo $"HOME"$USER
+test25
+/bin/echo $"HOM"E$USER
+test26
+/bin/echo "exit_code ->$? user ->$USER home -> $HOME"
+test27
+/bin/echo $"HOME"
+test28
+/bin/echo $"42$"
+test29
+/bin/echo "$ "
+test30
+/bin/echo hi >./outfiles/outfile01 | /bin/echo bye 
+test31
+/bin/echo <123 <456 hi | /bin/echo 42 
+test32
+/bin/echo '$='
+test33
+/bin/echo '$ '
+test34
+/bin/echo "$?"
+test35
+/bin/echo '$?'
+test36
+/bin/echo "'$?'"
+test37
+/bin/echo \$USER
+test38
+/bin/echo \\$USER
+test39
+/bin/echo \\\$USER
+test40
+/bin/echo \\\\$USER
+test41
+/bin/echo \\\\\$USER
+test42
+/bin/echo \\\\\\\\\$USER
+test43
+/bin/echo \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\$USER \$PATH \\$PWD à voir.... toutes ces contrebarres...
+test44
+/bin/echo "cat lol.c | cat > lol.c"
+test45
+/bin/echo "cat lol.c '|' cat > lol.c"
+test46
+/bin/echo '$USER' "$USER" "text  ' text"
+test47
+/bin/echo $USER =intergalaktikus miaf*szomez 
+test48
+/bin/echo -n"-n" bonjour
+test49
+/bin/echo "'$USER'"
+test50
+/bin/echo " '$USER' "
+test51
+/bin/echo text"$USER"
+test52
+/bin/echo text"'$USER'" ' $USER '        
+test53
+/bin/echo "text"   "$USER"    "$USER"
+test54
+/bin/echo '              $USER          '
+test55
+/bin/echo ''''''''''$USER''''''''''
+test56
+/bin/echo """"""""$USER""""""""
+test57
+/bin/echo '""""""""$USER""""""""' 			
+test58
+/bin/echo ""'""""""$USER""""""'"" 			
+test59
+/bin/echo """"""""'$USER'""""""""''		
+test60
+/bin/echo """""""'"$USER"'"""""""			
+test61
+/bin/echo """"""'""$USER""'"""""" 
+test62
+/bin/echo ""'""'""""$USER""""'""'""
+test63
+/bin/echo '""'""'""""$USER""""'""'""'
+test64
+/bin/echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
+test65
+/bin/echo "text" "text$USER" ... "$USER"
+test66
+/bin/echo
+test67
+/bin/echo ''
+test68
+/bin/echo ''
+test69
+/bin/echo ""
+test70
+/bin/echo '' ""
+test71
+/bin/echo /bin/echo
+test72
+/bin/echo test1
+test73
+/bin/echo 'test1'
+test74
+/bin/echo "/bin/echo hallo"
+test75
+/bin/echo /bin/echo"1"
+test76
+/bin/echo "test1 test2"
+test77
+/bin/echo "test1  test2" test3
+test78
+/bin/echo " test1 test2 " 'test3 '
+test79
+/bin/echo test1		test2
+test80
+/bin/echo $USER$TESTNOTFOUND$HOME$
+test81
+/bin/echo $USER$TESTNOTFOUND$HOME$WTF$PWD
+test82
+/bin/echo -n test1
+test83
+/bin/echo -n "test1 test2"
+test84
+/bin/echo -n "test1 test2" test3
+test85
+/bin/echo -n " test1 test2 " 'test3 '
+test86
+/bin/echo -n test1		test2
+test87
+/bin/echo test1 -n
+test88
+/bin/echo "test1 -n" 
+test89
+/bin/echo -n -n test1
+test90
+/bin/echo -n -n -n -n -n test1
+test91
+/bin/echo "  -nn "
+test92
+/bin/echo "-n test1 -n test2"
+test93
+/bin/echo "test1 -n test2"
+test94
+/bin/echo ~42
+test95
+/bin/echo -n -n -nasd
+test96
+/bin/echo -n -n -n-nnnnn
+test97
+/bin/echo -n -nnnnnnn -n -nnn -nnnnn -n-n
+test98
+/bin/echo -n -nnnnnnn -n -nnn -nnnnn -n feel my pain
+test99
+/bin/echo -n -n -n-n
+test100
+/bin/echo "'totally logical'"
+test101
+/bin/echo 'totally logical'
+test102
+/bin/echo ''totally logical''
+test103
+/bin/echo ""'totally logical'""
