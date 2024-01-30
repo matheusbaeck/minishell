@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/30 11:46:35 by math             ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2024/01/30 20:32:06 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../header.h"
 
@@ -116,6 +117,7 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
 		}
 		else if (*pid == 0)
 		{
+			interactive_mode_signals(sigint_childhandler);
 			var->exit_status = task_child(var, fd_in, fd_out, status);
 			exit(var->exit_status);
 		}

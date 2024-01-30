@@ -3,29 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 20:23:15 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-void	base_redir(t_var *var)
+static int redir(char *file_name, char *mod)
 {
-	if (var->fd_in)
+	int	fd;
+
+	if (ft_strncmp(mod, ">>", 3) == 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (ft_strncmp(mod, ">", 2) == 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (ft_strncmp(mod, "<<", 3) == 0)
 	{
-		close(var->fd_in);
-		dup2(var->std_in, 0);
-		close(var->std_in);
+		fd = open(file_name, O_RDONLY | O_WRONLY | O_CREAT);
+		if (fd > 0)
+			unlink(file_name);
 	}
-	if (var->fd_out)
-	{
-		close(var->fd_out);
-		dup2(var->std_out, 1);
-		close(var->std_out);
-	}
+	else if (ft_strncmp(mod, "<", 2) == 0)
+		fd = open(file_name, O_RDONLY);
+	if (fd < 0)
+		return(fd);
+	dup2(fd, STDOUT_FILENO);
+	return (0);
 }
 
 static	int	here_doc_loop(int fd, char *str, char *lim)
@@ -75,43 +81,48 @@ int	here_doc_task(char *lim)
 	return (0);
 }
 
+
+
 int		handle_outfileredirection(t_var *var)
 {
-	t_node		*tmp;
+	//t_node		*tmp;
 	t_subnode	*sub_redir_tmp;
 	t_subnode	*sub_wheredir_tmp;
 
-	tmp = var->tokens;
-	if (!tmp || tmp->redir == NULL || tmp->where_redir == NULL)
-		return (0);
+	//tmp = var->tokens;
+	// if (!tmp || tmp->redir == NULL || tmp->where_redir == NULL)
+	// 	return (0);
 	sub_redir_tmp = var->tokens->redir;
 	sub_wheredir_tmp = var->tokens->where_redir;
 	var->std_out = dup(STDOUT_FILENO);
 	while (sub_redir_tmp && sub_wheredir_tmp)
 	{
-		if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
-			return (0);
+		// if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
+		// 	return (0);
 		//printf("redir executed: %s\nWhere_file founded: %s\n", sub_redir_tmp->content, sub_wheredir_tmp->content);
-		if (ft_strncmp(sub_redir_tmp->content, ">>", 2) == 0)
-		{
-			var->fd_out = open(sub_wheredir_tmp->content, \
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (!var->fd_out)
-				printf("Minishell: %s: %s\n", \
-					strerror(errno),sub_wheredir_tmp->content);
-			dup2(var->fd_out, STDOUT_FILENO);
-			close(var->fd_out);
-		}
-		else if (ft_strncmp(sub_redir_tmp->content, ">", 1) == 0 )
-		{
-			var->fd_out = open(sub_wheredir_tmp->content, \
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (!var->fd_out)
-				printf("Minishell: %s: %s\n", \
-					strerror(errno),sub_wheredir_tmp->content);
-			dup2(var->fd_out, STDOUT_FILENO);
-			close(var->fd_out);
-		}
+		// if (ft_strncmp(sub_redir_tmp->content, ">>", 3) == 0)
+		// {
+		// 	redir(sub_wheredir_tmp->content, )
+		// 	var->fd_out = open(sub_wheredir_tmp->content, \
+		// 		O_WRONLY | O_CREAT | O_APPEND, 0644);
+		// 	if (!var->fd_out)
+		// 		printf("Minishell: %s: %s\n", \
+		// 			strerror(errno),sub_wheredir_tmp->content);
+		// 	dup2(var->fd_out, STDOUT_FILENO);
+		// 	close(var->fd_out);
+		// }
+		// else if (ft_strncmp(sub_redir_tmp->content, ">", 2) == 0 )
+		// {
+		// 	var->fd_out = open(sub_wheredir_tmp->content, \
+		// 		O_WRONLY | O_CREAT | O_APPEND, 0644);
+		// 	if (!var->fd_out)
+		// 		printf("Minishell: %s: %s\n", \
+		// 			strerror(errno),sub_wheredir_tmp->content);
+		// 	dup2(var->fd_out, STDOUT_FILENO);
+		// 	close(var->fd_out);
+		// }
+		if (redir(sub_wheredir_tmp->content, sub_redir_tmp->content))
+			return (-1);
 		sub_redir_tmp = sub_redir_tmp->next;
 		sub_wheredir_tmp = sub_wheredir_tmp->next;
 	}
@@ -125,9 +136,9 @@ int		handle_infileredirection(t_var *var)
 
 	sub_redir_tmp = var->tokens->redir;
 	sub_wheredir_tmp = var->tokens->where_redir;
-	if (sub_redir_tmp == NULL || sub_wheredir_tmp == NULL)
-		return (0);
-	var->std_in = dup(STDIN_FILENO);
+	// if (sub_redir_tmp == NULL || sub_wheredir_tmp == NULL)
+	// 	return (0);
+	// var->std_in = dup(STDIN_FILENO);
 	while (sub_redir_tmp && sub_wheredir_tmp)
 	{
 		if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)

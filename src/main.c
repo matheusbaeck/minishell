@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 15:39:18 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 20:54:28 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static	void	init_ms(t_var *var, const char	**envp)
 	var->inputline = NULL;
 	cpy_env(&var->envp, envp);
     ms_get_capabilities();
-    interactive_mode_signals();
+    interactive_mode_signals(sigint_handler);
 }
 
 static void	init_values(t_var *var)
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, const char **envp)
             var.exit_status = process_handler(&var);
             last_status = var.exit_status;
         }
-		base_redir(&var);
+		//base_redir(&var);
 		free(var.tokens);
         var.exit_status = last_status;
 	}

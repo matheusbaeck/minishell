@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   addword.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:30:13 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 19:03:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static	void	remove_previous_dollar_expansion_ifneeded(char **token_string)
 {
-	if (token_string && ft_strncmp((*token_string), "$", 1) == 0)
+	if (*token_string && ft_strncmp((*token_string), "$", 1) == 0)
 	{
 		free((*token_string));
 		printf("borrado $ anterior pk habian comillas despues perro\n");
