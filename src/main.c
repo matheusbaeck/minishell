@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/29 16:26:09 by math             ###   ########.fr       */
+/*   Updated: 2024/01/29 16:42:51 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	init_values(t_var *var)
 	var->fd_out = 0;
     var->tokens = NULL;
     var->nb_node = 0;
-	var->exit_status = 0;
 }
 
 static void printNode(t_node *node)
@@ -101,11 +100,11 @@ void    printNodes(t_node **node)
 int	main(int argc, char **argv, const char **envp)
 {
 	t_var	var;
+    int     last_status;
 
 	init_ms(&var, envp);
 	while (get_inputline(&var))
 	{
-        printf("%i", var.exit_status);
 		init_values(&var);
 		lexer(&var);
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
@@ -115,10 +114,13 @@ int	main(int argc, char **argv, const char **envp)
             break;
         }
         if (!run_builtin_parent(&var))
+        {
             var.exit_status = process_handler(&var);
+            last_status = var.exit_status;
+        }
 		base_redir(&var);
 		free(var.tokens);
-        printf("%i\n", var.exit_status);
+        var.exit_status = last_status;
 	}
 	ft_freeenv(&var.envp);
 	return (0);
