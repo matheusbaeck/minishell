@@ -6,41 +6,32 @@
 /*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 19:25:10 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/01/30 20:23:15 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-// void	base_redir(t_var *var)
-// {
-// 	if (var->fd_in)
-// 	{
-// 		close(var->fd_in);
-// 		dup2(var->std_in, 0);
-// 		close(var->std_in);
-// 	}
-// 	if (var->fd_out)
-// 	{
-// 		close(var->fd_out);
-// 		dup2(var->std_out, 1);
-// 		close(var->std_out);
-// 	}
-// }
-
-static int redir(t_var *var)
+static int redir(char *file_name, char *mod)
 {
-	var->fd_out = open(var->tokens->where_redir->content, \
-		O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (!var->fd_out)
+	int	fd;
+
+	if (ft_strncmp(mod, ">>", 3) == 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (ft_strncmp(mod, ">", 2) == 0)
+		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (ft_strncmp(mod, "<<", 3) == 0)
 	{
-		perror("open");
-		exit(OP)
+		fd = open(file_name, O_RDONLY | O_WRONLY | O_CREAT);
+		if (fd > 0)
+			unlink(file_name);
 	}
-		printf("Minishell: %s: %s\n", \
-			strerror(errno), var->tokens->where_redir->content);
-	dup2(var->fd_out, STDOUT_FILENO);
-	close(var->fd_out);
+	else if (ft_strncmp(mod, "<", 2) == 0)
+		fd = open(file_name, O_RDONLY);
+	if (fd < 0)
+		return(fd);
+	dup2(fd, STDOUT_FILENO);
+	return (0);
 }
 
 static	int	here_doc_loop(int fd, char *str, char *lim)
@@ -109,26 +100,29 @@ int		handle_outfileredirection(t_var *var)
 		// if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
 		// 	return (0);
 		//printf("redir executed: %s\nWhere_file founded: %s\n", sub_redir_tmp->content, sub_wheredir_tmp->content);
-		if (ft_strncmp(sub_redir_tmp->content, ">>", 3) == 0)
-		{
-			var->fd_out = open(sub_wheredir_tmp->content, \
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (!var->fd_out)
-				printf("Minishell: %s: %s\n", \
-					strerror(errno),sub_wheredir_tmp->content);
-			dup2(var->fd_out, STDOUT_FILENO);
-			close(var->fd_out);
-		}
-		else if (ft_strncmp(sub_redir_tmp->content, ">", 2) == 0 )
-		{
-			var->fd_out = open(sub_wheredir_tmp->content, \
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (!var->fd_out)
-				printf("Minishell: %s: %s\n", \
-					strerror(errno),sub_wheredir_tmp->content);
-			dup2(var->fd_out, STDOUT_FILENO);
-			close(var->fd_out);
-		}
+		// if (ft_strncmp(sub_redir_tmp->content, ">>", 3) == 0)
+		// {
+		// 	redir(sub_wheredir_tmp->content, )
+		// 	var->fd_out = open(sub_wheredir_tmp->content, \
+		// 		O_WRONLY | O_CREAT | O_APPEND, 0644);
+		// 	if (!var->fd_out)
+		// 		printf("Minishell: %s: %s\n", \
+		// 			strerror(errno),sub_wheredir_tmp->content);
+		// 	dup2(var->fd_out, STDOUT_FILENO);
+		// 	close(var->fd_out);
+		// }
+		// else if (ft_strncmp(sub_redir_tmp->content, ">", 2) == 0 )
+		// {
+		// 	var->fd_out = open(sub_wheredir_tmp->content, \
+		// 		O_WRONLY | O_CREAT | O_APPEND, 0644);
+		// 	if (!var->fd_out)
+		// 		printf("Minishell: %s: %s\n", \
+		// 			strerror(errno),sub_wheredir_tmp->content);
+		// 	dup2(var->fd_out, STDOUT_FILENO);
+		// 	close(var->fd_out);
+		// }
+		if (redir(sub_wheredir_tmp->content, sub_redir_tmp->content))
+			return (-1);
 		sub_redir_tmp = sub_redir_tmp->next;
 		sub_wheredir_tmp = sub_wheredir_tmp->next;
 	}
@@ -142,9 +136,9 @@ int		handle_infileredirection(t_var *var)
 
 	sub_redir_tmp = var->tokens->redir;
 	sub_wheredir_tmp = var->tokens->where_redir;
-	if (sub_redir_tmp == NULL || sub_wheredir_tmp == NULL)
-		return (0);
-	var->std_in = dup(STDIN_FILENO);
+	// if (sub_redir_tmp == NULL || sub_wheredir_tmp == NULL)
+	// 	return (0);
+	// var->std_in = dup(STDIN_FILENO);
 	while (sub_redir_tmp && sub_wheredir_tmp)
 	{
 		if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
