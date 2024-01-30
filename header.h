@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 19:50:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/30 20:03:26 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,9 @@ int			env(t_var *var);
 
 //			###### Signals ######
 // <--------------------------------------------------------------->
-void	interactive_mode_signals(void);
+void	interactive_mode_signals(void (*func)(int sig));
+void	sigint_childhandler(int sig);
+void	sigint_handler(int sig);
 int		ms_get_capabilities(void);
 
 int close_pipe_read(int *fd);
