@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 20:23:15 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/01/30 21:07:19 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-static int redir(char *file_name, char *mod)
+static int ft_redir(char *file_name, char *mod)
 {
 	int	fd;
 
@@ -97,7 +97,7 @@ int		handle_outfileredirection(t_var *var)
 	var->std_out = dup(STDOUT_FILENO);
 	while (sub_redir_tmp && sub_wheredir_tmp)
 	{
-		// if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
+		/*// if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
 		// 	return (0);
 		//printf("redir executed: %s\nWhere_file founded: %s\n", sub_redir_tmp->content, sub_wheredir_tmp->content);
 		// if (ft_strncmp(sub_redir_tmp->content, ">>", 3) == 0)
@@ -120,8 +120,8 @@ int		handle_outfileredirection(t_var *var)
 		// 			strerror(errno),sub_wheredir_tmp->content);
 		// 	dup2(var->fd_out, STDOUT_FILENO);
 		// 	close(var->fd_out);
-		// }
-		if (redir(sub_wheredir_tmp->content, sub_redir_tmp->content))
+		// }*/
+		if (ft_redir(sub_wheredir_tmp->content, sub_redir_tmp->content))
 			return (-1);
 		sub_redir_tmp = sub_redir_tmp->next;
 		sub_wheredir_tmp = sub_wheredir_tmp->next;

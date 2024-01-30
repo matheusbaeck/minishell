@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 20:03:26 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/30 20:57:38 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,5 +188,8 @@ int close_pipe_read(int *fd);
 int close_pipe_write(int *fd);
 int close_pipe(int *fd);
 int destroy_pipe(int *fd);
+
+int call_print_tree(t_var *var);
+void get_treeline(t_var *var);
 
 #endif

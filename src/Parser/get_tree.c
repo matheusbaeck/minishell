@@ -1,23 +1,20 @@
 #include "../../header.h"
 
-// static t_node	*ft_lstnew_node_wcontent(char *content)
-// {
-// 	t_node	*ptr;
+static t_node	*ft_lstnew_node_wcontent(char *content)
+{
+	t_node	*ptr;
 
-// 	ptr = (t_node *)malloc(sizeof(t_node));
-// 	if (!(ptr))
-// 		return (NULL);
-//     if (content == NULL)
-//         ptr->token = NULL;
-//     else
-//         ptr->token = ft_lstnew_subnode(content);
-// 	ptr->flags = NULL;
-// 	ptr->params = NULL;
-// 	ptr->redir = NULL;
-// 	ptr->where_redir = NULL;
-// 	ptr->next = NULL;
-// 	return (ptr);
-// }
+	ptr = (t_node *)malloc(sizeof(t_node));
+	if (!(ptr))
+		return (NULL);
+    ptr->token = ft_lstnew_subnode(content);
+	ptr->flags = NULL;
+	ptr->params = NULL;
+	ptr->redir = NULL;
+	ptr->where_redir = NULL;
+	ptr->next = NULL;
+	return (ptr);
+}
 
 static int is_operator(char *line)
 {
@@ -86,14 +83,14 @@ void get_treeline(t_var *var)
                 if ((current->token->content)[i] == '(' && i > 0)
                 {
                     /* get_closing_parenthesis*/
-                    ft_lstadd_back(var->tokens, ft_lstnew((void *)str_cut((char **)(&current->token->content), i, 1)));
+                    ft_lstadd_back_node(&var->tokens, ft_lstnew_node_wcontent((void *)str_cut((char **)(&current->token->content), i, 1)));
                     printf("%s %s\n", current->token->content, current->next->token->content);
                     //get_treeline(&current->next, &get_closing_parenthesis);
                     break;
                 }
                 else
                 {
-                    ft_lstadd_back(var->tokens, ft_lstnew((void *)str_cut((char **)(&(current->token->content)), i, 2)));
+                    ft_lstadd_back_node(&var->tokens, ft_lstnew_node_wcontent((void *)str_cut((char **)(&(current->token->content)), i, 2)));
                     break;
                 }
             }
@@ -113,7 +110,7 @@ int call_print_tree(t_var *var)
 {
     t_node *current;
 
-    get_treeline(&var->tokens);
+    get_treeline(var);
     current = var->tokens;
     while (current)
     {

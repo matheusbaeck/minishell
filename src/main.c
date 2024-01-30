@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 20:54:28 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 21:07:59 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	main(int argc, char **argv, const char **envp)
         {
             call_print_tree(&var);
             free(var.tokens);
-            base_redir(&var);
+            //base_redir(&var);
             free(var.tokens);
             var.exit_status = last_status;
             continue;
