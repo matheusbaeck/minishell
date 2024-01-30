@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/25 04:11:05 by math             ###   ########.fr       */
+/*   Updated: 2024/01/25 19:29:31 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,20 +154,19 @@ int	process_handler(t_var *var)
 		{
 			// Child process exited normally
             status = WEXITSTATUS(status);
-			printf("Child process exited with status: %d %i\n", WEXITSTATUS(status), status);
-			if (WEXITSTATUS(status) == EXIT_FAILURE)
+			//printf("Child process exited with status: %d %i\n", WEXITSTATUS(status), status);
+			if (WEXITSTATUS(status))
 			{
 				// Handle execve failure in the child process
-                status = 
-				fprintf(stderr, "Child process failed to execute execve\n");
+                return (status);
+				//fprintf(stderr, "Child process failed to execute execve\n");
 				// Additional error handling or cleanup
 			}
 		}
 		else if (WIFSIGNALED(status))
 		{
 			// Child process terminated due to a signal
-			printf("Child process terminated by signal: %d\n",
-				WTERMSIG(status));
+			printf("Child process terminated by signal: %d\n", WTERMSIG(status));
 		}
 		else
 		{

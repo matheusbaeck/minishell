@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 04:16:37 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 19:09:31 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	main(int argc, char **argv, const char **envp)
         }
         if (!run_builtin_parent(&var))
             process_handler(&var);
-		base_redir(&var);
+		// base_redir(&var);
 		free(var.tokens);
 	}
 	ft_freeenv(&var.envp);
