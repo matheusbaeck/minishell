@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 10:58:20 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 19:50:06 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ enum	e_bash_errors {
 	FORK_ERROR=128,
 	PIPE_ERROR=129,
 	CLOSE_ERROR=130,
-	MALLOC_ERROR=131
-	
+	MALLOC_ERROR=131,
+	QUOTE_ERROR= SYNTAX_ERROR
 };
 
 //		·· subnode for storing multiple word instead of **array (USED IN T_NODE) ··

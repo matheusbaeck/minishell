@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/29 16:42:51 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 19:48:05 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	main(int argc, char **argv, const char **envp)
             var.exit_status = process_handler(&var);
             last_status = var.exit_status;
         }
-		base_redir(&var);
 		free(var.tokens);
         var.exit_status = last_status;
 	}

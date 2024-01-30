@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_quoteshandler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 19:49:16 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 	char	*token_string;
 
 	token_string = NULL;
-	while (ft_isascii(var->inputline[*i]) && !isdoublequote(var->inputline[*i]))
+	while ( *i <= var->len_inputline && ft_isascii(var->inputline[*i]) && !isdoublequote(var->inputline[*i]))
 	{
-		if (*i >= var->len_inputline)
+		if (*i == var->len_inputline)
 		{
-			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `''", 2);
-			ft_putstr_fd("Minishell: syntax error: unexpected end of file", 2);
+			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `\"`\n", 2);
+			ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
+			var->exit_status = QUOTE_ERROR;
 			return (NULL);
 		}
 		(*i)++;
@@ -101,12 +102,13 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start)
 	char	*token_string;
 
 	token_string = NULL;
-	while (ft_isascii(var->inputline[*i]) && !issinglequote(var->inputline[*i]))
+	while (*i <= var->len_inputline && ft_isascii(var->inputline[*i]) && !issinglequote(var->inputline[*i]))
 	{
-		if (*i >= var->len_inputline)
+		if (*i == var->len_inputline)
 		{
-			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `''", 2);
-			ft_putstr_fd("Minishell: syntax error: unexpected end of file", 2);
+			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `\"`\n", 2);
+			ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
+			var->exit_status = QUOTE_ERROR;
 			return (NULL);
 		}
 		(*i)++;
