@@ -1,45 +1,61 @@
 #include "../../header.h"
 
+// static t_node	*ft_lstnew_node_wcontent(char *content)
+// {
+// 	t_node	*ptr;
+
+// 	ptr = (t_node *)malloc(sizeof(t_node));
+// 	if (!(ptr))
+// 		return (NULL);
+//     if (content == NULL)
+//         ptr->token = NULL;
+//     else
+//         ptr->token = ft_lstnew_subnode(content);
+// 	ptr->flags = NULL;
+// 	ptr->params = NULL;
+// 	ptr->redir = NULL;
+// 	ptr->where_redir = NULL;
+// 	ptr->next = NULL;
+// 	return (ptr);
+// }
+
 static int is_operator(char *line)
 {
     return (line[0] == '|' && line[1] == '|') || (line[0] == '&' && line[1] == '&');
 }
 
-static int should_cut(char *line, int *i)
+static int should_cut(char *line)
 {
-    if (line[0] == '(')
-        *i+=1;
-    else if (is_operator(line))
-        *i+=2;
-    else
-        return (0);
-    return (1);
-}
-
-int get_closing_parenthesis(char *line)
-{
-    int count;
-    int i;
-
-    count = 1;
-    i = -1;
-    while (count > 0 && line[++i])
-    {
-        if (line[i] == '(')
-            count++;
-        else if (line[i] == ')')
-            count--;
-    }
-    if (count == 0)
-        return (i);
+    if (line[0] == '(' || is_operator(line))
+        return (1);
     return (0);
 }
+
+// static int get_closing_parenthesis(char *line)
+// {
+//     int count;
+//     int i;
+
+//     count = 1;
+//     i = -1;
+//     while (count > 0 && line[++i])
+//     {
+//         if (line[i] == '(')
+//             count++;
+//         else if (line[i] == ')')
+//             count--;
+//     }
+//     if (count == 0)
+//         return (i);
+//     return (0);
+// }
 
 static char *str_cut(char **s1, int start, int skip)
 {
     char    *s2;
     char    *temp;
 
+    printf("0 -> %i && %i -> %i\n%s\n", start, start + skip, ft_strlen(&(*s1)[start + skip]), *s1);
     if (start < 0 || start + skip >= ft_strlen(*s1))
         return (NULL);
     s2 = malloc((ft_strlen(&(*s1)[start + skip]) + 1) * sizeof(char));
@@ -55,32 +71,29 @@ static char *str_cut(char **s1, int start, int skip)
     return (s2);
 }
 
-void get_treeline(t_list **node)
+void get_treeline(t_var *var)
 {
-    t_list  *current = *node;
     int     i;
+    t_node  *current;
 
     while (current)
     {
         i = -1;
-        while (((char *)current->content)[++i])
+        while ((current->token->content)[++i])
         {
-            printf("%i:%c\n",i , ((char *)current->content)[i]);
-            if (should_cut(&(((char *)current->content)[i]), &i))
+            if (should_cut(&((current->token->content)[i])))
             {
-                printf("if statment\n");
-                printf("%i:%c\n",i , ((char *)current->content)[i]);
-                if (((char *)current->content)[i] == '(' && i > 0)
+                if ((current->token->content)[i] == '(' && i > 0)
                 {
                     /* get_closing_parenthesis*/
-                    ft_lstadd_back(node, ft_lstnew((void *)str_cut((char **)(&current->content), i, 1)));
-                    printf("%s %s\n", (char *)current->content, (char *)current->next->content);
+                    ft_lstadd_back(var->tokens, ft_lstnew((void *)str_cut((char **)(&current->token->content), i, 1)));
+                    printf("%s %s\n", current->token->content, current->next->token->content);
                     //get_treeline(&current->next, &get_closing_parenthesis);
                     break;
                 }
                 else
                 {
-                    ft_lstadd_back(node, ft_lstnew((void *)str_cut((char **)(&current->content), i, 2)));
+                    ft_lstadd_back(var->tokens, ft_lstnew((void *)str_cut((char **)(&(current->token->content)), i, 2)));
                     break;
                 }
             }
@@ -96,54 +109,16 @@ void get_treeline(t_list **node)
 //     return (0);
 // }
 
-// void	t_node *get_tree(t_var *var, char *inputline, t_list *t_node)
-// {
-//     int i;
-    
-//     /* fill firdt var with node content*/
-//     i = -1;
-//     while (inputline[++i])
-//     {
-//         if (/* is AND */)
-//         {
-//             /*fill var next_success: ft_lstaddlast_back(ft_lstnew_node(node->next))*/
-//             /*fill var next_failure: NULL:*/
-//             /*interate: node = node->next; var->tokens = var->tokens->next_sucess*/ 
-//         }
-//         else if (/* is OR */)
-//         {
-//             /*fill var next_success: NULL:*/
-//             /*fill var next_failure: ft_lstaddlast_back(ft_lstnew_node(node->next))*/
-//             /*interate: node = node->next; var->tokens = var->tokens->next_sucess*/ 
-//         }
-//     }
-// }
+int call_print_tree(t_var *var)
+{
+    t_node *current;
 
-
-
-// #include <stdio.h>
-
-// int main(int argc, char **argv)
-// {
-//     char *line;
-//     t_list *lst;
-//     t_list *current;
-
-//     line = ft_strdup(argv[1]);
-//     if (argc != 2)
-//     {
-//         fprintf(stderr, "Usage: %s <input_string>\n", argv[0]);
-//         return 1;
-//     }
-//     lst = ft_lstnew(line);
-//     get_tree(&lst, should_cut);
-//     printf("MAIN FUNCTION\n");
-//     current = lst;
-//     while (current)
-//     {
-//         printf("%s\n", ((char *)current->content));
-//         current = current->next;
-//     }
-//     ft_lstclear(&lst, free);
-//     return 0;
-// }
+    get_treeline(&var->tokens);
+    current = var->tokens;
+    while (current)
+    {
+        printf("%p:%s\n", current, ((char *)current->token->content));
+        current = current->next;
+    }
+    return 0;
+}
