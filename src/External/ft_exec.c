@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 03:30:58 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 11:29:36 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,36 +101,28 @@ static	char	**find_path_env(char **envp)
 	return (tmp);
 }
 
-static	char	*find_path(char **envp, char	*command)
+static	int	find_path(char **envp, char	*command, char**dest)
 {
-	char	*path;
-	char	*ppath;
-	char	**tmp;
+	char	*temp;
+	char	**path_envp;
 	int		i;
 
-	if (!command || command == NULL)
-		return (NULL);
-	if (!(ft_strncmp(command, "./", 2) && ft_strncmp(command, "/", 1) && ft_strncmp(command, "../", 3))) //  && access(command, X_OK | F_OK) == 0
-		return (command);
-	else
+	path_envp = find_path_env(envp);
+	i = -1;
+	while (path_envp[++i] && command)
 	{
-		tmp = find_path_env(envp);
-		i = -1;
-		while (tmp[++i] && command)
+		temp = ft_strjoin(path_envp[i], "/");
+		*dest = ft_strjoin(temp, command);
+		free(temp);
+		if (access(*dest, F_OK) == 0)
 		{
-			ppath = ft_strjoin(tmp[i], "/");
-			path = ft_strjoin(ppath, command);
-			free(ppath);
-			if (access(path, X_OK | F_OK) == 0)
-			{	
-				doublefree(tmp);
-				return (path);
-			}
-			free(path);
+			doublefree(path_envp);
+			return (0);
 		}
-		doublefree(tmp);
+		free(*dest);
 	}
-	return (NULL);
+	doublefree(path_envp);
+	return (1);
 }
 
 int		ft_exec(t_var *var)
@@ -141,22 +133,24 @@ int		ft_exec(t_var *var)
 	
 	args = set_flagsandparams_to_array(var->tokens);
 	envp = envlist_to_array(var->envp);
-	exec_path = find_path(envp, var->tokens->token->content);
-	if (exec_path != NULL)
+	if (!(ft_strncmp(var->tokens->token->content, "./", 2) 
+		&& ft_strncmp(var->tokens->token->content, "/", 1) 
+		&& ft_strncmp(var->tokens->token->content, "../", 3)))
+		exec_path = var->tokens->token->content;
+	else if (find_path(envp, var->tokens->token->content, &exec_path))
+		exec_path = var->tokens->token->content;
+	if (execve(exec_path, args, envp) == -1)
 	{
-		if (execve(exec_path, args, envp) == -1) //exit process
+		doublefree(envp);
+		doublefree(args);
+		if (!access(exec_path, F_OK) && access(exec_path, X_OK))
 		{
-			perror("execve");
-			free(exec_path);
-			doublefree(envp);
-			doublefree(args);
-			exit(127);
+			perror("access");
+			exit (PERMISSION_DENIED);
 		}
+		perror("execve");
+		free(exec_path);
+		exit(127);
 	}
-	printf("Minishell: Command not found: %s\n", \
-		var->tokens->token->content);
-	free(exec_path);
-	doublefree(envp);
-	doublefree(args);
 	return(EXIT_FAILURE);
 }

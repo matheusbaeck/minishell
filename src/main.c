@@ -6,7 +6,7 @@
 /*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 19:09:31 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/01/30 19:41:15 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	init_values(t_var *var)
 	var->fd_out = 0;
     var->tokens = NULL;
     var->nb_node = 0;
-	var->exit_status = 0;
 }
 
 static void printNode(t_node *node)
@@ -101,6 +100,7 @@ void    printNodes(t_node **node)
 int	main(int argc, char **argv, const char **envp)
 {
 	t_var	var;
+    int     last_status;
 
 	init_ms(&var, envp);
 	while (get_inputline(&var))
@@ -114,9 +114,13 @@ int	main(int argc, char **argv, const char **envp)
             break;
         }
         if (!run_builtin_parent(&var))
-            process_handler(&var);
-		// base_redir(&var);
+        {
+            var.exit_status = process_handler(&var);
+            last_status = var.exit_status;
+        }
+		//base_redir(&var);
 		free(var.tokens);
+        var.exit_status = last_status;
 	}
 	ft_freeenv(&var.envp);
 	return (0);

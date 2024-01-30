@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:47:59 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/01/25 04:12:35 by math             ###   ########.fr       */
+/*   Updated: 2024/01/29 15:29:02 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	run_builtin_child(t_var *var)
 		var->exit_status = env(var);
 	else if (ft_strncmp(var->tokens->token->content, "echo\0", 5) == 0)
 		var->exit_status = echo(var->tokens);
+	else
+		return (-1);
 	return (var->exit_status);
 }
 
