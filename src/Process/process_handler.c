@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 21:43:44 by math              #+#    #+#             */
-/*   Updated: 2024/01/29 16:21:06 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 11:46:35 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ static int	main_task(int **fd_in, int **fd_out, void *next, int *status)
 		*status = pipe_swap(fd_in, fd_out);
 		*fd_out = malloc(2 * sizeof(int));
 		if (!(*fd_out))
-			return (MALLOC_FAIL);
+			return (MALLOC_ERROR);
 		if (!pipe(*fd_out))
-			return (PIPE_FAIL);
+			return (PIPE_ERROR);
 	}    // [x]fd_in[0] [1]fd_out[0]
 	else // last node
 	{
@@ -111,7 +111,7 @@ static int	fork_handler(t_var *var, t_list **lst, int *status)
 		*pid = fork();
 		if (*pid == -1)
 		{
-			*status = FORK_FAIL;
+			*status = FORK_ERROR;
 			exit(EXIT_FAILURE);
 		}
 		else if (*pid == 0)

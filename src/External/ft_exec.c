@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 20:52:55 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 11:29:36 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ static	int	find_path(char **envp, char	*command, char**dest)
 		temp = ft_strjoin(path_envp[i], "/");
 		*dest = ft_strjoin(temp, command);
 		free(temp);
-		if (access(*dest, X_OK | F_OK) == 0)
-		{	
+		if (access(*dest, F_OK) == 0)
+		{
 			doublefree(path_envp);
 			return (0);
 		}
@@ -141,10 +141,15 @@ int		ft_exec(t_var *var)
 		exec_path = var->tokens->token->content;
 	if (execve(exec_path, args, envp) == -1)
 	{
-		perror("execve");
-		free(exec_path);
 		doublefree(envp);
 		doublefree(args);
+		if (!access(exec_path, F_OK) && access(exec_path, X_OK))
+		{
+			perror("access");
+			exit (PERMISSION_DENIED);
+		}
+		perror("execve");
+		free(exec_path);
 		exit(127);
 	}
 	return(EXIT_FAILURE);

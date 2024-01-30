@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 02:23:45 by math             ###   ########.fr       */
+/*   Updated: 2024/01/30 10:58:20 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,19 @@
 # define SINGLEQ '\''
 # define DOUBLEQ '\"'
 
-enum	e_main_errors {
-	OPEN_FAIL = 1000,
-	CLOSE_FAIL = 2000,
-	PIPE_FAIL = 3000,
-	FORK_FAIL = 4000,
-	MALLOC_FAIL = 5000
+enum	e_bash_errors {
+	//bash originals
+	SYNTAX_ERROR=2,
+	COMMAND_NOT_FOUND=127,
+	PERMISSION_DENIED=126,
+	FILE_NOT_FOUND=1,
+	DISK_FULL=1,
+	//custom
+	FORK_ERROR=128,
+	PIPE_ERROR=129,
+	CLOSE_ERROR=130,
+	MALLOC_ERROR=131
+	
 };
 
 //		·· subnode for storing multiple word instead of **array (USED IN T_NODE) ··
