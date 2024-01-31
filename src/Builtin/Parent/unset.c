@@ -41,7 +41,7 @@ int	unset(t_var *var)
 	if (var->tokens->flags != NULL)
 	{
 		printf("Minishell: unset: no options can be handled.\n");
-		return (0);
+		return (1);
 	}
 	tokens = var->tokens->params;
 	while (tokens)

@@ -16,22 +16,26 @@ static	int	check_flags(t_node *tokens)
 {
 	int			count;
 	t_subnode	*subnode;
+	int			flagecho;
 
+	flagecho = 0;
 	count = 0;
 	subnode = tokens->flags;
 	if (!tokens || !subnode)
 		return (0);
-	if (subnode->content[count] == '-')
+	while (subnode)
 	{
-		count++;
-		while (subnode->content[count] == 'n')
+		if (subnode->content && subnode->content[count] == '-')
+		{
 			count++;
-		if (subnode->content[count] == '\0')
-			return (1);
-		else
-			return (0);
+			while (subnode->content[count] == 'n')
+				count++;
+			if (subnode->content[count] == '\0')
+				flagecho = 1;
+		}
+		subnode = subnode->next;
 	}
-	return (0);
+	return (flagecho);
 }
 
 int	echo(t_node *tokens)
@@ -46,15 +50,16 @@ int	echo(t_node *tokens)
 	flagecho = check_flags(tokens);
 	while (str)
 	{
-		if (i > 0)
-			printf(" ");
 		if (str->content)
-			printf("%s", str->content);
+		{
+			ft_printf(" ");
+			ft_printf("%s", str->content);
+		}
 		str = str->next;
 		i++;
 	}
 	if (flagecho == 0)
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }
 

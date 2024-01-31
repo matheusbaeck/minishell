@@ -29,20 +29,35 @@ int	run_builtin_child(t_var *var)
 
 int	run_builtin_parent(t_var *var)
 {
-	int	ret_value;
 
-	ret_value = 0;
-	if (var->tokens == NULL || var->tokens->next != NULL || var->tokens->token == NULL)
+	if (var->tokens == NULL || var->tokens->token == NULL)
 		return (0);
 	else if (ft_strncmp(var->tokens->token->content, "cd\0", 3) == 0)
-		ret_value = cd(var->tokens);
+	{
+		if (handle_redirection(var) == -1)
+			perror("redir\n");
+		return(cd(var->tokens));
+	}
 	else if (ft_strncmp(var->tokens->token->content, "export\0", 7) == 0)
-		ret_value = export(var);
+	{
+		if (handle_redirection(var) == -1)
+			perror("redir\n");
+		return(export(var));
+	}
 	else if (ft_strncmp(var->tokens->token->content, "unset\0", 6) == 0)
-		ret_value = unset(var);
+	{
+		if (handle_redirection(var) == -1)
+			perror("redir\n");
+		return (unset(var));
+	}
 	else if (ft_strncmp(var->tokens->token->content, "clear\0", 6) == 0)
+	{	
 		clear_history();
+		return (0);
+	}
 	else if (ft_strncmp(var->tokens->token->content, "exit\0", 5) == 0)
-		ret_value = exit_minishell(var);
-	return (ret_value);
+		return(exit_minishell(var));
+	else
+		return (1);
+
 }

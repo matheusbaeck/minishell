@@ -27,7 +27,10 @@ int	cd(t_node *tokens)
 	{
 		where = getenv("HOME");
 		if (!where)
-			return (printf("Minishell: cd: $HOME not set\n"));
+		{
+			printf("Minishell: cd: $HOME not set\n");
+			return (1);
+		}
 	}
 	else
 		where = tokens->params->content;
@@ -36,7 +39,7 @@ int	cd(t_node *tokens)
 	{
 		printf("Minishell: cd: %s: No such file or directory\n", where);
 		free(where);
-		return (-1);
+		return (1);
 	}
 	return (0);
 }
