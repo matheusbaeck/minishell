@@ -180,9 +180,8 @@ int			env(t_var *var);
 
 //			###### Signals ######
 // <--------------------------------------------------------------->
-void	interactive_mode_signals(void (*func)(int sig));
-void	sigint_childhandler(int sig);
-void	sigint_handler(int sig);
+void	exec_mode_signals(void);
+void	interactive_mode_signals(void);
 int		ms_get_capabilities(void);
 
 int close_pipe_read(int *fd);

@@ -12,32 +12,29 @@
 
 #include "../../header.h"
 
-void	sigint_handler(int sig)
+void	sigint_handler(int sig, siginfo_t *info, void *ucontext)
 {
-    (void)sig;
-    write(1, "\n", 1);
-    rl_on_new_line(); // Regenerate the prompt on a newline
-    rl_replace_line("", 0); // Clear the previous text
-    rl_redisplay();
+    (void)ucontext;
+	(void)sig;
+    if (info->si_pid != 0) {
+        // Signal was sent by a process with the same real UID
+		write(1,"\n", 1);
+        rl_on_new_line(); // Regenerate the prompt on a newline
+        rl_replace_line("", 0); // Clear the previous text
+        rl_redisplay();
+    } else {
+        // Signal was sent by a child process
+        //exit(130);
+    }
 }
 
-void	sigint_childhandler(int sig)
-{
-    (void)sig;
-    write(1, "\n", 1);
-    rl_on_new_line(); // Regenerate the prompt on a newline
-    rl_replace_line("", 0); // Clear the previous text
-    rl_redisplay();
-	exit(130);
-}
-
-void	interactive_mode_signals(void (*func)(int sig))
+void	interactive_mode_signals(void)
 {
 	struct	sigaction   act;
 
-    act.sa_flags = SA_RESTART;
+    act.sa_flags = SA_SIGINFO;
     sigemptyset(&act.sa_mask);
-	act.sa_handler = func;
+	act.sa_sigaction = sigint_handler;
     if (sigaction(SIGINT, &act, NULL) == -1)
 		perror(strerror(errno));
 }

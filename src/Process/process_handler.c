@@ -30,7 +30,6 @@ static int	pipe_swap(int **fd_dst, int **fd_src)
 
 static int	task_child(t_var *var, int *fd_in, int *fd_out)
 {
-	interactive_mode_signals(sigint_childhandler);
 	if (fd_in) //not the first
 		dup2(fd_in[0], STDIN_FILENO);
 	if (var->tokens->next) //not thelast
@@ -128,6 +127,8 @@ int	process_handler(t_var *var)
 		{
             // Child process exited normally
             var->exit_status = WEXITSTATUS(var->exit_status);
+			if (var->exit_status == 130)
+				printf("prompt:\n");
 			//printf("Child process exited with status: %i\n", var->exit_status);
 			// if (WEXITSTATUS(status) == EXIT_FAILURE)
 			// {

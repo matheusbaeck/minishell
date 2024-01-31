@@ -18,7 +18,7 @@ static	void	init_ms(t_var *var, const char	**envp)
 	var->inputline = NULL;
 	cpy_env(&var->envp, envp);
     ms_get_capabilities();
-    interactive_mode_signals(sigint_handler);
+    interactive_mode_signals();
 }
 
 static void	init_values(t_var *var)
