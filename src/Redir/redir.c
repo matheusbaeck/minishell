@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 11:34:54 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 12:00:39 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static	int	here_doc_loop(int fd, char *str, char *lim)
 
 	while (1)
 	{
+		write(1, lim, ft_strlen(lim));
 		write(1, ">", 1);
 		i = -1;
 		while (read(0, &buffer, 1) && ++i < (int) ft_strlen(lim)
@@ -43,7 +44,7 @@ static int	here_doc_task(char *lim)
 	int		fd;
 	char	*str;
 
-	fd = open("./here_doc_tmp", O_CREAT | O_RDWR, 0664);
+	fd = open("./here_doc_tmp", O_CREAT | O_WRONLY, 0664);
 	if (fd < 0)
 		return (printf("here_doc open file error"), fd);
 	str = (char *) ft_calloc((int) ft_strlen(lim) + 1, sizeof(char));
@@ -56,7 +57,8 @@ static int	here_doc_task(char *lim)
 	}
 	here_doc_loop(fd, str, lim);
 	free(str);
-	//close(fd);
+	close(fd);
+	fd = open("./here_doc_tmp", O_RDONLY, 0664);
 	unlink("./here_doc_tmp");
 	return (fd);
 }
@@ -77,13 +79,8 @@ static int ft_redir(char *file_name, char *mod)
 	if (!(ft_strncmp(mod, ">>", 3) && ft_strncmp(mod, ">", 2)))
 		new_fd = dup2(fd, STDOUT_FILENO);
 	else if (!(ft_strncmp(mod, "<<", 3) && ft_strncmp(mod, "<", 2)))
-	{
 		new_fd = dup2(fd, STDIN_FILENO);
-		//close(fd);
-	}
-	dprintf(2, "new_fd:%i\n", new_fd);
-	if (new_fd < 0)
-		return(perror("open"), fd);
+	//close(fd); if i use this close redir in fails
 	return (new_fd);
 }
 

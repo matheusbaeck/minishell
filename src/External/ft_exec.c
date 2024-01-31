@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 11:29:36 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 11:40:43 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int		ft_exec(t_var *var)
 {
 	char	**args;
 	char	**envp;
-	char	*exec_path;
+	char	*exec_path; //can change for var.inputline to norminette
 	
 	args = set_flagsandparams_to_array(var->tokens);
 	envp = envlist_to_array(var->envp);
