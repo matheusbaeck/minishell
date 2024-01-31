@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 21:07:59 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 09:58:40 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,22 +105,13 @@ int	main(int argc, char **argv, const char **envp)
 	init_ms(&var, envp);
 	while (get_inputline(&var))
 	{
-        if (argc > 1 && !ft_strncmp(argv[1], "list", 4))
-        {
-            call_print_tree(&var);
-            free(var.tokens);
-            //base_redir(&var);
-            free(var.tokens);
-            var.exit_status = last_status;
-            continue;
-        }
-		init_values(&var);
+        init_values(&var);
 		lexer(&var);
         if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {
             printNodes(&var.tokens);
-            free(var.tokens);
-            break;
+            ft_lstclear_node(&var.tokens);
+            continue;
         }
         if (!run_builtin_parent(&var))
         {

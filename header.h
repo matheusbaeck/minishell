@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 20:57:38 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 09:53:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ int close_pipe_write(int *fd);
 int close_pipe(int *fd);
 int destroy_pipe(int *fd);
 
-int call_print_tree(t_var *var);
-void get_treeline(t_var *var);
+int is_cut_point(char *line);
+int pipe_split(t_list **node, int (*fptr)(char *));
 
 #endif
