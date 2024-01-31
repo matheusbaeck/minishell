@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 09:53:04 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 10:57:09 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,11 @@ char		**envlist_to_array(t_env *envlist);
 // <--------------------------------------------------------------->
 
 //			###### redir funcs ######
-int			handle_outfileredirection(t_var *var);
-int			handle_infileredirection(t_var *var);
-void		base_redir(t_var *var);
-int			redir(t_var *var);
+// int			handle_outfileredirection(t_var *var);
+// int			handle_infileredirection(t_var *var);
+// void		base_redir(t_var *var);
+// int			redir(t_var *var);
+int			handle_redirection(t_var *var);
 
 // <--------------------------------------------------------------->
 
