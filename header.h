@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 10:57:09 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 12:22:54 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_var
 // <--------------------------------------------------------------->
 
 //						###### lexer/Parser ######
-void		lexer(t_var *var);
+int			lexer(t_var *var);
 int			gnt_startpoint(t_var *var, int start);
 char		*check_word_rec(t_var *var, int *start, int *i, char *token_string);
 int			is_space_or_eof(int c);

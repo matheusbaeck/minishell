@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 09:58:40 by math             ###   ########.fr       */
+/*   Updated: 2024/01/31 13:37:27 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,18 @@ int	main(int argc, char **argv, const char **envp)
 	while (get_inputline(&var))
 	{
         init_values(&var);
-		lexer(&var);
-        if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
+		if (lexer(&var) == -1)
+        {
+            printf("syntax error\n");
+            ft_lstclear_node(&var.tokens);
+        }
+        else if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {
             printNodes(&var.tokens);
             ft_lstclear_node(&var.tokens);
             continue;
         }
-        if (!run_builtin_parent(&var))
+        else if (!run_builtin_parent(&var))
         {
             var.exit_status = process_handler(&var);
             last_status = var.exit_status;

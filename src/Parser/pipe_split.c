@@ -87,6 +87,8 @@ int pipe_split(t_list **node, int (*fptr)(char *))
             if (ret > 0)
             {
                 ft_lstadd_back(node, ft_lstnew((void *)str_cut((char **)(&current->content), i, 1)));
+                if (current->next->content == NULL)
+                    return (free(current->next), current->next = NULL, -1);
                 break;
             }
             else if(ret < 0)
