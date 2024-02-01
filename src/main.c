@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 13:37:27 by math             ###   ########.fr       */
+/*   Updated: 2024/02/01 16:04:01 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	main(int argc, char **argv, const char **envp)
             ft_lstclear_node(&var.tokens);
             continue;
         }
-        else if (!run_builtin_parent(&var))
+        else if (run_builtin_parent(&var))
         {
             var.exit_status = process_handler(&var);
             last_status = var.exit_status;

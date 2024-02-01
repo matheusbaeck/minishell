@@ -10,7 +10,7 @@ static	void	get_dir(t_env *envp, char **pwd)
 
 	i = 0;
 	tmp = expand(envp, "HOME");
-	while (tmp[i] && (*pwd)[i] && (*pwd)[i] == tmp[i])
+	while (tmp && tmp[i] && (*pwd)[i] && (*pwd)[i] == tmp[i])
 		i++;
 	free(tmp);
 	tmp = ft_strdup(&(*pwd)[i]);
