@@ -6,58 +6,59 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:47:59 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/01/29 15:29:02 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 11:10:10 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-int	run_builtin_child(t_var *var)
+int	run_builtin_child(t_var *var, int *last_status)
 {
 	if (var->tokens == NULL || var->tokens->token == NULL)
-		return (EXIT_FAILURE);
-	if (ft_strncmp(var->tokens->token->content, "pwd\0", 4) == 0)
-		var->exit_status = pwd(var);
-	else if (ft_strncmp(var->tokens->token->content, "env\0", 4) == 0)
-		var->exit_status = env(var);
-	else if (ft_strncmp(var->tokens->token->content, "echo\0", 5) == 0)
-		var->exit_status = echo(var->tokens);
+		return (IS_NOT_BUILTIN);
+	else if (!ft_strncmp(var->tokens->token->content, "pwd\0", 4))
+		*last_status = pwd(var);
+	else if (!ft_strncmp(var->tokens->token->content, "env\0", 4))
+		*last_status = env(var);
+	else if (!ft_strncmp(var->tokens->token->content, "echo\0", 5))
+		*last_status = echo(var->tokens);
 	else
-		return (-1);
-	return (var->exit_status);
+		return(IS_NOT_BUILTIN);
+	return (IS_BUILTIN);
 }
 
-int	run_builtin_parent(t_var *var)
+int	run_builtin_parent(t_var *var, int *last_status)
 {
 
 	if (var->tokens == NULL || var->tokens->token == NULL)
-		return (0);
-	else if (ft_strncmp(var->tokens->token->content, "cd\0", 3) == 0)
+		return (IS_NOT_BUILTIN);
+	else if (!ft_strncmp(var->tokens->token->content, "cd\0", 3))
 	{
 		if (handle_redirection(var) == -1)
 			perror("redir\n");
-		return(cd(var->tokens));
+		*last_status = cd(var->tokens);		
 	}
-	else if (ft_strncmp(var->tokens->token->content, "export\0", 7) == 0)
+	else if (!ft_strncmp(var->tokens->token->content, "export\0", 7))
 	{
 		if (handle_redirection(var) == -1)
 			perror("redir\n");
-		return(export(var));
+		*last_status = export(var);		
 	}
-	else if (ft_strncmp(var->tokens->token->content, "unset\0", 6) == 0)
+	else if (!ft_strncmp(var->tokens->token->content, "unset\0", 6))
 	{
 		if (handle_redirection(var) == -1)
 			perror("redir\n");
-		return (unset(var));
+		*last_status = unset(var);		
 	}
-	else if (ft_strncmp(var->tokens->token->content, "clear\0", 6) == 0)
-	{	
-		clear_history();
-		return (0);
+	else if (!ft_strncmp(var->tokens->token->content, "clear\0", 6))
+	{
+		rl_clear_history();
+		//return (0); if use this return calls clear original function
 	}
-	else if (ft_strncmp(var->tokens->token->content, "exit\0", 5) == 0)
-		return(exit_minishell(var));
+	else if (!ft_strncmp(var->tokens->token->content, "exit\0", 5))
+		*last_status = exit_minishell(var);		
 	else
-		return (1);
+		return (IS_NOT_BUILTIN);
+	return (IS_BUILTIN);
 
 }

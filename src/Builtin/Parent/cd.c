@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/01/25 02:15:45 by math             ###   ########.fr       */
+/*   Updated: 2024/02/01 23:24:26 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	cd(t_node *tokens)
 	int		value;
 
 	value = 0;
-	if (tokens->flags != NULL)
+	if (tokens->params == NULL && tokens->params->content[0] == '-')
 	{
 		printf("Minishell: cd: no options can be handled.\n");
-		return (1);
+		return (EXIT_FAILURE);
 	}
 	if (tokens->params == NULL)
 	{
@@ -29,7 +29,7 @@ int	cd(t_node *tokens)
 		if (!where)
 		{
 			printf("Minishell: cd: $HOME not set\n");
-			return (1);
+			return (EXIT_FAILURE);
 		}
 	}
 	else
@@ -39,7 +39,7 @@ int	cd(t_node *tokens)
 	{
 		printf("Minishell: cd: %s: No such file or directory\n", where);
 		free(where);
-		return (1);
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

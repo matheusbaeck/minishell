@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 12:22:54 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 00:33:18 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ enum	e_bash_errors {
 	CLOSE_ERROR=130,
 	MALLOC_ERROR=131,
 	QUOTE_ERROR= SYNTAX_ERROR
+};
+
+enum	e_builtin_return {
+	IS_BUILTIN = 1,
+	IS_NOT_BUILTIN = 0,
 };
 
 //		·· subnode for storing multiple word instead of **array (USED IN T_NODE) ··
@@ -126,6 +131,8 @@ void		are_any_expansion(char **res, char **string, int ref);
 
 // 					######list node functions ######
 void		ft_lstclear_node(t_node **lst);
+void		ft_lstdelone_node(t_node *node);
+t_node		*ft_lstdelone_node_getnext(t_node *node);
 void		ft_freenode(t_node **node);
 t_node		*ft_lstnew_node(void);
 t_node		*ft_lstlast_node(t_node *lst);
@@ -168,12 +175,13 @@ int    		process_handler(t_var *var);
 // <--------------------------------------------------------------->
 
 //			###### Builtins ######
-int			run_builtin_parent(t_var *var);
+int			run_builtin_parent(t_var *var, int *last_status);
 int			exit_minishell(t_var *var);
 int			unset(t_var *var);
 int			export(t_var *var);
 int			cd(t_node *tokens);
-int			run_builtin_child(t_var *var);
+int 		clear(t_var *var);
+int			run_builtin_child(t_var *var, int *last_status);
 int			echo(t_node *tokens);
 int			pwd(t_var	*var);
 int			env(t_var *var);

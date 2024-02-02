@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/01/31 11:33:41 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 01:11:03 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	task_child(t_var *var, int *fd_in, int *fd_out)
 		dprintf(2, "child error: close fd_out[0]\n");
 	if (close(fd_out[1]))
 		dprintf(2, "child error: close fd_out[1]\n");
-	if (run_builtin_child(var) == -1)
+	if (run_builtin_child(var, &var->exit_status) == IS_NOT_BUILTIN)
 		return (ft_exec(var));
 	exit(var->exit_status);
 }
@@ -85,7 +85,6 @@ static int	fork_handler(t_var *var, t_list **lst)
 	pid_t	*pid;
 	int		*fd_in;
 	int		*fd_out;
-	t_node	*node_tmp;
 
 	fd_in = NULL;
 	fd_out = malloc(2 * sizeof(int));
@@ -102,9 +101,7 @@ static int	fork_handler(t_var *var, t_list **lst)
 		{
 			ft_lstadd_back(lst, ft_lstnew((void *)pid));
 			main_task(&fd_in, &fd_out, var->tokens->next);
-			node_tmp = var->tokens;
-			var->tokens = var->tokens->next;
-			ft_freenode(&node_tmp);
+			var->tokens = ft_lstdelone_node_getnext(var->tokens);
 		}
 	}
 	return (EXIT_SUCCESS);

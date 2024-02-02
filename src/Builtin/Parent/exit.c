@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/01 21:06:10 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 00:21:15 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,27 @@ static int	ft_atoi_safe(const char *str, int *nb)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
-        if (nb < 214748364 && sign == 1 && (int)(*str - '0') > 7)
-            return (1);
-        else if (nb < 214748364 && sign == -1 && (int)(*str - '0') > 8)
+        if (*nb > INT_MAX / 10 || (*nb == INT_MAX / 10 && (*str - '0') > INT_MAX % 10 && sign == 1) ||
+            *nb < INT_MIN / 10 || (*nb == INT_MIN / 10 && (*str - '0') > -(INT_MIN % 10)))
             return (1);
 		*nb = (*nb * 10) + (*str - '0');
 		str++;
 	}
-    nb = sign * *nb;
+    *nb *= sign;
 	return (0);
+}
+
+int is_number(char *str)
+{
+    int i;
+
+    i = -1;
+    while (str[++i])
+    {
+        if (!ft_isdigit(str[i]))
+            return (0);    
+    }
+    return (1);
 }
 
 
@@ -52,9 +64,11 @@ int exit_minishell(t_var *var)
         if (var->tokens->params == NULL)
             exit_val = 0;
         else
-            if (ft_atoi_safe(*((int *)(var->tokens->params->content)), &exit_val) == -1)
+            if (!is_number(var->tokens->params->content) || ft_atoi_safe(var->tokens->params->content, &exit_val))
             {   
-                ft_putstr_fd(2, "1: exit: Illegal number:\n");
+                ft_putstr_fd("1: exit: Illegal number: ", 2);
+                ft_putstr_fd(var->tokens->params->content, 2);
+                ft_putstr_fd("\n", 2);
                 var->exit_status = 2;
                 return (1);
             }

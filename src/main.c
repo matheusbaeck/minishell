@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/01 16:04:01 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/02/02 01:13:21 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,13 @@ int	main(int argc, char **argv, const char **envp)
             ft_lstclear_node(&var.tokens);
             continue;
         }
-        else if (run_builtin_parent(&var))
+        while (var.tokens)
         {
-            var.exit_status = process_handler(&var);
-            last_status = var.exit_status;
+            if (run_builtin_parent(&var, &last_status) == IS_NOT_BUILTIN)
+                last_status = process_handler(&var);
+            else
+                var.tokens = ft_lstdelone_node_getnext(var.tokens);
         }
-		//base_redir(&var);
 		free(var.tokens);
         var.exit_status = last_status;
 	}

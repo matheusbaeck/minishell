@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:19:53 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 00:20:13 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,37 @@ void	ft_freenode(t_node **node)
 	free(current);
 }
 
+void	ft_lstdelone_node(t_node *node)
+{
+	if (node->token != NULL)
+		ft_lstclear_subnode(&node->token);
+	if (node->flags != NULL)
+		ft_lstclear_subnode(&node->flags);
+	if (node->params != NULL)
+		ft_lstclear_subnode(&node->params);
+	if (node->redir != NULL)
+		ft_lstclear_subnode(&node->redir);
+	if (node->where_redir != NULL)
+		ft_lstclear_subnode(&node->where_redir);
+	free(node);
+}
+
+t_node	*ft_lstdelone_node_getnext(t_node *node)
+{
+	t_node	*current;
+
+	if (!node)
+		return (NULL);
+	current = node;
+	node = node->next;
+	ft_lstdelone_node(current);
+	return (node);
+}
+
 void	ft_lstclear_node(t_node **lst)
 {
 	t_node	*current;
+
 
 	if (!lst || !*lst)
 		return ;
