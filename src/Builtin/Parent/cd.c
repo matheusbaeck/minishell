@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/02 13:45:49 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 19:31:29 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	cd(t_node *tokens)
 	char	*where;
 	int		status;
 
+	if (tokens->params && tokens->params->next)
+		return (printf("Minishell: cd: too many arguments\n"), 1);
 	if (tokens->params == NULL)
 	{
 		where = getenv("HOME");

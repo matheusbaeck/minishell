@@ -6,12 +6,12 @@
 #    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/21 13:33:25 by smagniny          #+#    #+#              #
-#    Updated: 2024/01/26 17:01:32 by math             ###   ########.fr        #
+#    Updated: 2024/02/02 19:17:39 by math             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CC = gcc -Wall -Werror -Wextra -fsanitize=address
+CC = gcc -Wall -Werror -Wextra #-fsanitize=address
 SRCS_DIR = ./src
 OBJS_DIR = .obj
 SRCS = $(wildcard $(SRCS_DIR)/*.c)
