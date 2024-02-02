@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 00:33:18 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 15:07:08 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void		are_any_expansion(char **res, char **string, int ref);
 // <--------------------------------------------------------------->
 
 // 					######list node functions ######
+void		ft_lstdelone_subnode(t_subnode *lst);
 void		ft_lstclear_node(t_node **lst);
 void		ft_lstdelone_node(t_node *node);
 t_node		*ft_lstdelone_node_getnext(t_node *node);
