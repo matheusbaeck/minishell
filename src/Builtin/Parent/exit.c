@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/02 00:21:15 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 11:29:41 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ int exit_minishell(t_var *var)
                 ft_putstr_fd("1: exit: Illegal number: ", 2);
                 ft_putstr_fd(var->tokens->params->content, 2);
                 ft_putstr_fd("\n", 2);
-                var->exit_status = 2;
-                return (1);
+                return (2);
             }
+        if (var->tokens->next)
+            return (0);
         ft_lstclear_node(&var->tokens);
-        free(var->tokens);
+        //free(var->tokens);
         ft_freeenv(&var->envp);
         exit (exit_val);
     }
