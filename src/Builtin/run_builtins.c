@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:47:59 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/02 11:10:10 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 18:09:46 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	run_builtin_parent(t_var *var, int *last_status)
 	}
 	else if (!ft_strncmp(var->tokens->token->content, "clear\0", 6))
 	{
-		rl_clear_history();
+		clear(var);
 		//return (0); if use this return calls clear original function
 	}
 	else if (!ft_strncmp(var->tokens->token->content, "exit\0", 5))

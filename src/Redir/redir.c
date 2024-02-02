@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 14:11:14 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 17:53:54 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static int	here_doc_task(char *lim)
 	free(str);
 	close(fd);
 	fd = open("./here_doc_tmp", O_RDONLY, 0664);
+	if (fd < 0)
+		exit (errno);
 	unlink("./here_doc_tmp");
 	return (fd);
 }

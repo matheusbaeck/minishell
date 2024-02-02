@@ -72,6 +72,29 @@ static char *str_cut(char **s1, int start, int skip)
     return (s2);
 }
 
+static int  jumper(const char *line, char open, char close) 
+{
+    int nesting_level;
+    int i;
+
+    i = 0;
+    if (line[i] != open)
+        return (i);
+    nesting_level = 1;
+    while (line[++i] || nesting_level > 0)
+    {
+        if (close != open && line[i] == open)
+            nesting_level++;
+        else if (line[i] == close)
+        {
+            nesting_level--;
+            if (nesting_level == 0)
+                return i + 1;
+        }
+    }
+    return (i);
+}
+
 int pipe_split(t_list **node, int (*fptr)(char *))
 {
     t_list  *current = *node;
@@ -83,6 +106,12 @@ int pipe_split(t_list **node, int (*fptr)(char *))
         i = -1;
         while (((char *)current->content)[++i])
         {
+            i += jumper(&(((char *)current->content)[i]), '\'', '\'');
+            if (!((char *)current->content)[i])
+                return (0);
+            i += jumper(&(((char *)current->content)[i]), '\"', '\"');
+            if (!((char *)current->content)[i])
+                return (0);
             ret = fptr(&(((char *)current->content)[i]));
             if (ret > 0)
             {

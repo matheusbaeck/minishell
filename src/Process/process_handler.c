@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/02 01:11:03 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 18:18:50 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,9 @@ static int	task_child(t_var *var, int *fd_in, int *fd_out)
 	if (handle_redirection(var) == -1)
 		perror("redir");
 	if (fd_in)
-	{
-		if (close(fd_in[1]))
-			dprintf(2, "child error: close fd_in[1]\n");
-	}
-	if (close(fd_out[0]))
-		dprintf(2, "child error: close fd_out[0]\n");
-	if (close(fd_out[1]))
-		dprintf(2, "child error: close fd_out[1]\n");
+		close(fd_in[1]);
+	close(fd_out[0]);
+	close(fd_out[1]);
 	if (run_builtin_child(var, &var->exit_status) == IS_NOT_BUILTIN)
 		return (ft_exec(var));
 	exit(var->exit_status);
@@ -54,12 +49,8 @@ static int	task_child(t_var *var, int *fd_in, int *fd_out)
 static int	main_task(int **fd_in, int **fd_out, void *next)
 {
 	if (*fd_in) // not first node
-	{
-		if (close((*fd_in)[0]))
-			dprintf(2, "main error: close fd_in[0]\n");
-	}
-	if (close((*fd_out)[1]))
-		dprintf(2, "main error: close fd_out[1]\n"); // [x]fd_in[x] [x]fd_out[0]
+		close((*fd_in)[0]);
+	close((*fd_out)[1]); // [x]fd_in[x] [x]fd_out[0]
 	if (next) // not last node
 	{// [x]fd_in[x] = [x]fd_out[0] ==> [x]fd_in[0]		
 		pipe_swap(fd_in, fd_out);
@@ -71,8 +62,7 @@ static int	main_task(int **fd_in, int **fd_out, void *next)
 	}    // [x]fd_in[0] [1]fd_out[0]
 	else // last node
 	{
-		if (close((*fd_out)[0]))
-			dprintf(2, "main error: close fd_out[0]\n");
+		close((*fd_out)[0]);
 		if (*fd_in)
 			free(*fd_in);
 		free(*fd_out);
@@ -122,57 +112,12 @@ int	process_handler(t_var *var)
 		waitpid(*((pid_t *)(pid_list->content)), &var->exit_status, 0);
 		if (WIFEXITED(status))
 		{
-            // Child process exited normally
             var->exit_status = WEXITSTATUS(var->exit_status);
 			if (var->exit_status == 130)
 				printf("prompt:\n");
-			//printf("Child process exited with status: %i\n", var->exit_status);
-			// if (WEXITSTATUS(status) == EXIT_FAILURE)
-			// {
-			// 	// Handle execve failure in the child process
-                
-			// 	//fprintf(stderr, "Child process failed to execute execve\n");
-			// 	// Additional error handling or cleanup
-			// }
 		}
-		// else if (WIFSIGNALED(status))
-		// {
-		// 	// Child process terminated due to a signal
-		// 	//printf("Child process terminated by signal: %d\n",
-		// 		WTERMSIG(status));
-		// 			}
-		// else
-		// {
-		// 	// Handle other termination conditions
-		// 	//printf("Child process terminated: %d\n", WEXITSTATUS(status));
-		// 			}
 		pid_list = pid_list->next;
 	}
     ft_lstclear(&temp, &free);
 	return (var->exit_status);
 }
-
-// int	process_handler_sync(t_var *var)
-// {
-// 	pid_t	pid;
-// 	int		status;
-
-// 	pid = fork();
-// 	if (pid)
-// 		ft_exec(var);
-//     status = 0;
-// 	waitpid(pid, &status, 0);
-// 	if (WIFEXITED(status))
-// 	{
-// 		status = WEXITSTATUS(status);
-// 		if (WEXITSTATUS(status) == EXIT_SUCCESS)
-// 			var->tokens = var->tokens->next_success;
-// 		else
-// 			var->tokens = var->tokens->next_failure;
-// 	}
-// 	else if (WIFSIGNALED(status))
-// 		{printf("Child process terminated by signal: %d\n", WTERMSIG(status)); exit (2);}
-// 	else
-// 		{printf("Child process terminated: %d\n", WEXITSTATUS(status)); exit (3);}
-// 	return (status);
-// }

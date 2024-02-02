@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 17:34:39 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 18:10:38 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static	char	**malloc_params_node(t_node *node)
 		size++;
 		tmp = tmp->next;
 	}
-	printf("malloc size: %i", size);
 	args = (char **)malloc((size + 1) * sizeof(char *));
 	if (!args)
 		return(NULL);
@@ -38,7 +37,7 @@ static	char	**set_params_to_array(t_node *node)
 	char		**args;
 	int			i;
 
-	args = malloc_flagsandparams_node(node);
+	args = malloc_params_node(node);
 	if (!args)
 		return (NULL);
 	i = 0;
