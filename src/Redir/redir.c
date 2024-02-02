@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/01 15:22:38 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/02/02 14:11:14 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ static int ft_redir(char *file_name, char *mod)
 		fd = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (!ft_strncmp(mod, ">", 2))
 		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		exit(errno);
+	}
 	if (!(ft_strncmp(mod, ">>", 3) && ft_strncmp(mod, ">", 2)))
 		new_fd = dup2(fd, STDOUT_FILENO);
 	else if (!(ft_strncmp(mod, "<<", 3) && ft_strncmp(mod, "<", 2)))
