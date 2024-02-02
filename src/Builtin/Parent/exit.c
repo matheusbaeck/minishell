@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/02 17:30:36 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 20:00:11 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,22 @@ int exit_minishell(t_var *var)
 {
     int exit_val;
 
-    
-    if (var->tokens->redir == NULL && no_flags_supported(var->tokens->params))
+    if (var->tokens->redir == NULL && !no_flags_supported(var->tokens->params))
     {
-        if (var->tokens->params == NULL)
-            exit_val = 0;
-        else
-            if (!is_number(var->tokens->params->content) || ft_atoi_safe(var->tokens->params->content, &exit_val))
+        exit_val = 0;
+        if (var->tokens->params)
+        {
+            if (is_number(var->tokens->params->content) && ft_atoi_safe(var->tokens->params->content, &exit_val))
             {   
                 ft_putstr_fd("1: exit: Illegal number: ", 2);
                 ft_putstr_fd(var->tokens->params->content, 2);
                 ft_putstr_fd("\n", 2);
                 return (2);
             }
+        }
         if (var->tokens->next)
             return (0);
         ft_lstclear_node(&var->tokens);
-        //free(var->tokens);
         ft_freeenv(&var->envp);
         exit (exit_val);
     }

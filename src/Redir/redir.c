@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 17:53:54 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 20:05:36 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int ft_redir(char *file_name, char *mod)
 	if (fd < 0)
 	{
 		perror("open");
-		exit(errno);
+		exit(1);
 	}
 	if (!(ft_strncmp(mod, ">>", 3) && ft_strncmp(mod, ">", 2)))
 		new_fd = dup2(fd, STDOUT_FILENO);
