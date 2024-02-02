@@ -6,33 +6,33 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 01:29:31 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 17:34:39 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-static	char	**malloc_flagsandparams_node(t_node *node)
+static	char	**malloc_params_node(t_node *node)
 {
 	t_subnode	*tmp;
 	int			size;
 	char		**args;
 
-
-	size = 0;
+	size = 1;
 	tmp = (*node).params;
 	while (tmp)
 	{
 		size++;
 		tmp = tmp->next;
 	}
-	args = (char **)malloc((size + 2) * sizeof(char *));
+	printf("malloc size: %i", size);
+	args = (char **)malloc((size + 1) * sizeof(char *));
 	if (!args)
-		return (NULL);
+		return(NULL);
 	return (args);
 }
 
-static	char	**set_flagsandparams_to_array(t_node *node)
+static	char	**set_params_to_array(t_node *node)
 {
 	t_subnode	*tmp;
 	char		**args;
@@ -47,7 +47,8 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 	tmp = (*node).params;
 	while (tmp)
 	{
-		args[i++] = ft_strdup(tmp->content);
+		args[i] = ft_strdup(tmp->content);
+		i++;
 		tmp = tmp->next;
 	}
 	args[i] = NULL;
@@ -122,7 +123,7 @@ int		ft_exec(t_var *var)
 	char	**envp;
 	char	*exec_path; //can change for var.inputline to norminette
 	
-	args = set_flagsandparams_to_array(var->tokens);
+	args = set_params_to_array(var->tokens);
 	envp = envlist_to_array(var->envp);
 	if (!(ft_strncmp(var->tokens->token->content, "./", 2) 
 		&& ft_strncmp(var->tokens->token->content, "/", 1) 

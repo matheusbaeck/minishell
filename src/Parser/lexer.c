@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/31 13:55:36 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 17:32:42 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ int	lexer(t_var *var)
 			if (start == -1)
 				return (ft_lstclear(&list, free), var->exit_status);
 		}
+		printf("hey\n");
 		if (list == current)
 			first_node = var->tokens;
 		else
 			ft_lstadd_back_node(&first_node, var->tokens);
 		current = current->next;
+		printf("bye\n");
 	}
 	var->tokens = first_node;
 	ft_lstclear(&list, free);
