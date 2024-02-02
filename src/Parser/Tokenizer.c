@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/01 19:40:11 by math             ###   ########.fr       */
+/*   Updated: 2024/02/01 19:56:12 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,6 @@ static	void	add_operator(t_var *var, int *start, int *i,
 	*prev_token_string = NULL;
 }
 
-// static	int	detect_flag(t_var *var, char *token_string)
-// {
-// 	int			i;
-
-// 	i = 1;
-// 	if (ft_strncmp(token_string, "-", 1) == 0)
-// 	{
-// 		if (ft_strncmp(var->tokens->token->content, "echo", 4) == 0
-// 			&& var->tokens->redir == NULL && var->tokens->where_redir == NULL)
-// 		{
-// 			while (token_string[i] == 'n')
-// 				i++;
-// 			if (token_string[i] == '\0' && var->tokens->params == NULL)
-// 				ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string));
-// 		}
-// 		else
-// 			ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string));
-// 		return (0);
-// 	}
-// 	return (1);
-// }
 
 static	void	add_cmd_or_flag_or_param(t_var *var, char	**prev_token_string)
 {
