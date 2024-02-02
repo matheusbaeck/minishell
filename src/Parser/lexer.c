@@ -18,7 +18,7 @@ static int	get_pipes(t_var *var, t_list **list)
 
 	*list = ft_lstnew(var->inputline);
 	if (pipe_split(list, is_cut_point) == -1)
-		return (ft_lstclear(list, free), free(var->inputline), -1);
+		return (ft_lstclear(list, free), -1);
 	temp = *list;
 	while (temp)
 	{
@@ -35,7 +35,11 @@ int	lexer(t_var *var)
 	t_list		*current;
 
 	if (get_pipes(var, &list) == -1)
-		return(var->exit_status = SYNTAX_ERROR, -1);
+	{
+		ft_putstr_fd("Minishell: Syntax error: ", 2);
+		ft_putstr_fd("`|` unexpected\n", 2);
+		return(var->exit_status = SYNTAX_ERROR, 2);
+	}
 	first_node = NULL;
 	current = list;
 	while (current)
@@ -45,7 +49,11 @@ int	lexer(t_var *var)
 		var->tokens = ft_lstnew_node();
 		start = 0;
 		while (start < var->len_inputline)
+		{
 			start = gnt_startpoint(var, start);
+			if (start == -1)
+				return (ft_lstclear(&list, free), var->exit_status);
+		}
 		if (list == current)
 			first_node = var->tokens;
 		else

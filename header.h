@@ -66,7 +66,7 @@ typedef struct s_subnode
 typedef struct s_node
 {
 	t_subnode			*token;
-	t_subnode			*flags;
+	//t_subnode			*flags;
 	t_subnode			*params;
 	t_subnode			*redir;
 	t_subnode			*where_redir;
@@ -175,6 +175,7 @@ int    		process_handler(t_var *var);
 // <--------------------------------------------------------------->
 
 //			###### Builtins ######
+int			no_flags_supported(t_subnode *subnode_param);
 int			run_builtin_parent(t_var *var, int *last_status);
 int			exit_minishell(t_var *var);
 int			unset(t_var *var);

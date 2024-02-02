@@ -46,7 +46,7 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 	t_env	*tmp_node;
 
 	exist_already = 0; // 0 esque no existe y 1 es que ya existe.
-	while ((*expr)[exist_already] != '\0' && (*expr)[exist_already] != '=') //exist_already aqui se usa como iterador pero es solo para ahorrar variables luego se vuelve a poner a 0.
+	while ((*expr)[exist_already] != '\0' && (*expr)[exist_already] != '=') //exist_already aqui se usa como iterador pero es solo para ahorrar variables luego se vuelve a poner a 0 y se usa como flag
 		exist_already++;
 	name = ft_substr((*expr), 0, exist_already);
 	exist_already = 0;
@@ -61,6 +61,7 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 					free(tmp_node->line_env);
 				tmp_node->line_env = ft_strjoinfreee(name, \
 					ft_strjoin("=", ft_strchr(*expr, '=') + 1));
+				return (0);
 			}
 			exist_already = 1;
 			if (flag)
@@ -72,7 +73,6 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 		return (0);
     // Allocate new node line content for env.
 	ft_addback_node_env(&var->envp, new_node_env((*expr), flag));
-	printf("has anadido $%s\n", name);
 	if (exist_already == 0)
 		free(name);
 	return (0);
@@ -148,11 +148,8 @@ int	export(t_var *var)
 	t_subnode	*tmp;
 
 	tmp = var->tokens->params;
-	if (var->tokens->flags != NULL)
-	{
-		printf("Minishell: export: no options can be handled.\n");
-		return (1);
-	}
+	if (no_flags_supported(var->tokens->params))
+		return (SYNTAX_ERROR);
 	if (!tmp && !var->tokens->redir && !var->tokens->where_redir)
 		return (show_values_alpha(var));  // ejecutar export sin args, mostrar env en orden alphabetico
 	while (tmp) //iterar en los params del nodo export.

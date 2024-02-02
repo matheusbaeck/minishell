@@ -19,8 +19,6 @@ void	ft_freenode(t_node **node)
 	current = *node;
 	if (current->token != NULL)
 		ft_lstclear_subnode(&current->token);
-	if (current->flags != NULL)
-		ft_lstclear_subnode(&current->flags);
 	if (current->params != NULL)
 		ft_lstclear_subnode(&current->params);
 	if (current->redir != NULL)
@@ -34,8 +32,6 @@ void	ft_lstdelone_node(t_node *node)
 {
 	if (node->token != NULL)
 		ft_lstclear_subnode(&node->token);
-	if (node->flags != NULL)
-		ft_lstclear_subnode(&node->flags);
 	if (node->params != NULL)
 		ft_lstclear_subnode(&node->params);
 	if (node->redir != NULL)
@@ -71,8 +67,6 @@ void	ft_lstclear_node(t_node **lst)
 		*lst = (*lst)->next;
 		if (current->token != NULL)
 			ft_lstclear_subnode(&current->token);
-		if (current->flags != NULL)
-			ft_lstclear_subnode(&current->flags);
 		if (current->params != NULL)
 			ft_lstclear_subnode(&current->params);
 		if (current->redir != NULL)
@@ -91,7 +85,6 @@ t_node	*ft_lstnew_node(void)
 	if (!(ptr))
 		return (NULL);
 	ptr->token = NULL;
-	ptr->flags = NULL;
 	ptr->params = NULL;
 	ptr->redir = NULL;
 	ptr->where_redir = NULL;

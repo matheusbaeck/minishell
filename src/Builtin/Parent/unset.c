@@ -38,11 +38,8 @@ int	unset(t_var *var)
 	t_subnode	*tokens;
 	t_env		*tmp;
 
-	if (var->tokens->flags != NULL)
-	{
-		printf("Minishell: unset: no options can be handled.\n");
-		return (1);
-	}
+	if (no_flags_supported(var->tokens->params))
+		return (SYNTAX_ERROR);
 	tokens = var->tokens->params;
 	while (tokens)
 	{

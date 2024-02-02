@@ -58,8 +58,7 @@ int exit_minishell(t_var *var)
     int exit_val;
 
     
-    if (var->tokens->flags == NULL
-        && var->tokens->redir == NULL)
+    if (var->tokens->redir == NULL && no_flags_supported(var->tokens->params))
     {
         if (var->tokens->params == NULL)
             exit_val = 0;

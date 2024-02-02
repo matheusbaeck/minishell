@@ -16,11 +16,8 @@ int	env(t_var *var)
 {
 	t_env	*tmp;
 
-	if (var->tokens->flags != NULL)
-	{
-		printf("Minishell: env: no options can be handled.\n");
+	if (no_flags_supported(var->tokens->params))
 		return (1);
-	}
 	tmp = var->envp;
 	while (tmp)
 	{

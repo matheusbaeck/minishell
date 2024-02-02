@@ -19,13 +19,7 @@ static	char	**malloc_flagsandparams_node(t_node *node)
 	char		**args;
 
 
-	tmp = (*node).flags;
 	size = 0;
-	while (tmp)
-	{
-		size++;
-		tmp = tmp->next;
-	}
 	tmp = (*node).params;
 	while (tmp)
 	{
@@ -45,14 +39,11 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 	int			i;
 
 	args = malloc_flagsandparams_node(node);
-	tmp = (*node).flags;
+	if (!args)
+		return (NULL);
 	i = 0;
-	args[i++] = ft_strdup(node->token->content);
-	while (tmp)
-	{
-		args[i++] = ft_strdup(tmp->content);
-		tmp = tmp->next;
-	}
+	if (node->token->content != NULL)
+		args[i++] = ft_strdup(node->token->content);
 	tmp = (*node).params;
 	while (tmp)
 	{

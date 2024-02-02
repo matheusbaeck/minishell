@@ -38,16 +38,6 @@ static void printNode(t_node *node)
     }
     printf("Token: %s\n", node->token->content);
 
-    // Print flags
-    printf("Flags: ");
-    t_subnode *flags = node->flags;
-    while (flags != NULL)
-    {
-        printf("%s ", flags->content);
-        flags = flags->next;
-    }
-    printf("\n");
-
     // Print params
     printf("Params: ");
     t_subnode *params = node->params;
@@ -106,10 +96,10 @@ int	main(int argc, char **argv, const char **envp)
 	while (get_inputline(&var))
 	{
         init_values(&var);
-		if (lexer(&var) == -1)
+		if (lexer(&var))
         {
-            printf("syntax error\n");
             ft_lstclear_node(&var.tokens);
+            continue ;
         }
         else if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
         {

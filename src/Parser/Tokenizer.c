@@ -12,7 +12,7 @@
 
 #include "../../header.h"
 
-static	void	add_operator(t_var *var, int *start, int *i,
+static int	add_operator(t_var *var, int *start, int *i,
 	char **prev_token_string, int flag_len_operator)
 {
 	if (var->tokens == NULL)
@@ -20,15 +20,23 @@ static	void	add_operator(t_var *var, int *start, int *i,
 	(*i) += flag_len_operator;
 	(*prev_token_string) = ft_substr(var->inputline, *start, (*i) - (*start));
 	*start = *i;
-	ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(*prev_token_string)); //libero prev_token_string dentro de lstnew_subnode.
+	if (*prev_token_string)
+		ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(*prev_token_string)); //libero prev_token_string dentro de lstnew_subnode.
 	while (ft_isspace(var->inputline[*start])) // el token despues de un operador es el nombre del archivo al cual hay que redirigir (aplicar el operador).
 		(*start)++;
 	(*i) = (*start);
 	*prev_token_string = 0;
 	*prev_token_string = check_word_rec(var, start, i, NULL);
-	ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(*prev_token_string)); // añadimos el token al subnodo a where_redir
-	// checkear disponibilidad archivo en caso de input
+	if (*prev_token_string)
+		ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(*prev_token_string)); // añadimos el token al subnodo a where_redir
+	else
+	{
+		ft_putstr_fd("Minishell: Syntax error\n", 2);
+		var->exit_status = SYNTAX_ERROR;
+		return (SYNTAX_ERROR);
+	}
 	*prev_token_string = NULL;
+	return (0);
 }
 
 
@@ -69,13 +77,15 @@ int	gnt_startpoint(t_var *var, int start)
 		{
 			if (token_string != NULL) // un operador marca el fin del token antieror (si hay). (ex: ls>test) '>' marca el fin del token 'ls'
 				break ;
-			add_operator(var, &start, &i, &token_string, 2);
+			if (add_operator(var, &start, &i, &token_string, 2))
+				return (-1);
 		}
 		else if (isingle_operator(var->inputline, i)) // tokenize > < 
 		{
 			if (token_string != NULL)
 				break ;
-			add_operator(var, &start, &i, &token_string, 1);
+			if (add_operator(var, &start, &i, &token_string, 1))
+				return (-1);
 		}
 		else
 			token_string = check_word_rec(var, &start, &i, token_string);
