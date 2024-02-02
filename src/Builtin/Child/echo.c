@@ -6,55 +6,44 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/01 19:44:29 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 15:14:06 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../../../header.h"
 
-static	int	check_flags(t_node *tokens)
-{
-	t_subnode	*subnode;
-	int			flagecho;
 
-	flagecho = 0;
-	subnode = tokens->params;
-	if (!tokens || !subnode)
+static int	is_flag(char *str)
+{
+	if (ft_strncmp("-n", str, ft_strlen(str)))
 		return (0);
-	if (subnode)
-	{
-		if (subnode->content && subnode->content[0] == '-')
-		{
-			if (subnode->content[1] == 'n'
-				&& ((subnode->content[2] == '\0') 
-				|| (ft_isspace(subnode->content[2]) || subnode->content[2] == '\n')))
-				flagecho = 1;
-		}
-	}
-	return (flagecho);
+	return (1);
 }
 
 int	echo(t_node *tokens)
 {
-	int			flagecho;
-	t_subnode	*str;
+	int			flag;
+	t_subnode	*subnode;
 
-	flagecho = 0;
-	str = tokens->params;
-	flagecho = check_flags(tokens);
-	if (flagecho)
-		str = str->next;
-	while (str)
+	flag = 0;
+	while (tokens->params && is_flag(tokens->params->content))
 	{
-		if (str->content)
-		{
-			ft_printf(" ");
-			ft_printf("%s", str->content);
-		}
-		str = str->next;
+		flag = 1;
+		subnode = tokens->params;
+		tokens->params = tokens->params->next;
+		ft_lstdelone_subnode(subnode);
 	}
-	if (flagecho == 0)
-		ft_printf("\n");
-	return (0);
+	while (tokens->params)
+	{
+		printf("%s", tokens->params->content);
+		if(tokens->params->next)
+			printf(" ");
+		subnode = tokens->params;
+		tokens->params = tokens->params->next;
+		ft_lstdelone_subnode(subnode);
+	}
+	if (flag == 0)
+		printf("\n");
+	return (EXIT_SUCCESS);
 }
 
 

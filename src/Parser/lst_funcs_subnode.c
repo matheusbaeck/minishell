@@ -6,11 +6,19 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:11:33 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/02/02 15:07:49 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
+
+void	ft_lstdelone_subnode(t_subnode *lst)
+{
+	if (!lst)
+		return ;
+	free(lst->content);
+	free(lst);
+}
 
 void	ft_lstclear_subnode(t_subnode **lst)
 {
