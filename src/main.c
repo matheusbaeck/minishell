@@ -12,13 +12,15 @@
 
 #include "../header.h"
 
+int g_status = 0;
+
 static	void	init_ms(t_var *var, const char	**envp)
 {
 	var->envp = NULL;
 	var->inputline = NULL;
 	cpy_env(&var->envp, envp);
     ms_get_capabilities();
-    interactive_mode_signals();
+    ms_signal();
 }
 
 static void	init_values(t_var *var)
@@ -112,10 +114,11 @@ int	main(int argc, char **argv, const char **envp)
             if (run_builtin_parent(&var, &last_status) == IS_NOT_BUILTIN)
                 last_status = process_handler(&var);
             else
+
                 var.tokens = ft_lstdelone_node_getnext(var.tokens);
         }
 		free(var.tokens);
-        var.exit_status = last_status;
+        g_status = last_status;
 	}
 	ft_freeenv(&var.envp);
 	return (0);

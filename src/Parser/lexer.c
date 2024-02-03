@@ -38,7 +38,7 @@ int	lexer(t_var *var)
 	{
 		ft_putstr_fd("Minishell: Syntax error: ", 2);
 		ft_putstr_fd("`|` unexpected\n", 2);
-		return(var->exit_status = SYNTAX_ERROR, 2);
+		return(g_status = SYNTAX_ERROR, 2);
 	}
 	first_node = NULL;
 	current = list;
@@ -52,7 +52,7 @@ int	lexer(t_var *var)
 		{
 			start = gnt_startpoint(var, start);
 			if (start == -1)
-				return (ft_lstclear(&list, free), var->exit_status);
+				return (ft_lstclear(&list, free), g_status);
 		}
 		if (list == current)
 			first_node = var->tokens;

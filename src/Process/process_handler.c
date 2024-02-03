@@ -13,6 +13,8 @@
 
 #include "../../header.h"
 
+extern int g_status;
+
 static int	pipe_swap(int **fd_dst, int **fd_src)
 {
 	int	*temp;
@@ -40,9 +42,9 @@ static int	task_child(t_var *var, int *fd_in, int *fd_out)
 		close(fd_in[1]);
 	close(fd_out[0]);
 	close(fd_out[1]);
-	if (run_builtin_child(var, &var->exit_status) == IS_NOT_BUILTIN)
+	if (run_builtin_child(var, &g_status) == IS_NOT_BUILTIN)
 		return (ft_exec(var));
-	exit(var->exit_status);
+	exit(g_status);
 }
 
 // in [1]pipe[0] [0]cmd[1] [1]pipe[0] [0]cmd2[1] [1]pipe[0] out
@@ -101,23 +103,17 @@ int	process_handler(t_var *var)
 {
 	t_list	*pid_list;
 	t_list	*temp;
-	int		status;
 
 	pid_list = NULL;
 	fork_handler(var, &pid_list);
 	temp = pid_list;
-    status = 0;
 	while (pid_list)
 	{
-		waitpid(*((pid_t *)(pid_list->content)), &var->exit_status, 0);
-		if (WIFEXITED(status))
-		{
-            var->exit_status = WEXITSTATUS(var->exit_status);
-			if (var->exit_status == 130)
-				printf("prompt:\n");
-		}
+		waitpid(*((pid_t *)(pid_list->content)), &g_status, 0);
+		if (WIFEXITED(g_status))
+            g_status = WEXITSTATUS(g_status);
 		pid_list = pid_list->next;
 	}
     ft_lstclear(&temp, &free);
-	return (var->exit_status);
+	return (g_status);
 }

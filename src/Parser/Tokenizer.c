@@ -32,7 +32,7 @@ static int	add_operator(t_var *var, int *start, int *i,
 	else
 	{
 		ft_putstr_fd("Minishell: Syntax error\n", 2);
-		var->exit_status = SYNTAX_ERROR;
+		g_status = SYNTAX_ERROR;
 		return (SYNTAX_ERROR);
 	}
 	*prev_token_string = NULL;

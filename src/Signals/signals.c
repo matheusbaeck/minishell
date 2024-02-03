@@ -12,31 +12,58 @@
 
 #include "../../header.h"
 
-void	sigint_handler(int sig, siginfo_t *info, void *ucontext)
+extern int g_status;
+
+void	signal_handler(int sig)
 {
-    (void)ucontext;
-	(void)sig;
-    if (info->si_pid != 0) {
-        // Signal was sent by a process with the same real UID
-		write(1,"\n", 1);
-        rl_on_new_line(); // Regenerate the prompt on a newline
-        rl_replace_line("", 0); // Clear the previous text
-        rl_redisplay();
-    } else {
-        // Signal was sent by a child process
-        //exit(130);
-    }
+	g_status = (128 + sig);
+	if (sig != SIGINT)
+	{
+		rl_redisplay();
+		return ;
+	}
+	if (waitpid(-1, &g_status, 0) > 0)
+	{
+		g_status = 130;
+		write(1, "\n", 1);
+		//retornar el codigo de error creo que 130 del proceso que hemos esperado. ^C
+		return ;
+	}
+	rl_replace_line("", 0);
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	interactive_mode_signals(void)
+void	ms_heredoc_sig_handler(int sig)
 {
-	struct	sigaction   act;
+	(void) sig;
+	write(1, "\n^C", 3);
+	unlink("./here_doc_tmp");
+	exit(1);
+}
 
-    act.sa_flags = SA_SIGINFO;
-    sigemptyset(&act.sa_mask);
-	act.sa_sigaction = sigint_handler;
-    if (sigaction(SIGINT, &act, NULL) == -1)
-		perror(strerror(errno));
+int	ms_signal(void)
+{
+	size_t				i;
+	int					err;
+	struct sigaction	sa;
+	const int			sigs[3] = {SIGINT, SIGQUIT, SIGTSTP};
+
+	i = 0;
+	sa.sa_handler = signal_handler;
+	sa.sa_flags = SA_RESTART;
+	while (i < 3)
+	{
+		err = sigaction(sigs[i], &sa, NULL);
+		if (err == -1)
+		{
+			ft_printf("Minishell: %s\n", strerror(errno));
+			return (1);
+		}
+		i += 1;
+	}
+	return (0);
 }
 
 int	ms_get_capabilities(void)

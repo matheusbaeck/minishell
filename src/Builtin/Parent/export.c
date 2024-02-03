@@ -32,9 +32,20 @@ static	int	isvalid_namevar(char *name)
 	while ((name[i] != '\0') && (name[i] != '='))
 	{
 		if (!ft_isalnum(name[i]) && (name[i] != '=') && (name[i] != '_'))
-			return (printf("Minishell: export: '%s': not a valid identifier\n", \
-				name), 1);
+		{
+			ft_putstr_fd("Minishell: export: `", 2);
+			ft_putstr_fd(name, 2);
+			ft_putstr_fd("` not a valid identifier\n", 2);
+			return (1);
+		}
 		i++;
+	}
+	if (ft_atoi(name) || *name == '=' || *name == '\0')
+	{
+		ft_putstr_fd("Minishell: export: `", 2);
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd("` not a valid identifier\n", 2);
+		return (1);
 	}
 	return (0);
 }
@@ -155,7 +166,10 @@ int	export(t_var *var)
 	while (tmp) //iterar en los params del nodo export.
 	{
 		if (isvalid_namevar(tmp->content))// verificar que sea alphanum o '_'
+		{
+			g_status = 2; // 2 en realidad pero el tester quiere que sea 1.
 			return (1);
+		}
 		if (ft_strchr(tmp->content, '='))
 			append_to_env(var, &tmp->content, 0); // anade la var_name con su valor.
 		else

@@ -81,7 +81,7 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 		{
 			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `\"`\n", 2);
 			ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
-			var->exit_status = QUOTE_ERROR;
+			g_status = QUOTE_ERROR;
 			return (NULL);
 		}
 		(*i)++;
@@ -108,7 +108,7 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start)
 		{
 			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `\"`\n", 2);
 			ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
-			var->exit_status = QUOTE_ERROR;
+			g_status = QUOTE_ERROR;
 			return (NULL);
 		}
 		(*i)++;

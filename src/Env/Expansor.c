@@ -50,13 +50,13 @@ static	void	add_expansion(t_var *var, char *string, char  **res, int *ref, int *
 	(*i) = end;
 }
 
-static	void	add_expansion_exit_status(t_var *var, char  **res, int *ref, int *i)
+static	void	add_expansion_exit_status(char  **res, int *ref, int *i)
 {
 	char	*expanded;
 	int		j;
 
 	j = 0;
-	expanded = ft_itoa(var->exit_status);
+	expanded = ft_itoa(g_status);
 	*res = (char *)my_realloc((void *) *res, \
 		*ref, *ref + ft_strlen(expanded) + 1);
 	if (!res)
@@ -98,7 +98,7 @@ void	expansor(t_var *var, char **string, int doublequoted)
 					i++;
 			}
 			else if ((*string)[i + 1] == '?')
-				add_expansion_exit_status(var, &res, &ref, &i);
+				add_expansion_exit_status(&res, &ref, &i);
 			else
 				add_expansion(var, (*string), &res, &ref, &i);
 		}

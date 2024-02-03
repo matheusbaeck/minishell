@@ -44,12 +44,18 @@ int is_number(char *str)
     int i;
 
     i = -1;
-    while (str[++i])
+    if (str[++i] == '+')
+    {
+        if (str[++i] == '+')
+            return (1);
+    }
+    while (str[i])
     {
         if (!ft_isdigit(str[i]))
-            return (0);    
+            return (1);
+        i++;    
     }
-    return (1);
+    return (0);
 }
 
 
@@ -57,13 +63,18 @@ int exit_minishell(t_var *var)
 {
     int exit_val;
 
-    if (var->tokens->redir == NULL && !no_flags_supported(var->tokens->params))
+    if (var->tokens->redir == NULL)
     {
         exit_val = 0;
         if (var->tokens->params)
         {
-            if (is_number(var->tokens->params->content) && ft_atoi_safe(var->tokens->params->content, &exit_val))
+            if (var->tokens->params->next != NULL)
             {   
+                ft_putstr_fd("1: exit: too many arguments\n", 2);
+                return (1);
+            }
+            if (is_number(var->tokens->params->content) || ft_atoi_safe(var->tokens->params->content, &exit_val))
+            {
                 ft_putstr_fd("1: exit: Illegal number: ", 2);
                 ft_putstr_fd(var->tokens->params->content, 2);
                 ft_putstr_fd("\n", 2);

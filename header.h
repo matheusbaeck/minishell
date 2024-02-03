@@ -55,6 +55,8 @@ enum	e_builtin_return {
 	IS_NOT_BUILTIN = 0,
 };
 
+extern int	g_status;
+
 //		·· subnode for storing multiple word instead of **array (USED IN T_NODE) ··
 typedef struct s_subnode
 {
@@ -93,7 +95,6 @@ typedef struct s_var
 	char		*inputline;
 	int			len_inputline;
 	int			nb_node;
-	int			exit_status;
 	t_node		*tokens;
 }	t_var;
 
@@ -190,8 +191,9 @@ int			env(t_var *var);
 
 //			###### Signals ######
 // <--------------------------------------------------------------->
-void	exec_mode_signals(void);
-void	interactive_mode_signals(void);
+int		ms_signal(void);
+void	ms_signal_handler(int sig);
+void	ms_heredoc_sig_handler(int sig);
 int		ms_get_capabilities(void);
 
 int close_pipe_read(int *fd);

@@ -130,6 +130,11 @@ int		ft_exec(t_var *var)
 		exec_path = var->tokens->token->content;
 	else if (find_path(envp, var->tokens->token->content, &exec_path))
 		exec_path = var->tokens->token->content;
+	if (access(exec_path, F_OK) == -1 || access(exec_path, X_OK) == -1)
+	{
+		printf("strerror: %s\n", strerror(errno)); // filtrar mejor entre Command not found / No such file or directory / Permission denieeed etc...
+		exit (errno);
+	}
 	if (execve(exec_path, args, envp) == -1)
 	{
 		doublefree(envp);

@@ -44,6 +44,7 @@ static int	here_doc_task(char *lim)
 	int		fd;
 	char	*str;
 
+	signal(SIGINT, ms_heredoc_sig_handler);
 	fd = open("./here_doc_tmp", O_CREAT | O_WRONLY, 0664);
 	if (fd < 0)
 		return (printf("here_doc open file error"), fd);
