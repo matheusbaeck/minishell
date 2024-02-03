@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/02 19:31:29 by math             ###   ########.fr       */
+/*   Updated: 2024/02/03 15:35:00 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	cd_safe(char *where)
 			}
 			perror("chdir");
 		}
-		exit (errno);
+		exit (1);
 	}
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
