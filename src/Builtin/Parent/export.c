@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/01/25 02:15:58 by math             ###   ########.fr       */
+/*   Updated: 2024/02/03 13:54:54 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ int	export(t_var *var)
 	t_subnode	*tmp;
 
 	tmp = var->tokens->params;
+	if (var->tokens->next)
+		return (EXIT_SUCCESS);
 	if (no_flags_supported(var->tokens->params))
 		return (SYNTAX_ERROR);
 	if (!tmp && !var->tokens->redir && !var->tokens->where_redir)

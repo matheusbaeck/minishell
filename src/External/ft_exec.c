@@ -6,11 +6,25 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 18:10:38 by math             ###   ########.fr       */
+/*   Updated: 2024/02/03 16:55:16 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
+
+static int is_file_or_directory(const char *path)
+{
+    struct stat fileStat;
+
+	if (stat(path, &fileStat) < 0)
+		return (-1);
+    if (S_ISREG(fileStat.st_mode))
+        return (1);
+	else if (S_ISDIR(fileStat.st_mode))
+        return (2);
+	else
+        return (0);
+}
 
 static	char	**malloc_params_node(t_node *node)
 {
@@ -129,22 +143,33 @@ int		ft_exec(t_var *var)
 		&& ft_strncmp(var->tokens->token->content, "../", 3)))
 		exec_path = var->tokens->token->content;
 	else if (find_path(envp, var->tokens->token->content, &exec_path))
-		exec_path = var->tokens->token->content;
-	if (access(exec_path, F_OK) == -1 || access(exec_path, X_OK) == -1)
 	{
-		printf("strerror: %s\n", strerror(errno)); // filtrar mejor entre Command not found / No such file or directory / Permission denieeed etc...
-		exit (errno);
+		ft_putstr_fd("Minishell: command not found\n", 2);
+		exit (127);
 	}
 	if (execve(exec_path, args, envp) == -1)
 	{
 		doublefree(envp);
 		doublefree(args);
-		if (!access(exec_path, F_OK) && access(exec_path, X_OK))
+		if (is_file_or_directory(exec_path) == 2)
 		{
-			perror("access");
-			exit (PERMISSION_DENIED);
+			ft_putstr_fd("Minishell: Is a directory\n", 2);
+			free(exec_path);
+			exit (126);
 		}
-		perror("execve");
+		else if (is_file_or_directory(exec_path) == 1)
+		{
+			if (access(exec_path, X_OK))
+			{
+				ft_putstr_fd("Minishell: Permission denied\n", 2);
+				free(exec_path);
+				exit (126);
+			}
+			ft_putstr_fd("Minishell: command not found\n", 2);
+			free(exec_path);
+			exit (127);
+		}
+		ft_putstr_fd("Minishell: No such file or directory\n", 2);
 		free(exec_path);
 		exit(127);
 	}
