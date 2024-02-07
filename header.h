@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/07 23:59:43 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/08 00:43:28 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void		ft_freenode(t_node **node);
 t_node		*ft_lstnew_node(void);
 t_node		*ft_lstlast_node(t_node *lst);
 void		ft_lstadd_back_node(t_node **lst, t_node *new);
+void		printNodes(t_node **node);
 // <---------------------------------->
 // 			######list subnode functions ######
 void		ft_lstclear_subnode(t_subnode **lst);
@@ -139,6 +140,7 @@ void		ft_freeenv(t_env **lst);
 t_env		*new_node_env(const char *line_env, int exported);
 void		ft_addback_node_env(t_env **lst, t_env *new);
 char		**envlist_to_array(t_env *envlist);
+void		updt_shlvl(t_env **envp);
 // <----------------------------------->
 //			###### redir funcs ######
 int			handle_redirection(t_var *var);

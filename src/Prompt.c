@@ -2,7 +2,6 @@
 #include "../header.h"
 
 // (===||[:::::::::::::::>
-
 static	void	get_dir(t_env *envp, char **pwd)
 {
 	char	*tmp;
@@ -53,4 +52,19 @@ char	*get_inputline(t_var *var)
 	free(str);
 	add_history(var->inputline);
 	return (var->inputline);
+}
+
+void	updt_shlvl(t_env	**envp)
+{
+	t_env	*nodetmp;
+
+	nodetmp = *envp;
+	if (!envp)
+		return ;
+	while (nodetmp)
+	{
+		if (ft_strncmp(nodetmp->line_env, "SHLVL=", 6) == 0)
+			nodetmp->line_env = ft_strjoinfrees2("SHLVL=", ft_itoa((ft_atoi(nodetmp->line_env+6) + 1)));
+		nodetmp = nodetmp->next;
+	}
 }
