@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/07 22:51:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/07 23:46:39 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static	void	add_mode_op(t_var *var, int *start, int *i, char *token_string)
 {
-    if (var->tokens == NULL)
+	if (var->tokens == NULL)
 		ft_lstadd_back_node(&var->tokens, ft_lstnew_node());
 	token_string = ft_substr(var->inputline, *start, (*i) - (*start));
 	*start = *i;
 	if (*token_string)
-		ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string)); //libero token_string dentro de lstnew_subnode.
+		ft_lstadd_back_subnode(&var->tokens->redir,
+			ft_lstnew_subnode(token_string));
 }
-
 
 static	void	add_cmd_or_whredir_or_param(t_var *var, char	**prev_token_string, int *whredir)
 {

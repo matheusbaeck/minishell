@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 20:05:36 by math             ###   ########.fr       */
+/*   Updated: 2024/02/07 23:23:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static int	here_doc_task(char *lim)
 	return (fd);
 }
 
-static int ft_redir(char *file_name, char *mod)
+static int	ft_redir(char *file_name, char *mod)
 {
 	int	fd;
 	int	new_fd;
@@ -89,20 +89,19 @@ static int ft_redir(char *file_name, char *mod)
 		new_fd = dup2(fd, STDOUT_FILENO);
 	else if (!(ft_strncmp(mod, "<<", 3) && ft_strncmp(mod, "<", 2)))
 		new_fd = dup2(fd, STDIN_FILENO);
-	//close(fd); if i use this close redir in fails
 	return (new_fd);
 }
 
-int		handle_redirection(t_var *var)
+int	handle_redirection(t_var *var)
 {
 	t_subnode	*sub_redir_tmp;
 	t_subnode	*sub_wheredir_tmp;
 	int			fd;
-			
+
 	sub_redir_tmp = var->tokens->redir;
 	sub_wheredir_tmp = var->tokens->where_redir;
 	while (sub_redir_tmp && sub_wheredir_tmp)
-	{																																																
+	{
 		fd = ft_redir(sub_wheredir_tmp->content, sub_redir_tmp->content);
 		if (fd < 0)
 			perror("open");

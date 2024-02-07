@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 17:08:34 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 02:30:26 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 00:06:27 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
 int	ft_eval_format(const char *str, va_list p, int index)
-{	
+{
 	int	n;
 
 	n = 0;
@@ -49,9 +49,9 @@ int	ft_printf(const char *str, ...)
 	n = 0;
 	va_start(params, str);
 	while (str[++i])
-	{	
+	{
 		if (str[i] == '%')
-		{	
+		{
 			i++;
 			n += ft_eval_format(str, params, i);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/17 11:20:34 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 02:30:26 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 00:07:02 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_itoalcount(int k)
 }
 
 int	ft_utoa(unsigned long k)
-{	
+{
 	char			*str;
 	int				rtn;
 	int				i;

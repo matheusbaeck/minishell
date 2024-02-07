@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr_startend.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:06:36 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 02:30:26 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 00:09:29 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_substr_startend(char const *s, unsigned int start, unsigned int end)
 		return (ft_strdup(""));
 	len = end - start;
 	ptr = (char *)malloc(sizeof(char) * (len + 1));
-	if (!ptr) 
+	if (!ptr)
 		return (NULL);
 	ft_strlcpy(ptr, s + start, len + 1);
 	return (ptr);

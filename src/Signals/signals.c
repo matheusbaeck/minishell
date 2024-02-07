@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 20:06:23 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/07 23:21:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-extern int g_status;
+extern int	g_status;
 
 void	signal_handler(int sig)
 {
@@ -26,7 +26,6 @@ void	signal_handler(int sig)
 	{
 		g_status = 130;
 		write(1, "\n", 1);
-		//retornar el codigo de error creo que 130 del proceso que hemos esperado. ^C
 		return ;
 	}
 	rl_replace_line("", 0);

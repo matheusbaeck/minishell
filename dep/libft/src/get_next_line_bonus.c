@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:44:29 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 02:30:26 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 00:09:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //read(int fd, void *buf, size_t count);
 char	*next(char	*buffer)
-{	
+{
 	char	*newbuffer;
 	int		i;
 	int		j;
@@ -89,7 +89,7 @@ char	*parse_line(char *buffer)
 }
 
 char	*get_next_line(int fd)
-{	
+{
 	static char	*buffer[FD_INDEX];
 	char		*str;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 18:54:35 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/26 14:29:14 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 00:01:12 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 //openfd
-char** copy_2d_array(const char** original);
+char**	copy_2d_array(const char**	original);
 int		openfd(char *fname);
 int		maxx(int a, int b);
 int		my_abs(int x);
@@ -91,7 +91,6 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
 /*FT_PRINTF*/
 int		ft_putchar(char c);
 int		ft_putnbr(int nb);

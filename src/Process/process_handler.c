@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/02/02 18:18:50 by math             ###   ########.fr       */
+/*   Created: 2024/02/07 23:26:12 by smagniny          #+#    #+#             */
+/*   Updated: 2024/02/07 23:30:00 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../header.h"
 
-extern int g_status;
+extern int	g_status;
 
 static int	pipe_swap(int **fd_dst, int **fd_src)
 {
@@ -32,9 +31,9 @@ static int	pipe_swap(int **fd_dst, int **fd_src)
 
 static int	task_child(t_var *var, int *fd_in, int *fd_out)
 {
-	if (fd_in) //not the first
+	if (fd_in)
 		dup2(fd_in[0], STDIN_FILENO);
-	if (var->tokens->next) //not thelast
+	if (var->tokens->next)
 		dup2(fd_out[1], STDOUT_FILENO);
 	if (handle_redirection(var) == -1)
 		perror("redir");
@@ -50,19 +49,19 @@ static int	task_child(t_var *var, int *fd_in, int *fd_out)
 // in [1]pipe[0] [0]cmd[1] [1]pipe[0] [0]cmd2[1] [1]pipe[0] out
 static int	main_task(int **fd_in, int **fd_out, void *next)
 {
-	if (*fd_in) // not first node
+	if (*fd_in)
 		close((*fd_in)[0]);
-	close((*fd_out)[1]); // [x]fd_in[x] [x]fd_out[0]
-	if (next) // not last node
-	{// [x]fd_in[x] = [x]fd_out[0] ==> [x]fd_in[0]		
+	close((*fd_out)[1]);
+	if (next)
+	{
 		pipe_swap(fd_in, fd_out);
 		*fd_out = malloc(2 * sizeof(int));
 		if (!(*fd_out))
 			return (MALLOC_ERROR);
 		if (!pipe(*fd_out))
 			return (PIPE_ERROR);
-	}    // [x]fd_in[0] [1]fd_out[0]
-	else // last node
+	}
+	else
 	{
 		close((*fd_out)[0]);
 		if (*fd_in)
@@ -81,7 +80,7 @@ static int	fork_handler(t_var *var, t_list **lst)
 	fd_in = NULL;
 	fd_out = malloc(2 * sizeof(int));
 	pipe(fd_out);
-	while (var->tokens) // [x]df_in[x] [0]cmd[1] [1]fd_out[0]
+	while (var->tokens)
 	{
 		pid = malloc(sizeof(pid_t));
 		*pid = fork();
@@ -111,9 +110,9 @@ int	process_handler(t_var *var)
 	{
 		waitpid(*((pid_t *)(pid_list->content)), &g_status, 0);
 		if (WIFEXITED(g_status))
-            g_status = WEXITSTATUS(g_status);
+			g_status = WEXITSTATUS(g_status);
 		pid_list = pid_list->next;
 	}
-    ft_lstclear(&temp, &free);
+	ft_lstclear(&temp, &free);
 	return (g_status);
 }
