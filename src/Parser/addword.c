@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   addword.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 15:30:13 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 19:03:11 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:33:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,10 @@ static	void	remove_previous_dollar_expansion_ifneeded(char **token_string)
 	}
 }
 
-static	char	*concatenate_next_word(char *(*get_quoted_str)
-	(t_var *var, int *i, int *start), t_var *var, int *i, int *start)
-{
-	(*start) += 1;
-	return (get_quoted_str(var, i, start));
-}
-
 static	char	*skipquotes(char **token_string, int *i, int *start)
 {
 	(*i)++;
-	(*start) += 2;
+	*start = (*start) + 2;
 	return ((*token_string));
 }
 
@@ -48,7 +41,7 @@ char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 		if (isdoublequote(var->inputline[++(*i)]))
 			upd_token_string = skipquotes(&token_string, i, start);
 		else
-			upd_token_string = ft_strjoinfreee(token_string, concatenate_next_word(get_str_doublequoted, var, i, start)); //recuperar la string entre comillas dobles. y concatenar con la palabra anterior si estaba pegada al quote y pone el iterador en la posicion siguiente
+			upd_token_string = ft_strjoinfreee(token_string, get_str_doublequoted(var, i, start)); //recuperar la string entre comillas dobles. y concatenar con la palabra anterior si estaba pegada al quote y pone el iterador en la posicion siguiente
 	}
 	else if (issinglequote(var->inputline[*i]))
 	{
@@ -56,7 +49,7 @@ char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 		if (issinglequote(var->inputline[++(*i)]))
 			upd_token_string = skipquotes(&token_string, i, start);
 		else
-			upd_token_string = ft_strjoinfreee(token_string, concatenate_next_word(get_str_singlequoted, var, i, start));//recuperar la string entre comillas simples. y concatenar con la palabra anterior si estaba pegada al quote y pone el iterador en la posicion siguiente
+			upd_token_string = ft_strjoinfreee(token_string, get_str_singlequoted(var, i, start));//recuperar la string entre comillas simples. y concatenar con la palabra anterior si estaba pegada al quote y pone el iterador en la posicion siguiente
 	}
 	else
 		upd_token_string = ft_strjoinfreee(token_string, get_word(var,i, start));

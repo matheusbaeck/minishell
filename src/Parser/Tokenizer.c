@@ -3,49 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/01 19:56:12 by math             ###   ########.fr       */
+/*   Updated: 2024/02/07 22:51:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-static int	add_operator(t_var *var, int *start, int *i,
-	char **prev_token_string, int flag_len_operator)
+static	void	add_mode_op(t_var *var, int *start, int *i, char *token_string)
 {
-	if (var->tokens == NULL)
+    if (var->tokens == NULL)
 		ft_lstadd_back_node(&var->tokens, ft_lstnew_node());
-	(*i) += flag_len_operator;
-	(*prev_token_string) = ft_substr(var->inputline, *start, (*i) - (*start));
+	token_string = ft_substr(var->inputline, *start, (*i) - (*start));
 	*start = *i;
-	if (*prev_token_string)
-		ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(*prev_token_string)); //libero prev_token_string dentro de lstnew_subnode.
-	while (ft_isspace(var->inputline[*start])) // el token despues de un operador es el nombre del archivo al cual hay que redirigir (aplicar el operador).
-		(*start)++;
-	(*i) = (*start);
-	*prev_token_string = 0;
-	*prev_token_string = check_word_rec(var, start, i, NULL);
-	if (*prev_token_string)
-		ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(*prev_token_string)); // añadimos el token al subnodo a where_redir
-	else
-	{
-		ft_putstr_fd("Minishell: Syntax error\n", 2);
-		g_status = SYNTAX_ERROR;
-		return (SYNTAX_ERROR);
-	}
-	*prev_token_string = NULL;
-	return (0);
+	if (*token_string)
+		ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string)); //libero token_string dentro de lstnew_subnode.
 }
 
 
-static	void	add_cmd_or_flag_or_param(t_var *var, char	**prev_token_string)
+static	void	add_cmd_or_whredir_or_param(t_var *var, char	**prev_token_string, int *whredir)
 {
 	if ((*prev_token_string) != NULL
 		&& *(*prev_token_string) != '\0' && *(*prev_token_string) != '|' && var->tokens)
 	{
-		if (var->tokens->token == NULL)
+		if (*whredir)
+		{
+			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode((*prev_token_string)));
+			*whredir = 0;
+		}
+		else if (var->tokens->token == NULL)
 			ft_lstadd_back_subnode(&var->tokens->token, ft_lstnew_subnode((*prev_token_string)));
 		else
 			ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode((*prev_token_string)));
@@ -66,8 +54,10 @@ int	gnt_startpoint(t_var *var, int start)
 {
 	char		*token_string;
 	int			i;
+	int			wh_redir_flg;
 
-	i = 0;
+	i = start;
+	wh_redir_flg = 0;
 	token_string = NULL;
 	if (check_input_and_skip_spaces(var, &start, &i))
 		return (0); // or 1 ? if *start < var->len_inputline
@@ -77,19 +67,21 @@ int	gnt_startpoint(t_var *var, int start)
 		{
 			if (token_string != NULL) // un operador marca el fin del token antieror (si hay). (ex: ls>test) '>' marca el fin del token 'ls'
 				break ;
-			if (add_operator(var, &start, &i, &token_string, 2))
-				return (-1);
+			i = i + 2;
+			add_mode_op(var, &start, &i, token_string);
+			wh_redir_flg = 1;
 		}
 		else if (isingle_operator(var->inputline, i)) // tokenize > < 
 		{
 			if (token_string != NULL)
 				break ;
-			if (add_operator(var, &start, &i, &token_string, 1))
-				return (-1);
+			i++;
+			add_mode_op(var, &start, &i, token_string);
+			wh_redir_flg = 1;
 		}
 		else
 			token_string = check_word_rec(var, &start, &i, token_string);
 	}
-	add_cmd_or_flag_or_param(var, &token_string);
+	add_cmd_or_whredir_or_param(var, &token_string, &wh_redir_flg);
 	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_quoteshandler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/30 19:49:16 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/07 22:49:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,12 @@ char	*get_word(t_var *var, int *i, int *start)
 }
 
 
-
-
-typedef char	*(*t_get_quoted)(t_var *, int *, int *);
-
-
 char	*get_str_doublequoted(t_var *var, int *i, int *start)
 {
 	char	*token_string;
 
 	token_string = NULL;
+	(*i)++;
 	while ( *i <= var->len_inputline && ft_isascii(var->inputline[*i]) && !isdoublequote(var->inputline[*i]))
 	{
 		if (*i == var->len_inputline)
@@ -102,6 +98,7 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start)
 	char	*token_string;
 
 	token_string = NULL;
+	(*i)++;
 	while (*i <= var->len_inputline && ft_isascii(var->inputline[*i]) && !issinglequote(var->inputline[*i]))
 	{
 		if (*i == var->len_inputline)
