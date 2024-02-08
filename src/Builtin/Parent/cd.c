@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/08 17:03:14 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 22:05:00 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	cd(t_node *tokens)
 	int		status;
 
 	if (tokens->params && tokens->params->next)
-		return (printf("Minishell: cd: too many arguments\n"), 1);
+		return (ft_putstr_fd("Minishell: cd: too many arguments\n", 2), 1);
 	if (tokens->params == NULL)
 	{
 		where = getenv("HOME");
