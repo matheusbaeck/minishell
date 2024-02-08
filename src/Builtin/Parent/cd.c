@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/08 17:00:28 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 17:03:14 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	cd(t_node *tokens)
 	}
 	else
 		where = tokens->params->content;
-	printf("status:%i", status);
+	status = cd_safe(where);
 	if (status == 0 && !tokens->next)
 	{
 		chdir(where);
