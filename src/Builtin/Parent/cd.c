@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/03 15:35:00 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 17:00:28 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	cd_safe(char *where)
 			}
 			perror("chdir");
 		}
-		exit (1);
+		exit (0);
 	}
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
@@ -58,7 +58,7 @@ int	cd(t_node *tokens)
 	}
 	else
 		where = tokens->params->content;
-	status = cd_safe(where);
+	printf("status:%i", status);
 	if (status == 0 && !tokens->next)
 	{
 		chdir(where);
