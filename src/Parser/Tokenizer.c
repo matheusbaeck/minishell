@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/07 23:46:39 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/08 22:48:53 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ static	void	add_cmd_or_whredir_or_param(t_var *var, char	**prev_token_string, in
 		&& *(*prev_token_string) != '\0' && *(*prev_token_string) != '|' && var->tokens)
 	{
 		if (*whredir)
-		{
 			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode((*prev_token_string)));
-			*whredir = 0;
-		}
 		else if (var->tokens->token == NULL)
 			ft_lstadd_back_subnode(&var->tokens->token, ft_lstnew_subnode((*prev_token_string)));
 		else
@@ -61,7 +58,7 @@ int	gnt_startpoint(t_var *var, int start)
 	token_string = NULL;
 	if (check_input_and_skip_spaces(var, &start, &i))
 		return (0); // or 1 ? if *start < var->len_inputline
-	while (i < var->len_inputline && !is_space_or_eof(var->inputline[i]))//until a space or EOF
+	while (i < var->len_inputline && (!is_space_or_eof(var->inputline[i]) || wh_redir_flg == 1))//until a (space or EOF)
 	{
 		if (isdouble_operator(var->inputline, i))// tokenize >> <<
 		{
@@ -80,7 +77,11 @@ int	gnt_startpoint(t_var *var, int start)
 			wh_redir_flg = 1;
 		}
 		else
+		{
 			token_string = check_word_rec(var, &start, &i, token_string);
+			if (wh_redir_flg)
+				break ;
+		}
 	}
 	add_cmd_or_whredir_or_param(var, &token_string, &wh_redir_flg);
 	return (i);
