@@ -6,15 +6,16 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/02 15:14:06 by math             ###   ########.fr       */
+/*   Updated: 2024/02/08 17:11:27 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../../header.h"
 
 
 static int	is_flag(char *str)
 {
-	if (ft_strncmp("-n", str, ft_strlen(str)))
+	if (ft_strncmp("-n", str, 2))
 		return (0);
 	return (1);
 }
