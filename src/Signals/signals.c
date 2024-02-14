@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/07 23:21:40 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/14 14:59:46 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,21 @@ void	ms_heredoc_sig_handler(int sig)
 	exit(1);
 }
 
+
 int	ms_signal(void)
 {
 	size_t				i;
 	int					err;
 	struct sigaction	sa;
-	const int			sigs[3] = {SIGINT, SIGQUIT, SIGTSTP};
+	const int			sigs[3] = {SIGINT, SIGTSTP, SIGQUIT};
 
 	i = 0;
 	sa.sa_handler = signal_handler;
 	sa.sa_flags = SA_RESTART;
 	while (i < 3)
 	{
+		if (sigs[i] == SIGQUIT)
+			sa.sa_handler = SIG_IGN;
 		err = sigaction(sigs[i], &sa, NULL);
 		if (err == -1)
 		{
