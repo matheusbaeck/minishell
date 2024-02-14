@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/03 15:00:19 by math             ###   ########.fr       */
+/*   Updated: 2024/02/13 11:58:24 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ int exit_minishell(t_var *var)
             return (0);
         ft_lstclear_node(&var->tokens);
         ft_freeenv(&var->envp);
-        exit (exit_val);
+        write(1, "exit\n", 5);
+        exit(exit_val);
     }
     return (0);
 }
