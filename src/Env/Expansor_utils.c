@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:53:11 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/02/14 15:39:07 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*expand(t_env *env, char *dollar_str)
 	{
 		if (ft_strncmp(tmp->line_env, dollar_str, ft_strlen(dollar_str)) == 0)
 		{
-			str = ft_strdup(tmp->line_env + ft_strlen(dollar_str) + 1);
+			str = ft_strdup(ft_strrchr(tmp->line_env, '=') + 1);
 			return (str);
 		}
 		tmp = tmp->next;
