@@ -89,7 +89,7 @@ static int  jumper(const char *line, char open, char close)
         {
             nesting_level--;
             if (nesting_level == 0)
-                return i + 1;
+                return i;
         }
     }
     return (i);
