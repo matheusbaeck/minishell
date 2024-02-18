@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 14:11:30 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 21:49:51 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	gnt_startpoint(t_var *var, int start)
 		else
 		{
 			token_string = check_word_rec(var, &start, &i, token_string);
-			if (wh_redir_flg)
+			if (wh_redir_flg && is_space_or_eof(var->inputline[i]))
 				break ;
 		}
 	}
