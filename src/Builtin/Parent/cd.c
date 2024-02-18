@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/18 13:11:54 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 22:06:59 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,13 @@ static int	cd_safe(char *where)
 				exit (1);
 			}
 			perror("chdir");
+			exit(1);
 		}
 		exit (0);
 	}
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		return (WEXITSTATUS(wstatus));
-	else
-		printf("unkwonw error!\n");
 	return (-1);
 }
 
