@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 14:12:20 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 22:55:38 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ extern int	g_status;
 
 void	signal_handler(int sig)
 {
-	g_status = (128 + sig);
 	if (sig != SIGINT)
 	{
 		rl_redisplay();

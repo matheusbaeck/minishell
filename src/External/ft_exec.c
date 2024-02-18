@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:44:45 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 22:51:04 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ int	ft_exec(t_var	*var)
 			free(exec_path);
 			exit (126);
 		}
-		else if (is_file_or_directory(exec_path) == 1)
+		else if (is_file_or_directory(exec_path) == 0)
 		{
-			if (access(exec_path, X_OK))
+			if (access(exec_path, X_OK) == -1)
 			{
 				ft_putstr_fd("Minishell: Permission denied\n", 2);
 				free(exec_path);
@@ -100,6 +100,19 @@ int	ft_exec(t_var	*var)
 			ft_putstr_fd("Minishell: command not found\n", 2);
 			free(exec_path);
 			exit (127);
+		}
+		else
+		{
+			if (is_file_or_directory(exec_path) == 1)
+			{
+				if (access(exec_path, X_OK) == -1)
+				{
+					ft_putstr_fd("Minishell: Permission denied\n", 2);
+					free(exec_path);
+					exit (126);
+				}
+				exit(0);
+			}
 		}
 		ft_putstr_fd("Minishell: No such file or directory\n", 2);
 		free(exec_path);
