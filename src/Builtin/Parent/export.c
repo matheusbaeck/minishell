@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/03 13:54:54 by math             ###   ########.fr       */
+/*   Updated: 2024/02/18 13:21:21 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 	int		exist_already;
 	t_env	*tmp_node;
 
-	exist_already = 0; // 0 esque no existe y 1 es que ya existe.
-	while ((*expr)[exist_already] != '\0' && (*expr)[exist_already] != '=') //exist_already aqui se usa como iterador pero es solo para ahorrar variables luego se vuelve a poner a 0 y se usa como flag
+	exist_already = 0;
+	while ((*expr)[exist_already] != '\0' && (*expr)[exist_already] != '=')
 		exist_already++;
 	name = ft_substr((*expr), 0, exist_already);
 	exist_already = 0;
@@ -82,7 +82,6 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 	}
 	if (exist_already)
 		return (0);
-    // Allocate new node line content for env.
 	ft_addback_node_env(&var->envp, new_node_env((*expr), flag));
 	if (exist_already == 0)
 		free(name);
@@ -96,7 +95,6 @@ static	void	print_export_values(char	**envp)
 	char	*res;
 	char	*name;
 	char	*val;
-
 
 	line = 0;
 	col = 0;
@@ -164,20 +162,19 @@ int	export(t_var *var)
 	if (no_flags_supported(var->tokens->params))
 		return (SYNTAX_ERROR);
 	if (!tmp && !var->tokens->redir && !var->tokens->where_redir)
-		return (show_values_alpha(var));  // ejecutar export sin args, mostrar env en orden alphabetico
-	while (tmp) //iterar en los params del nodo export.
+		return (show_values_alpha(var));
+	while (tmp)
 	{
-		if (isvalid_namevar(tmp->content))// verificar que sea alphanum o '_'
+		if (isvalid_namevar(tmp->content))
 		{
-			g_status = 2; // 2 en realidad pero el tester quiere que sea 1.
+			g_status = 2;
 			return (1);
 		}
 		if (ft_strchr(tmp->content, '='))
-			append_to_env(var, &tmp->content, 0); // anade la var_name con su valor.
+			append_to_env(var, &tmp->content, 0);
 		else
-			append_to_env(var, &tmp->content, 1); // anade la var_name sin valor
+			append_to_env(var, &tmp->content, 1);
 		tmp = tmp->next;
 	}
 	return (0);
 }
-

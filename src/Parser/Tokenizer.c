@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/13 11:10:08 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:11:30 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,18 @@ int	gnt_startpoint(t_var *var, int start)
 	wh_redir_flg = 0;
 	token_string = NULL;
 	check_input_and_skip_spaces(var, &start, &i);
-	while (i < var->len_inputline && (!is_space_or_eof(var->inputline[i]) || wh_redir_flg == 1))//until a (space or EOF)
+	while (i < var->len_inputline && (!is_space_or_eof(var->inputline[i]) || wh_redir_flg == 1))
 	{
 		check_input_and_skip_spaces(var, &start, &i);
-		if (isdouble_operator(var->inputline, i))// tokenize >> <<
+		if (isdouble_operator(var->inputline, i))
 		{
-			if (token_string != NULL) // un operador marca el fin del token antieror (si hay). (ex: ls>test) '>' marca el fin del token 'ls'
+			if (token_string != NULL)
 				break ;
 			i = i + 2;
 			add_mode_op(var, &start, &i, token_string);
 			wh_redir_flg = 1;
 		}
-		else if (isingle_operator(var->inputline, i)) // tokenize > < 
+		else if (isingle_operator(var->inputline, i))
 		{
 			if (token_string != NULL)
 				break ;

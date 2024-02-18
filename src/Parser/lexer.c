@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 17:49:45 by math             ###   ########.fr       */
+/*   Updated: 2024/02/18 13:49:00 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	lexer(t_var *var)
 	{
 		ft_putstr_fd("Minishell: Syntax error: ", 2);
 		ft_putstr_fd("`|` unexpected\n", 2);
-		return(g_status = SYNTAX_ERROR, 2);
+		return (g_status = SYNTAX_ERROR, 2);
 	}
 	first_node = NULL;
 	current = list;
@@ -64,5 +64,3 @@ int	lexer(t_var *var)
 	ft_lstclear(&list, free);
 	return (0);
 }
-//gnt_startpoint returns the index of the next character
-

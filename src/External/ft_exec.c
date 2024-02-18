@@ -3,95 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/03 16:55:16 by math             ###   ########.fr       */
+/*   Updated: 2024/02/18 13:44:45 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-static int is_file_or_directory(const char *path)
+static	int	is_file_or_directory(const char	*path)
 {
-    struct stat fileStat;
+	struct stat	filestat;
 
-	if (stat(path, &fileStat) < 0)
+	if (stat(path, &filestat) < 0)
 		return (-1);
-    if (S_ISREG(fileStat.st_mode))
-        return (1);
-	else if (S_ISDIR(fileStat.st_mode))
-        return (2);
+	if (S_ISREG(filestat.st_mode))
+		return (1);
+	else if (S_ISDIR(filestat.st_mode))
+		return (2);
 	else
-        return (0);
-}
-
-static	char	**malloc_params_node(t_node *node)
-{
-	t_subnode	*tmp;
-	int			size;
-	char		**args;
-
-	size = 1;
-	tmp = (*node).params;
-	while (tmp)
-	{
-		size++;
-		tmp = tmp->next;
-	}
-	args = (char **)malloc((size + 1) * sizeof(char *));
-	if (!args)
-		return(NULL);
-	return (args);
-}
-
-static	char	**set_params_to_array(t_node *node)
-{
-	t_subnode	*tmp;
-	char		**args;
-	int			i;
-
-	args = malloc_params_node(node);
-	if (!args)
-		return (NULL);
-	i = 0;
-	if (node->token->content != NULL)
-		args[i++] = ft_strdup(node->token->content);
-	tmp = (*node).params;
-	while (tmp)
-	{
-		args[i] = ft_strdup(tmp->content);
-		i++;
-		tmp = tmp->next;
-	}
-	args[i] = NULL;
-	return (args);
-}
-
-char	**envlist_to_array(t_env *envlist)
-{
-	char	**envp;
-	t_env	*tmp;
-	int		count;
-	int		i;
-
-	i = 0;
-	count = 0;
-	tmp = envlist;
-	while (tmp != NULL)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	envp = (char **)malloc((count + 1) * sizeof(char *));
-	tmp = envlist;
-	while (i < count)
-	{
-		envp[i++] = ft_strdup(tmp->line_env);
-		tmp = tmp->next;
-	}
-	envp[i] = NULL;
-	return (envp);
+		return (0);
 }
 
 static	char	**find_path_env(char **envp)
@@ -130,17 +62,17 @@ static	int	find_path(char **envp, char	*command, char**dest)
 	return (1);
 }
 
-int		ft_exec(t_var *var)
+int	ft_exec(t_var	*var)
 {
 	char	**args;
 	char	**envp;
-	char	*exec_path; //can change for var.inputline to norminette
-	
+	char	*exec_path;
+
 	args = set_params_to_array(var->tokens);
 	envp = envlist_to_array(var->envp);
-	if (!(ft_strncmp(var->tokens->token->content, "./", 2) 
-		&& ft_strncmp(var->tokens->token->content, "/", 1) 
-		&& ft_strncmp(var->tokens->token->content, "../", 3)))
+	if (!(ft_strncmp(var->tokens->token->content, "./", 2)
+			&& ft_strncmp(var->tokens->token->content, "/", 1)
+			&& ft_strncmp(var->tokens->token->content, "../", 3)))
 		exec_path = var->tokens->token->content;
 	else if (find_path(envp, var->tokens->token->content, &exec_path))
 	{
@@ -173,5 +105,5 @@ int		ft_exec(t_var *var)
 		free(exec_path);
 		exit(127);
 	}
-	return(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }

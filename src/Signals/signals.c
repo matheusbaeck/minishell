@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/14 14:59:46 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:12:20 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ms_heredoc_sig_handler(int sig)
 	unlink("./here_doc_tmp");
 	exit(1);
 }
-
 
 int	ms_signal(void)
 {

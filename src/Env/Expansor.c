@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 15:52:04 by smagniny          #+#    #+#             */
-/*   Updated: 2024/01/25 01:15:04 by math             ###   ########.fr       */
+/*   Updated: 2024/02/18 13:35:24 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static	void	add_char(char **res, int *index, char letter)
 	(*index)++;
 }
 
-static	void	add_expansion(t_var *var, char *string, char  **res, int *ref, int *i)
+static	void	add_expansion(t_var	*var, char	*string, char	**res, int *ref, int *i)
 {
 	char	*expanded;
 	char	*lookfor;
@@ -34,7 +34,6 @@ static	void	add_expansion(t_var *var, char *string, char  **res, int *ref, int *
 		end++;
 	lookfor = ft_substr(string, *i, end - *i);
 	expanded = expand(var->envp, lookfor);
-	//printf("[%s] found EXPANSING to ----> %s\n",lookfor , expanded);
 	*res = (char *)my_realloc((void *) *res, \
 		*ref, *ref + ft_strlen(expanded) + 1);
 	if (!res)
@@ -50,7 +49,7 @@ static	void	add_expansion(t_var *var, char *string, char  **res, int *ref, int *
 	(*i) = end;
 }
 
-static	void	add_expansion_exit_status(char  **res, int *ref, int *i)
+static	void	add_expansion_exit_status(char	**res, int *ref, int *i)
 {
 	char	*expanded;
 	int		j;
@@ -73,9 +72,9 @@ static	void	add_expansion_exit_status(char  **res, int *ref, int *i)
 
 static	void	start_values_normi(int *i, int *ref, char **res)
 {
-	*i = 0; // original string iterator
-	*ref = 0; // result string iterator
-	*res = NULL; // char * result
+	*i = 0;
+	*ref = 0;
+	*res = NULL;
 }
 
 //char * version instead of nodes. For integration in lexer.
@@ -92,7 +91,7 @@ void	expansor(t_var *var, char **string, int doublequoted)
 		{
 			if (ft_isalpha((*string)[i + 1]) == 0 && (*string)[i + 1] != '?')
 			{
-				if (doublequoted) //$ is printable
+				if (doublequoted)
 					add_char(&res, &ref, (*string)[i++]);
 				else
 					i++;

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 18:34:08 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/08 00:07:31 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 12:55:10 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_putnbr_fd(int nb, int fd)
 			ft_putchar_fd('-', fd);
 			ft_putchar_fd('2', fd);
 			nb = 147483648;
-		}	
+		}
 		if (nb < 0)
 		{
 			nb *= -1;

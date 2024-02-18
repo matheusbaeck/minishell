@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:53:11 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/14 15:39:07 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:36:02 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ char	*expand(t_env *env, char *dollar_str)
 		}
 		tmp = tmp->next;
 	}
-    //printear mensaje de error con que no ha encontrado la variable en las var de entorno
 	return (NULL);
 }
 
@@ -73,13 +72,11 @@ void	are_any_expansion(char **res, char **string, int ref)
 		close_string_expansion(res, ref);
 	if (*res == NULL || !(*res) || strcmp((*string), *res) == 0)
 	{
-		//printf("[%s] no hay expansión\n", (*string));
 		free(*res);
 		return ;
 	}
 	else
 	{
-		//printf("[%s] -->expansión--> [%s]\n", (*string), res);
 		free((*string));
 		(*string) = (*res);
 	}

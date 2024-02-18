@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/08 22:05:00 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:11:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	cd_safe(char *where)
 	}
 	waitpid(pid, &wstatus, 0);
 	if (WIFEXITED(wstatus))
-		return(WEXITSTATUS(wstatus));
+		return (WEXITSTATUS(wstatus));
 	else
 		printf("unkwonw error!\n");
 	return (-1);

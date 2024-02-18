@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lst_funcs_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:19:53 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/02 15:42:19 by math             ###   ########.fr       */
+/*   Updated: 2024/02/18 13:50:49 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-
-void	ft_freenode(t_node **node)
-{
-	t_node	*current;
-
-	current = *node;
-	if (current->token != NULL)
-		ft_lstclear_subnode(&current->token);
-	if (current->params != NULL)
-		ft_lstclear_subnode(&current->params);
-	if (current->redir != NULL)
-		ft_lstclear_subnode(&current->redir);
-	if (current->where_redir != NULL)
-		ft_lstclear_subnode(&current->where_redir);
-	free(current);
-}
 
 void	ft_lstdelone_node(t_node *node)
 {
@@ -57,10 +41,8 @@ void	ft_lstclear_node(t_node **lst)
 {
 	t_node	*current;
 
-
 	if (!lst || !*lst)
 		return ;
-
 	while (*lst)
 	{
 		current = *lst;

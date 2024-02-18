@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/13 11:54:55 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 13:11:09 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header.h"
-
 
 static int	is_flag(char *str)
 {
@@ -36,7 +35,7 @@ int	echo(t_node *tokens)
 	while (tokens->params)
 	{
 		printf("%s", tokens->params->content);
-		if(tokens->params->next)
+		if (tokens->params->next)
 			printf(" ");
 		subnode = tokens->params;
 		tokens->params = tokens->params->next;
@@ -46,5 +45,3 @@ int	echo(t_node *tokens)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }
-
-
