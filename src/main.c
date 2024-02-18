@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:05:38 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:33:26 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, const char **envp)
 		}
 		else if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
 		{
-			printNodes(&var.tokens);
+			printnodes(&var.tokens);
 			ft_lstclear_node(&var.tokens);
 			continue ;
 		}

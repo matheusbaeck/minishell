@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:56:36 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:07:04 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:35:22 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static	void	create_prompt(t_env *envp, char **string)
 	if (cur_path == NULL)
 		perror("Error al obtener el directorio actual");
 	get_dir(envp, &cur_path);
-	str = ft_strjoinfrees2("\033[1;32m", expand(var->envp, "LOGNAME"));
+	str = ft_strjoinfrees2("\033[1;32m", expand(envp, "LOGNAME"));
 	str = ft_strjoinfrees1(str, "@");
-	str = ft_strjoinfreee(str, expand(var->envp, "NAME"));
+	str = ft_strjoinfreee(str, expand(envp, "NAME"));
 	str = ft_strjoinfrees1(str, "\033[0m:\033[1;34m~");
 	str = ft_strjoinfreee(str, cur_path);
-	(*string) = ft_strjoinfrees1(str, "\033[0m$");
+	(*string) = ft_strjoinfrees1(str, "\033[0m$>");
 }
 
 char	*get_inputline(t_var *var)

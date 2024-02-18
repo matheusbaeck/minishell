@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 00:25:20 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:28:23 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:33:13 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static	void	printnode_norm(t_node	*node)
 static	void	printnode(t_node	*node)
 {
 	t_subnode	*params;
-	t_subnode	*redir;
-	t_subnode	*where_redir;
 
 	if (node == NULL)
 	{
