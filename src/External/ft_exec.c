@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 22:51:04 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:33:30 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,16 @@ static	char	**find_path_env(char **envp)
 {
 	int		i;
 	char	**tmp;
+	int		len;
 
+	len = 0;
+	while (envp[len] != NULL)
+		len++;
 	i = 0;
-	while (ft_strncmp("PATH=", envp[i], 5) != 0)
+	while (i < len && ft_strncmp("PATH=", envp[i], 5) != 0)
 		i++;
+	if (envp[i] == NULL || i >= len)
+		return (NULL);
 	tmp = ft_split(envp[i] + 5, ':');
 	return (tmp);
 }
@@ -46,7 +52,7 @@ static	int	find_path(char **envp, char	*command, char**dest)
 
 	path_envp = find_path_env(envp);
 	i = -1;
-	while (path_envp[++i] && command)
+	while (path_envp && path_envp[++i] && command)
 	{
 		temp = ft_strjoin(path_envp[i], "/");
 		*dest = ft_strjoin(temp, command);
@@ -74,9 +80,9 @@ int	ft_exec(t_var	*var)
 			&& ft_strncmp(var->tokens->token->content, "/", 1)
 			&& ft_strncmp(var->tokens->token->content, "../", 3)))
 		exec_path = var->tokens->token->content;
-	else if (find_path(envp, var->tokens->token->content, &exec_path))
+	if (envp && find_path(envp, var->tokens->token->content, &exec_path))
 	{
-		ft_putstr_fd("Minishell: command not found\n", 2);
+		ft_putstr_fd("Minishell: No such file or directory\n", 2);
 		exit (127);
 	}
 	if (execve(exec_path, args, envp) == -1)
