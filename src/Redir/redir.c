@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/07 23:23:26 by marvin           ###   ########.fr       */
+/*   Updated: 2024/02/19 12:37:24 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	ft_redir(char *file_name, char *mod)
 	int	fd;
 	int	new_fd;
 
+	fd = 0;
 	new_fd = 0;
 	if (!ft_strncmp(mod, "<<", 3))
 		fd = here_doc_task(file_name);
