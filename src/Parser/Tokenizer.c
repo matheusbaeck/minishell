@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 21:49:51 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:38:29 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,25 @@ static	void	add_mode_op(t_var *var, int *start, int *i, char *token_string)
 			ft_lstnew_subnode(token_string));
 }
 
-static	void	add_cmd_or_whredir_or_param(t_var *var, char	**prev_token_string, int *whredir)
+static	int	add_cmd_or_whredir_or_param(t_var *var, char	**str, int *whredir)
 {
-	if ((*prev_token_string) != NULL
-		&& *(*prev_token_string) != '\0' && *(*prev_token_string) != '|' && var->tokens)
+	if ((*str) != NULL
+		&& *(*str) != '\0' && *(*str) != '|' && var->tokens)
 	{
 		if (*whredir)
-			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode((*prev_token_string)));
+			return (ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode((*str))), 0);
 		else if (var->tokens->token == NULL)
-			ft_lstadd_back_subnode(&var->tokens->token, ft_lstnew_subnode((*prev_token_string)));
+			return (ft_lstadd_back_subnode(&var->tokens->token, ft_lstnew_subnode((*str))), 0);
 		else
-			ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode((*prev_token_string)));
+			return (ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode((*str))), 0);
 	}
+	if (*whredir && ((*str) == NULL || *(*str) == '\0'))
+	{
+		ft_putstr_fd("Minishell: Syntax error\n", 2);
+		g_status = SYNTAX_ERROR;
+		return (1);
+	}
+	return (1);
 }
 
 static	int	check_input_and_skip_spaces(t_var *var, int *start, int *i)

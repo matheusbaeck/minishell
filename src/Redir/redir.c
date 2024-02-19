@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/19 12:37:24 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:00:18 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	ft_redir(char *file_name, char *mod)
 		fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror("open");
+		perror("Minishell: open");
 		exit(1);
 	}
 	if (!(ft_strncmp(mod, ">>", 3) && ft_strncmp(mod, ">", 2)))

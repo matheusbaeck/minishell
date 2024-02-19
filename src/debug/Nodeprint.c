@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nodeprint.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 00:25:20 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 14:33:13 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:49:32 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static	void	printnode(t_node	*node)
 		printf("NULL\n");
 		return ;
 	}
-	printf("Token: %s\n", node->token->content);
+	if (node->token)
+		printf("Token: %s\n", node->token->content);
 	printf("Params: ");
 	params = node->params;
 	while (params != NULL)

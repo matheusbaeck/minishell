@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/18 22:06:59 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/19 16:42:04 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	cd(t_node *tokens)
 	char	*where;
 	int		status;
 
-	if (tokens->params && tokens->params->next)
-		return (ft_putstr_fd("Minishell: cd: too many arguments\n", 2), 1);
 	if (tokens->params == NULL)
 	{
 		where = getenv("HOME");
