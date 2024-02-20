@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:01:26 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 13:18:45 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 22:49:14 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,19 @@ static	void	print_env_line(char *name, char	*val, int *line, int *col)
 	}
 	printf("%s\n", res);
 	free(res);
-	line++;
-	col = 0;
+	(*line)++;
+	*col = 0;
 }
 
 static	void	print_export_values(char	**envp)
 {
 	int		line;
 	int		col;
-	char	*res;
 	char	*name;
 	char	*val;
 
 	line = 0;
 	col = 0;
-	res = NULL;
 	val = NULL;
 	while (envp[line])
 	{

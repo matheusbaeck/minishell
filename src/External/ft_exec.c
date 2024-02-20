@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/19 15:33:30 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 23:36:30 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	ft_exec(t_var	*var)
 	char	**envp;
 	char	*exec_path;
 
+	if (!var->tokens || !var->tokens->token)
+		exit(0);
 	args = set_params_to_array(var->tokens);
 	envp = envlist_to_array(var->envp);
 	if (!(ft_strncmp(var->tokens->token->content, "./", 2)

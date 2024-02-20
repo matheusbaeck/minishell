@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_quoteshandler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 17:23:00 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 23:23:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,9 @@ char	*getstr_dbq(t_var *var, int *i, int *start)
 	(*i)++;
 	while (*i <= var->len_inputline && ft_isascii(var->inputline[*i])
 		&& !isdoublequote(var->inputline[*i]))
-	{
-		if (*i == var->len_inputline)
-			return (ms_error("Syntax error",
-					"unexpected end of file", 2), NULL);
 		(*i)++;
-	}
+	if (*i >= var->len_inputline)
+		return (ms_error("Syntax error", "unexpected end of file", 2), NULL);
 	if (*start != *i && *start < *i)
 	{
 		token_string = ft_substr(var->inputline, *start, (*i - *start));
@@ -98,12 +95,9 @@ char	*getstr_sq(t_var *var, int *i, int *start)
 	(*i)++;
 	while (*i <= var->len_inputline && ft_isascii(var->inputline[*i])
 		&& !issinglequote(var->inputline[*i]))
-	{
-		if (*i == var->len_inputline)
-			return (ms_error("Syntax error",
-					"unexpected end of file", 2), NULL);
 		(*i)++;
-	}
+	if (*i >= var->len_inputline)
+		return (ms_error("Syntax error", "unexpected end of file", 2), NULL);
 	if (*start != *i && *start < *i)
 		token_string = ft_substr(var->inputline, *start, (*i - *start));
 	*start = ++(*i);

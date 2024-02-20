@@ -41,7 +41,7 @@ char	**set_params_to_array(t_node *node)
 	if (!args)
 		return (NULL);
 	i = 0;
-	if (node->token->content != NULL)
+	if (node->token && node->token->content != NULL)
 		args[i++] = ft_strdup(node->token->content);
 	tmp = (*node).params;
 	while (tmp)
@@ -69,7 +69,10 @@ char	**envlist_to_array(t_env *envlist)
 		count++;
 		tmp = tmp->next;
 	}
-	envp = (char **)malloc((count + 1) * sizeof(char *));
+	if (count > 0)
+		envp = (char **)malloc((count + 1) * sizeof(char *));
+	if (!envp)
+		return (NULL);
 	tmp = envlist;
 	while (i < count)
 	{
@@ -79,3 +82,4 @@ char	**envlist_to_array(t_env *envlist)
 	envp[i] = NULL;
 	return (envp);
 }
+
