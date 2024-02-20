@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_funcs_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:19:53 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:50:49 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:36:36 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@ void	ft_lstdelone_node(t_node *node)
 	if (node->where_redir != NULL)
 		ft_lstclear_subnode(&node->where_redir);
 	free(node);
-}
-
-t_node	*ft_lstdelone_node_getnext(t_node *node)
-{
-	t_node	*current;
-
-	if (!node)
-		return (NULL);
-	current = node;
-	node = node->next;
-	ft_lstdelone_node(current);
-	return (node);
 }
 
 void	ft_lstclear_node(t_node **lst)

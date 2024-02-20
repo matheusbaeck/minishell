@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 18:53:11 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:36:02 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:45:04 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,11 @@ void	are_any_expansion(char **res, char **string, int ref)
 		free((*string));
 		(*string) = (*res);
 	}
+}
+
+void	start_values_normi(int *i, int *ref, char **res)
+{
+	*i = 0;
+	*ref = 0;
+	*res = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_quoteshandler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/08 21:57:01 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:23:00 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_word(t_var *var, int *i, int *start)
 	return (str);
 }
 
-char	*get_str_doublequoted(t_var *var, int *i, int *start)
+char	*getstr_dbq(t_var *var, int *i, int *start)
 {
 	char	*token_string;
 
@@ -75,12 +75,8 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 		&& !isdoublequote(var->inputline[*i]))
 	{
 		if (*i == var->len_inputline)
-		{
-			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `\"`\n", 2);
-			ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
-			g_status = QUOTE_ERROR;
-			return (NULL);
-		}
+			return (ms_error("Syntax error",
+					"unexpected end of file", 2), NULL);
 		(*i)++;
 	}
 	if (*start != *i && *start < *i)
@@ -93,7 +89,7 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 	return (token_string);
 }
 
-char	*get_str_singlequoted(t_var *var, int *i, int *start)
+char	*getstr_sq(t_var *var, int *i, int *start)
 {
 	char	*token_string;
 
@@ -104,12 +100,8 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start)
 		&& !issinglequote(var->inputline[*i]))
 	{
 		if (*i == var->len_inputline)
-		{
-			ft_putstr_fd("Minishell: unexpected EOF while looking for matching `\"`\n", 2);
-			ft_putstr_fd("Minishell: syntax error: unexpected end of file\n", 2);
-			g_status = QUOTE_ERROR;
-			return (NULL);
-		}
+			return (ms_error("Syntax error",
+					"unexpected end of file", 2), NULL);
 		(*i)++;
 	}
 	if (*start != *i && *start < *i)

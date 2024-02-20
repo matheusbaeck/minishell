@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/19 16:42:04 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:33:06 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,8 @@ static int	cd_safe(char *where)
 		if (chdir(where) == -1)
 		{
 			if (where[0] == '-')
-			{
-				ft_putstr_fd("Minishell: cd: no options can be handled.\n", 2);
-				exit (1);
-			}
-			perror("chdir");
+				exit(ms_error("cd", "-l: invalid option", 1));
+			perror("Minishell: cd");
 			exit(1);
 		}
 		exit (0);

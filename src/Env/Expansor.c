@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 15:52:04 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:35:24 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:45:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,27 @@ static	void	add_char(char **res, int *index, char letter)
 	(*index)++;
 }
 
-static	void	add_expansion(t_var	*var, char	*string, char	**res, int *ref, int *i)
+static	char	*expd(t_env *envp, char *string, int *i)
 {
 	char	*expanded;
 	char	*lookfor;
-	int		j;
 	int		end;
 
-	j = 0;
 	end = ++(*i);
 	while (ft_isalpha(string[end]))
 		end++;
 	lookfor = ft_substr(string, *i, end - *i);
-	expanded = expand(var->envp, lookfor);
+	expanded = expand(envp, lookfor);
+	free(lookfor);
+	(*i) = end;
+	return (expanded);
+}
+
+static	void	add_expansion(char	*expanded, char	**res, int *ref)
+{
+	int		j;
+
+	j = 0;
 	*res = (char *)my_realloc((void *) *res, \
 		*ref, *ref + ft_strlen(expanded) + 1);
 	if (!res)
@@ -45,8 +53,6 @@ static	void	add_expansion(t_var	*var, char	*string, char	**res, int *ref, int *i
 	}
 	(*ref) += ft_strlen(expanded);
 	free(expanded);
-	free(lookfor);
-	(*i) = end;
 }
 
 static	void	add_expansion_exit_status(char	**res, int *ref, int *i)
@@ -68,13 +74,6 @@ static	void	add_expansion_exit_status(char	**res, int *ref, int *i)
 	(*ref) += ft_strlen(expanded);
 	(*i) += 2;
 	free(expanded);
-}
-
-static	void	start_values_normi(int *i, int *ref, char **res)
-{
-	*i = 0;
-	*ref = 0;
-	*res = NULL;
 }
 
 //char * version instead of nodes. For integration in lexer.
@@ -99,7 +98,7 @@ void	expansor(t_var *var, char **string, int doublequoted)
 			else if ((*string)[i + 1] == '?')
 				add_expansion_exit_status(&res, &ref, &i);
 			else
-				add_expansion(var, (*string), &res, &ref, &i);
+				add_expansion(expd(var->envp, *string, &i), &res, &ref);
 		}
 		else
 			add_char(&res, &ref, (*string)[i++]);

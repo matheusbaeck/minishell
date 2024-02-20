@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 12:27:26 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:51:46 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	g_status = 0;
 
-static	void	init_ms(t_var	*var, const char	**envp)
+static	void	init_ms(t_var	*var, const char	**envp, int ac, char **av)
 {
+	(void) av;
+	(void) ac;
 	var->envp = NULL;
 	var->inputline = NULL;
 	cpy_env(&var->envp, envp);
@@ -37,7 +39,7 @@ int	main(int argc, char **argv, const char **envp)
 	t_var	var;
 	int		last_status;
 
-	init_ms(&var, envp);
+	init_ms(&var, envp, argc, argv);
 	while (get_inputline(&var))
 	{
 		init_values(&var);

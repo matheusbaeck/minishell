@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:49:00 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:47:52 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ static int	get_pipes(t_var *var, t_list **list)
 	return (0);
 }
 
+static	int	tokenize_cmd(t_var *var, int *start, t_list	*list)
+{
+	*start = 0;
+	while (*start < var->len_inputline)
+	{
+		*start = gnt_startpoint(var, *start);
+		if (*start == -1)
+			return (ft_lstclear(&list, free), g_status);
+	}
+	return (0);
+}
+
 int	lexer(t_var *var)
 {
 	int			start;
@@ -35,11 +47,7 @@ int	lexer(t_var *var)
 	t_list		*current;
 
 	if (get_pipes(var, &list) == -1)
-	{
-		ft_putstr_fd("Minishell: Syntax error: ", 2);
-		ft_putstr_fd("`|` unexpected\n", 2);
-		return (g_status = SYNTAX_ERROR, 2);
-	}
+		return (ms_error("Syntax error", "`|` unexpected", 2));
 	first_node = NULL;
 	current = list;
 	while (current)
@@ -47,13 +55,8 @@ int	lexer(t_var *var)
 		var->inputline = ((char *)current->content);
 		var->len_inputline = ft_strlen(var->inputline);
 		var->tokens = ft_lstnew_node();
-		start = 0;
-		while (start < var->len_inputline)
-		{
-			start = gnt_startpoint(var, start);
-			if (start == -1)
-				return (ft_lstclear(&list, free), g_status);
-		}
+		if (tokenize_cmd(var, &start, current))
+			return (g_status);
 		if (list == current)
 			first_node = var->tokens;
 		else

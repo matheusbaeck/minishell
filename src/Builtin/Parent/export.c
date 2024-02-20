@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/20 13:17:36 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:40:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	update_var(int flag, char **line_env, char *name)
 	}
 }
 
-static int	retrieve_name(char *expr)
+static char	*retrieve_name(char *expr)
 {
 	int	i;
 

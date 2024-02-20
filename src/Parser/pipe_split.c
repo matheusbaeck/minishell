@@ -3,65 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 13:52:09 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 14:05:34 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 17:13:32 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-
-static int	is_operator_or(char *line)
-{
-	if (line[0] == '|' && line[1] == '|')
-		return (2);
-	return (0);
-}
-
-static int	is_operator_and(char *line)
-{
-	if (line[0] == '&' && line[1] == '&')
-		return (2);
-	return (0);
-}
-
-static int	is_operator_pipe(char *line)
-{
-	if (line[0] == '|' && !is_operator_or(line))
-		return (1);
-	return (0);
-}
-
-static int	is_operator_bkgexec(char *line)
-{
-	if (line[0] == '&' && !is_operator_and(line))
-		return (1);
-	return (0);
-}
-
-static int	is_operator_semicolon(char *line)
-{
-	if (line[0] == ';')
-		return (1);
-	return (line[0] == ';');
-}
-
-static int	is_operator_grouping(char *line)
-{
-	if (line[0] == '(' || line[0] == ')' || line[0] == '{' || line[0] == '}')
-		return (1);
-	return (0);
-}
-
-int	is_cut_point(char *line)
-{
-	if (is_operator_and(line) || is_operator_or(line)
-		|| is_operator_bkgexec(line) || is_operator_semicolon(line)
-		|| is_operator_semicolon(line) || is_operator_grouping(line))
-		return (-1);
-	return (is_operator_pipe(line));
-}
 
 static char	*str_cut(char **s1, int start, int skip)
 {
@@ -106,36 +55,43 @@ static int	jumper(const char	*line, char open, char close)
 	return (i);
 }
 
+static	int	jump_content(int *i, t_list	*cur, int *ret, int (*fptr)(char *))
+{
+	*i += jumper(&(((char *)cur->content)[*i]), '\'', '\'');
+	if (!((char *)cur->content)[*i])
+		return (-1);
+	*i += jumper(&(((char *)cur->content)[*i]), '\"', '\"');
+	if (!((char *)cur->content)[*i])
+		return (-1);
+	*ret = fptr(&(((char *)cur->content)[*i]));
+	return (*ret);
+}
+
 int	pipe_split(t_list **node, int (*fptr)(char *))
 {
-	t_list	*current;
+	t_list	*cur;
 	int		i;
 	int		ret;
 
-	current = *node;
-	while (current)
+	cur = *node;
+	while (cur)
 	{
 		i = -1;
-		while (((char *)current->content)[++i])
+		while (((char *)cur->content)[++i])
 		{
-			i += jumper(&(((char *)current->content)[i]), '\'', '\'');
-			if (!((char *)current->content)[i])
-				return (0);
-			i += jumper(&(((char *)current->content)[i]), '\"', '\"');
-			if (!((char *)current->content)[i])
-				return (0);
-			ret = fptr(&(((char *)current->content)[i]));
+			jump_content(&i, cur, &ret, fptr);
 			if (ret > 0)
 			{
-				ft_lstadd_back(node, ft_lstnew((void *)str_cut((char **)(&current->content), i, 1)));
-				if (current->next->content == NULL)
-					return (free(current->next), current->next = NULL, -1);
+				ft_lstadd_back(node,
+					ft_lstnew((void *)str_cut((char **)(&cur->content), i, 1)));
+				if (cur->next->content == NULL)
+					return (free(cur->next), cur->next = NULL, -1);
 				break ;
 			}
 			else if (ret < 0)
 				return (-1);
 		}
-		current = current->next;
+		cur = cur->next;
 	}
 	return (0);
 }

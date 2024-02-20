@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 13:03:04 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:50:26 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,11 @@ int			isingle_operator(char *line, int i);
 int			isdouble_operator(char *line, int i);
 int			issinglequote(int c);
 int			isdoublequote(int c);
+int			is_operator_grouping(char *line);
+int			is_operator_semicolon(char *line);
 char		*ft_strjoinfreee(char *s1, char *s2);
-char		*get_str_doublequoted(t_var *var, int *i, int *start);
-char		*get_str_singlequoted(t_var *var, int *i, int *start);
+char		*getstr_dbq(t_var *var, int *i, int *start);
+char		*getstr_sq(t_var *var, int *i, int *start);
 char		*get_word(t_var *var, int *i, int *start);
 // <---------------------------------->
 // 			###### get input ######
@@ -117,6 +119,7 @@ void		expansor(t_var *var, char **string, int doublequoted);
 char		*expand(t_env *env, char *dollar_str);
 void		*my_realloc(void *ptr, size_t originalLength, size_t newLength);
 void		are_any_expansion(char **res, char **string, int ref);
+void		start_values_normi(int *i, int *ref, char **res);
 // <---------------------------------->
 // 			######list node functions ######
 void		ft_lstdelone_subnode(t_subnode *lst);
@@ -177,4 +180,6 @@ int			ms_signal(void);
 void		ms_signal_handler(int sig);
 void		ms_heredoc_sig_handler(int sig);
 int			ms_get_capabilities(void);
+
+int			ms_error(char *type_err, char *err_context, int code_err);
 #endif
