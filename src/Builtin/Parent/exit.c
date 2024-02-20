@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/18 13:17:24 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:49:20 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,27 @@ static int	ft_atoi_safe(const char *str, int *nb)
 	return (0);
 }
 
+static int	check_multi_params(t_subnode *params_next)
+{
+	if (params_next)
+		return (ft_putstr_fd("Minishell: exit: too many arguments\n", 2), 1);
+}
+
+static	int	exit_error(t_subnode *params_content, int exit_val)
+{
+	if (is_number(params_content))
+		ft_putstr_fd("Minishell: exit: numeric argument required\n", 2);
+	else
+	{
+		ft_putstr_fd("Minishell: exit: Illegal number:", 2);
+		ft_putstr_fd(params_content, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	if (exit_val < 0)
+		return (exit_val % 256);
+	return (2);
+}
+
 int	is_number(char *str)
 {
 	int	i;
@@ -66,19 +87,12 @@ int	exit_minishell(t_var *var)
 		exit_val = 0;
 		if (var->tokens->params)
 		{
-			if (var->tokens->params->next)
-				return (ft_putstr_fd("Minishell: exit: too many arguments\n", 2), 1);
-			if (!is_number(var->tokens->params->content)
+			if (check_multi_params(var->tokens->params->next))
+				return (1);
+			if (is_number(var->tokens->params->content)
 				|| ft_atoi_safe(var->tokens->params->content, &exit_val)
-				|| exit_val == -100)
-			{
-				ft_putstr_fd("Minishell: exit: Illegal number: ", 2);
-				ft_putstr_fd(var->tokens->params->content, 2);
-				ft_putstr_fd("\n", 2);
-				if (exit_val == -100)
-					return (156);
-				return (2);
-			}
+				|| exit_val < 0)
+				return (exit_error(var->tokens->params->content, exit_val));
 		}
 		if (var->tokens->next)
 			return (0);

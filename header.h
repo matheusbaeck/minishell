@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 13:41:33 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:03:04 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void		ft_addback_node_env(t_env **lst, t_env *new);
 char		**envlist_to_array(t_env *envlist);
 char		**set_params_to_array(t_node *node);
 void		updt_shlvl(t_env **envp);
+int			show_values_alpha(t_var *var);
 // <----------------------------------->
 //			###### redir funcs ######
 int			handle_redirection(t_var *var);

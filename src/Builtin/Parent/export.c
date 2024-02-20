@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/18 13:21:21 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 13:17:36 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header.h"
-
-/* static	int	error_identifier(char *identifier)
-{
-	ft_putstr_fd("Minishell: export: ", STDERR_FILENO);
-	ft_putstr_fd(identifier, STDERR_FILENO);
-	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
-	return (1);
-}
- */
 
 //la funcion comprueba que el name de la variable sea alphanum o lowercase. 
 static	int	isvalid_namevar(char *name)
@@ -50,34 +41,46 @@ static	int	isvalid_namevar(char *name)
 	return (0);
 }
 
+static int	update_var(int flag, char **line_env, char *name)
+{
+	if (!flag)
+	{
+		if (*line_env)
+			free(*line_env);
+		*line_env = ft_strjoinfreee(name, \
+			ft_strjoin("=", ft_strchr(name, '=') + 1));
+		return (0);
+	}
+	else
+	{
+		free(name);
+		return (1);
+	}
+}
+
+static int	retrieve_name(char *expr)
+{
+	int	i;
+
+	i = 0;
+	while (expr[i] != '\0' && expr[i] != '=')
+		i++;
+	return (ft_substr(expr, 0, i));
+}
+
 static	int	append_to_env(t_var *var, char **expr, int flag)
 {
 	char	*name;
 	int		exist_already;
 	t_env	*tmp_node;
 
-	exist_already = 0;
-	while ((*expr)[exist_already] != '\0' && (*expr)[exist_already] != '=')
-		exist_already++;
-	name = ft_substr((*expr), 0, exist_already);
+	name = retrieve_name((*expr));
 	exist_already = 0;
 	tmp_node = var->envp;
 	while (tmp_node)
 	{
 		if (ft_strncmp(tmp_node->line_env, name, ft_strlen(name)) == 0)
-		{
-			if (!flag)
-			{
-				if (tmp_node->line_env)
-					free(tmp_node->line_env);
-				tmp_node->line_env = ft_strjoinfreee(name, \
-					ft_strjoin("=", ft_strchr(*expr, '=') + 1));
-				return (0);
-			}
-			exist_already = 1;
-			if (flag)
-				free(name);
-		}
+			exist_already = update_var(flag, &tmp_node->line_env, name);
 		tmp_node = tmp_node->next;
 	}
 	if (exist_already)
@@ -88,70 +91,6 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 	return (0);
 }
 
-static	void	print_export_values(char	**envp)
-{
-	int		line;
-	int		col;
-	char	*res;
-	char	*name;
-	char	*val;
-
-	line = 0;
-	col = 0;
-	res = NULL;
-	val = NULL;
-	while (envp[line])
-	{
-		while (envp[line][col] != '\0' && envp[line][col] != '=')
-			col++;
-		name = ft_substr(envp[line], 0, col);
-		val = ft_substr(envp[line], col + 1, ft_strlen(envp[line]) - col + 1);
-		if (!val || !*val)
-		{
-			free(val);
-			res = name;
-		}
-		else
-			res = ft_strjoinfreee(name, ft_strjoinfrees2("=", ft_strjoinfrees2("\"\0", ft_strjoinfrees1(val, "\"\0"))));
-		printf("%s\n", res);
-		free(res);
-		line++;
-		col = 0;
-	}
-}
-
-static	int	show_values_alpha(t_var *var)
-{
-	char	**envp;
-	char	*tmp;
-	int		i;
-	int		j;
-
-	i = 0;
-	envp = envlist_to_array(var->envp);
-	while (envp[i])
-	{
-		j = 0;
-		while (envp[j])
-		{
-			if (ft_strncmp(envp[i], envp[j], ft_strlen(envp[i])) < 0)
-			{
-				tmp = envp[i];
-				envp[i] = envp[j];
-				envp[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	print_export_values(envp);
-	doublefree(envp);
-	return (0);
-}
-
-// /* 
-// export [name[=value]]
-// */
 int	export(t_var *var)
 {
 	t_subnode	*tmp;

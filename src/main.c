@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 14:33:26 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:27:26 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ int	main(int argc, char **argv, const char **envp)
 		init_values(&var);
 		if (lexer(&var))
 		{
-			ft_lstclear_node(&var.tokens);
-			continue ;
-		}
-		else if (argc > 1 && !ft_strncmp(argv[1], "print", 6))
-		{
-			printnodes(&var.tokens);
 			ft_lstclear_node(&var.tokens);
 			continue ;
 		}
