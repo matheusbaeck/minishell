@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   process_handler.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 23:26:12 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/07 23:30:00 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:23:45 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-
-extern int	g_status;
 
 static int	pipe_swap(int **fd_dst, int **fd_src)
 {

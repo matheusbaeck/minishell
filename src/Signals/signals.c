@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/18 22:55:38 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:23:55 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-
-extern int	g_status;
 
 void	signal_handler(int sig)
 {
