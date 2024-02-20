@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/20 17:01:28 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/20 18:31:13 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static	int	is_number(char *str)
 {
 	int	i;
 
-	i = -1;
-	if (str[0] == '+' || str[0] == '-')
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
 		++i;
-	while (str[++i])
+	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
 			return (1);
@@ -67,15 +67,18 @@ static	int	is_number(char *str)
 static	int	exit_error(t_subnode *params, int exit_val)
 {
 	if (is_number(params->content))
-		ft_putstr_fd("Minishell: exit: numeric argument required\n", 2);
-	else
 	{
-		ft_putstr_fd("Minishell: exit: Illegal number:", 2);
-		ft_putstr_fd(params->content, 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("Minishell: exit: numeric argument required\n", 2);
+		return (255);
 	}
+	// else if ()
+	// {
+	// 	ft_putstr_fd("Minishell: exit: Illegal number: ", 2);
+	// 	ft_putstr_fd(params->content, 2);
+	// 	ft_putstr_fd("\n", 2);
+	// }
 	if (exit_val < 0)
-		return (exit_val % 256);
+		return (((exit_val % 256) + 256) % 256);
 	return (2);
 }
 
@@ -93,7 +96,7 @@ int	exit_minishell(t_var *var)
 			if (is_number(var->tokens->params->content)
 				|| ft_atoi_safe(var->tokens->params->content, &exit_val)
 				|| exit_val < 0)
-				return (exit_error(var->tokens->params, exit_val));
+				exit(exit_error(var->tokens->params, exit_val));
 		}
 		if (var->tokens->next)
 			return (0);
