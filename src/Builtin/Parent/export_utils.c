@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 13:01:26 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 22:49:14 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:00:25 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,19 @@ int	show_values_alpha(t_var *var)
 	print_export_values(envp);
 	doublefree(envp);
 	return (0);
+}
+
+char	*retrieve_value(char *expr)
+{
+	int	i;
+	int	len;
+
+	len = ft_strlen(expr);
+	i = 0;
+	while (expr[i] != '\0' && expr[i] != '=')
+		i++;
+	if (i >= len)
+		return (NULL);
+	else
+		return (ft_substr(expr, i, ft_strlen(expr)));
 }

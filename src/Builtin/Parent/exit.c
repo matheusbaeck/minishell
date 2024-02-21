@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 01:44:45 by math              #+#    #+#             */
-/*   Updated: 2024/02/20 18:31:13 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:58:05 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,6 @@ static	int	exit_error(t_subnode *params, int exit_val)
 		ft_putstr_fd("Minishell: exit: numeric argument required\n", 2);
 		return (255);
 	}
-	// else if ()
-	// {
-	// 	ft_putstr_fd("Minishell: exit: Illegal number: ", 2);
-	// 	ft_putstr_fd(params->content, 2);
-	// 	ft_putstr_fd("\n", 2);
-	// }
 	if (exit_val < 0)
 		return (((exit_val % 256) + 256) % 256);
 	return (2);

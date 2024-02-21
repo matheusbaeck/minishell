@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/21 16:37:30 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:00:09 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,6 @@ static char	*retrieve_name(char *expr)
 	while (expr[i] != '\0' && expr[i] != '=')
 		i++;
 	return (ft_substr(expr, 0, i));
-}
-
-static	char	*retrieve_value(char *expr)
-{
-	int	i;
-	int	len;
-
-	len = ft_strlen(expr);
-	i = 0;
-	while (expr[i] != '\0' && expr[i] != '=')
-		i++;
-	if (i >= len)
-		return (NULL);
-	else
-		return (ft_substr(expr, i, ft_strlen(expr)));
 }
 
 static	int	append_to_env(t_var *var, char **expr, int flag)

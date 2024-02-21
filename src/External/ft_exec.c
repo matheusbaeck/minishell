@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/21 16:46:11 by math             ###   ########.fr       */
+/*   Updated: 2024/02/21 17:12:40 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ static	int	find_path(char **envp, char	*command, char**dest)
 	return (1);
 }
 
-static int if_exec_fail(char *exec_path)
+static int	if_exec_fail(char *exec_path, char ***envp, char	***args)
 {
+	doublefree(*envp);
+	doublefree(*args);
 	dprintf(2, "is file or dir:%i\n", is_file_or_directory(exec_path));
 	if (is_file_or_directory(exec_path) == 2)
 		return (ft_putstr_fd("Minishell: Is a directory\n", 2), 126);
@@ -114,11 +116,9 @@ int	ft_exec(t_var	*var)
 	}
 	if (execve(exec_path, args, envp) == -1)
 	{
-		doublefree(envp);
-		doublefree(args);
-		exit_value = if_exec_fail(exec_path);
+		exit_value = if_exec_fail(exec_path, &envp, &args);
 		free(exec_path);
-		return (exit_value);
+		exit (exit_value);
 	}
 	exit (EXIT_FAILURE);
 }

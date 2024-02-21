@@ -54,6 +54,21 @@ char	**set_params_to_array(t_node *node)
 	return (args);
 }
 
+static	int	count_list(t_env *envlist)
+{
+	t_env	*tmp;
+	int		count;
+
+	count = 0;
+	tmp = envlist;
+	while (tmp != NULL)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	return (count);
+}
+
 char	**envlist_to_array(t_env *envlist)
 {
 	char	**envp;
@@ -65,11 +80,7 @@ char	**envlist_to_array(t_env *envlist)
 	count = 0;
 	envp = NULL;
 	tmp = envlist;
-	while (tmp != NULL)
-	{
-		count++;
-		tmp = tmp->next;
-	}
+	count = count_list(envlist);
 	if (count > 0)
 	{
 		envp = (char **)malloc((count + 1) * sizeof(char *));

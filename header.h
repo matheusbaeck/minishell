@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 16:50:26 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:01:06 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ int			run_builtin_parent(t_var *var, int *last_status);
 int			exit_minishell(t_var *var);
 int			unset(t_var *var);
 int			export(t_var *var);
+char		*retrieve_value(char *expr);
 int			cd(t_node *tokens);
 int			clear(t_var *var);
 int			run_builtin_child(t_var *var, int *last_status);
