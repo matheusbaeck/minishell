@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/21 15:32:19 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:46:11 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,36 @@ static	int	find_path(char **envp, char	*command, char**dest)
 	return (1);
 }
 
+static int if_exec_fail(char *exec_path)
+{
+	dprintf(2, "is file or dir:%i\n", is_file_or_directory(exec_path));
+	if (is_file_or_directory(exec_path) == 2)
+		return (ft_putstr_fd("Minishell: Is a directory\n", 2), 126);
+	else if (is_file_or_directory(exec_path) == 0)
+	{
+		if (access(exec_path, X_OK) == -1)
+			return (ft_putstr_fd("Minishell: Permission denied\n", 2), 126);
+		ft_putstr_fd("Minishell: command not found\n", 2);
+		return (127);
+	}
+	else
+	{
+		if (is_file_or_directory(exec_path) == 1)
+		{
+			if (access(exec_path, X_OK) == -1)
+				return (ft_putstr_fd("Minishell: Permission denied\n", 2), 126);
+		}
+	}
+	ft_putstr_fd("Minishell: No such file or directory\n", 2);
+	return (127);
+}
+
 int	ft_exec(t_var	*var)
 {
 	char	**args;
 	char	**envp;
 	char	*exec_path;
+	int		exit_value;
 
 	if (!var->tokens || !var->tokens->token)
 		exit(0);
@@ -84,47 +109,16 @@ int	ft_exec(t_var	*var)
 		exec_path = var->tokens->token->content;
 	else if (envp && find_path(envp, var->tokens->token->content, &exec_path))
 	{
-		ft_putstr_fd("Minishell: No such filee or directory\n", 2);
+		ft_putstr_fd("Command not found\n", 2);
 		exit (127);
 	}
 	if (execve(exec_path, args, envp) == -1)
 	{
 		doublefree(envp);
 		doublefree(args);
-		if (is_file_or_directory(exec_path) == 2)
-		{
-			ft_putstr_fd("Minishell: Is a directory\n", 2);
-			free(exec_path);
-			exit (126);
-		}
-		else if (is_file_or_directory(exec_path) == 0)
-		{
-			if (access(exec_path, X_OK) == -1)
-			{
-				ft_putstr_fd("Minishell: Permission denied\n", 2);
-				free(exec_path);
-				exit (126);
-			}
-			ft_putstr_fd("Minishell: command not found\n", 2);
-			free(exec_path);
-			exit (127);
-		}
-		else
-		{
-			if (is_file_or_directory(exec_path) == 1)
-			{
-				if (access(exec_path, X_OK) == -1)
-				{
-					ft_putstr_fd("Minishell: Permission denied\n", 2);
-					free(exec_path);
-					exit (126);
-				}
-				exit(0);
-			}
-		}
-		ft_putstr_fd("Minishell: No such file or directory\n", 2);
+		exit_value = if_exec_fail(exec_path);
 		free(exec_path);
-		exit(127);
+		return (exit_value);
 	}
-	return (EXIT_FAILURE);
+	exit (EXIT_FAILURE);
 }

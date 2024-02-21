@@ -6,13 +6,13 @@
 #    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2024/02/02 19:17:03 by math             ###   ########.fr        #
+#    Updated: 2024/02/21 15:15:33 by math             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMP
 NAME = minishell
-CC = gcc -Wall -Werror -Wextra #-fsanitize=address -g3
+CC = gcc -fsanitize=address #-Wall -Werror -Wextra #-fsanitize=address -g3
 SRC_DIR = ./src
 OBJ_DIR = .obj
 RL = /Users/${USER}/.brew/opt/readline/
