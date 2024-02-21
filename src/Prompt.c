@@ -6,13 +6,12 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:56:36 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/19 15:03:21 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:37:02 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-//(===||[:::::::::::::::>
 static	void	get_dir(t_env *envp, char **pwd)
 {
 	char	*tmp;
@@ -28,30 +27,30 @@ static	void	get_dir(t_env *envp, char **pwd)
 	(*pwd) = tmp;
 }
 
-static	void	create_prompt(t_env *envp, char **string)
-{
-	char	*cur_path;
-	char	*str;
+// static	void	create_prompt(t_env *envp, char **string)
+// {
+// 	char	*cur_path;
+// 	char	*str;
 
-	cur_path = getcwd(NULL, 0);
-	if (cur_path == NULL)
-		perror("Error al obtener el directorio actual");
-	get_dir(envp, &cur_path);
-	str = ft_strjoinfrees1(expand(envp, "LOGNAME"), "@");
-	str = ft_strjoinfreee(str, expand(envp, "NAME"));
-	str = ft_strjoinfrees1(str, ":");
-	str = ft_strjoinfreee(str, cur_path);
-	(*string) = ft_strjoinfrees1(str, "$ ");
-}
+// 	cur_path = getcwd(NULL, 0);
+// 	if (cur_path == NULL)
+// 		str = "Minishell$ ";
+// 	//get_dir(envp, &cur_path);
+// 	// str = ft_strjoinfrees1(expand(envp, "LOGNAME"), "@");
+// 	// str = ft_strjoinfreee(str, expand(envp, "NAME"));
+// 	// str = ft_strjoinfrees1(str, ":");
+// 	// str = ft_strjoinfreee(str, cur_path);
+// 	//(*string) = ft_strjoinfrees1(str, "$ ");
+// 	(*string) = "minishell$ ";
+// }
 
 char	*get_inputline(t_var *var)
 {
 	char			*str;
 	char			*prompt;
 
-	create_prompt(var->envp, &prompt);
-	str = readline(prompt);
-	free(prompt);
+	//create_prompt(var->envp, &prompt);
+	str = readline("Minishell$ ");
 	if (!str || str == NULL)
 	{
 		ft_printf("exit\n");
