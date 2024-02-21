@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/20 16:40:11 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:37:30 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,21 @@ static	int	isvalid_namevar(char *name)
 	return (0);
 }
 
-static int	update_var(int flag, char **line_env, char *name)
+static int	update_var(int flag, char **line_env, char *name, char *val)
 {
 	if (!flag)
 	{
+		if (!val)
+			return (-1);
 		if (*line_env)
 			free(*line_env);
-		*line_env = ft_strjoinfreee(name, \
-			ft_strjoin("=", ft_strchr(name, '=') + 1));
-		return (0);
+		*line_env = ft_strjoinfreee(name, val);
+		return (1);
 	}
 	else
 	{
 		free(name);
-		return (1);
+		return (0);
 	}
 }
 
@@ -68,26 +69,41 @@ static char	*retrieve_name(char *expr)
 	return (ft_substr(expr, 0, i));
 }
 
+static	char	*retrieve_value(char *expr)
+{
+	int	i;
+	int	len;
+
+	len = ft_strlen(expr);
+	i = 0;
+	while (expr[i] != '\0' && expr[i] != '=')
+		i++;
+	if (i >= len)
+		return (NULL);
+	else
+		return (ft_substr(expr, i, ft_strlen(expr)));
+}
+
 static	int	append_to_env(t_var *var, char **expr, int flag)
 {
 	char	*name;
+	char	*val;
 	int		exist_already;
 	t_env	*tmp_node;
 
 	name = retrieve_name((*expr));
+	val = retrieve_value(*expr);
 	exist_already = 0;
 	tmp_node = var->envp;
 	while (tmp_node)
 	{
 		if (ft_strncmp(tmp_node->line_env, name, ft_strlen(name)) == 0)
-			exist_already = update_var(flag, &tmp_node->line_env, name);
+			exist_already = update_var(flag, &tmp_node->line_env, name, val);
 		tmp_node = tmp_node->next;
 	}
 	if (exist_already)
 		return (0);
 	ft_addback_node_env(&var->envp, new_node_env((*expr), flag));
-	if (exist_already == 0)
-		free(name);
 	return (0);
 }
 

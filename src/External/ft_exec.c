@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 23:36:30 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:32:19 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ int	ft_exec(t_var	*var)
 			&& ft_strncmp(var->tokens->token->content, "/", 1)
 			&& ft_strncmp(var->tokens->token->content, "../", 3)))
 		exec_path = var->tokens->token->content;
-	if (envp && find_path(envp, var->tokens->token->content, &exec_path))
+	else if (envp && find_path(envp, var->tokens->token->content, &exec_path))
 	{
-		ft_putstr_fd("Minishell: No such file or directory\n", 2);
+		ft_putstr_fd("Minishell: No such filee or directory\n", 2);
 		exit (127);
 	}
 	if (execve(exec_path, args, envp) == -1)

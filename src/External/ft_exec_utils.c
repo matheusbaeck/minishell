@@ -63,6 +63,7 @@ char	**envlist_to_array(t_env *envlist)
 
 	i = 0;
 	count = 0;
+	envp = NULL;
 	tmp = envlist;
 	while (tmp != NULL)
 	{
@@ -70,9 +71,11 @@ char	**envlist_to_array(t_env *envlist)
 		tmp = tmp->next;
 	}
 	if (count > 0)
+	{
 		envp = (char **)malloc((count + 1) * sizeof(char *));
-	if (!envp)
-		return (NULL);
+		if (!envp)
+			return (NULL);
+	}
 	tmp = envlist;
 	while (i < count)
 	{
@@ -82,4 +85,3 @@ char	**envlist_to_array(t_env *envlist)
 	envp[i] = NULL;
 	return (envp);
 }
-
