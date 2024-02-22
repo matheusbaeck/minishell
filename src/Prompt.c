@@ -3,53 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   Prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:56:36 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/21 17:37:02 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:05:17 by mamagalh@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-static	void	get_dir(t_env *envp, char **pwd)
-{
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = expand(envp, "HOME");
-	while (tmp && tmp[i] && (*pwd)[i] && (*pwd)[i] == tmp[i])
-		i++;
-	free(tmp);
-	tmp = ft_strdup(&(*pwd)[i]);
-	free((*pwd));
-	(*pwd) = tmp;
-}
-
-// static	void	create_prompt(t_env *envp, char **string)
-// {
-// 	char	*cur_path;
-// 	char	*str;
-
-// 	cur_path = getcwd(NULL, 0);
-// 	if (cur_path == NULL)
-// 		str = "Minishell$ ";
-// 	//get_dir(envp, &cur_path);
-// 	// str = ft_strjoinfrees1(expand(envp, "LOGNAME"), "@");
-// 	// str = ft_strjoinfreee(str, expand(envp, "NAME"));
-// 	// str = ft_strjoinfrees1(str, ":");
-// 	// str = ft_strjoinfreee(str, cur_path);
-// 	//(*string) = ft_strjoinfrees1(str, "$ ");
-// 	(*string) = "minishell$ ";
-// }
 
 char	*get_inputline(t_var *var)
 {
 	char			*str;
 	char			*prompt;
 
-	//create_prompt(var->envp, &prompt);
 	str = readline("Minishell$ ");
 	if (!str || str == NULL)
 	{
