@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 16:47:52 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:34:04 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	lexer(t_var *var)
 	t_list		*current;
 
 	if (get_pipes(var, &list) == -1)
-		return (ms_error("Syntax error", "`|` unexpected", 2));
+		return (ft_putstr_fd("Minishell: Syntax error\n", 2), 2);
 	first_node = NULL;
 	current = list;
 	while (current)

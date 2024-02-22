@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/21 17:00:09 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:51:30 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,20 @@ static	int	isvalid_namevar(char *name)
 	return (0);
 }
 
-static int	update_var(int flag, char **line_env, char *name, char *val)
+static int	update_var(int flag, t_env **line_env, char *name, char *val)
 {
 	if (!flag)
 	{
 		if (!val)
 			return (-1);
-		if (*line_env)
-			free(*line_env);
-		*line_env = ft_strjoinfreee(name, val);
+		if ((*line_env)->line_env)
+			free((*line_env)->line_env);
+		(*line_env)->line_env = ft_strjoinfreee(name, val);
+		(*line_env)->exported = 0;
 		return (1);
 	}
 	else
-	{
-		free(name);
 		return (0);
-	}
 }
 
 static char	*retrieve_name(char *expr)
@@ -83,11 +81,16 @@ static	int	append_to_env(t_var *var, char **expr, int flag)
 	while (tmp_node)
 	{
 		if (ft_strncmp(tmp_node->line_env, name, ft_strlen(name)) == 0)
-			exist_already = update_var(flag, &tmp_node->line_env, name, val);
+			exist_already = update_var(flag, &tmp_node, name, val);
 		tmp_node = tmp_node->next;
 	}
 	if (exist_already)
 		return (0);
+	else
+	{
+		free(val);
+		free(name);
+	}
 	ft_addback_node_env(&var->envp, new_node_env((*expr), flag));
 	return (0);
 }

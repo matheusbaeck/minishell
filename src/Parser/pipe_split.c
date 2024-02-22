@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 13:52:09 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 17:13:32 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:10:05 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	jumper(const char	*line, char open, char close)
 	if (line[i] != open)
 		return (i);
 	nesting_level = 1;
-	while (line[++i] || nesting_level > 0)
+	while (line[++i] && nesting_level > 0)
 	{
 		if (close != open && line[i] == open)
 			nesting_level++;
