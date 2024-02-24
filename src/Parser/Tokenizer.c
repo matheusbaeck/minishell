@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 18:57:32 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:50:42 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ int	gnt_startpoint(t_var *var, int start)
 				break ;
 		}
 	}
-	//printf("tokenstring found: %s\n", token_string);
 	add_cmd_or_whredir_or_param(var, &token_string, &wh_redir_flg);
 	return (i);
 }

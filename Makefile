@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: math <math@student.42.fr>                  +#+  +:+       +#+         #
+#    By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2024/02/21 15:15:33 by math             ###   ########.fr        #
+#    Updated: 2024/02/24 19:51:20 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMP
 NAME = minishell
-CC = gcc -fsanitize=address #-Wall -Werror -Wextra #-fsanitize=address -g3
+CC = gcc -Wall -Werror -Wextra #-fsanitize=address -g3
 SRC_DIR = ./src
 OBJ_DIR = .obj
 RL = /Users/${USER}/.brew/opt/readline/

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 13:52:09 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 16:54:21 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:49:50 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	pipe_split(t_list **node, int (*fptr)(char *))
 		i = -1;
 		while (((char *)cur->content)[++i])
 		{
-			if (jump_content(&i, cur, &ret, fptr) == -1)
-				return (-1); // free 
+			if (jump_content(&i, cur, &ret, fptr) == -1 || ret < 0)
+				return (-1);
 			if (ret > 0)
 			{
 				ft_lstadd_back(node,
@@ -89,8 +89,6 @@ int	pipe_split(t_list **node, int (*fptr)(char *))
 					return (free(cur->next), cur->next = NULL, -1);
 				break ;
 			}
-			else if (ret < 0)
-				return (-1);
 		}
 		cur = cur->next;
 	}

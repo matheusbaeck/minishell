@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamagalh@student.42madrid.com <mamagalh    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 12:56:36 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/22 14:05:17 by mamagalh@st      ###   ########.fr       */
+/*   Updated: 2024/02/24 19:52:34 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*get_inputline(t_var *var)
 {
 	char			*str;
-	char			*prompt;
 
 	str = readline("Minishell$ ");
 	if (!str || str == NULL)

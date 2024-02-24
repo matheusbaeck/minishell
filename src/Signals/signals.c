@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 17:33:09 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 20:13:47 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	signal_handler(int sig)
 {
+	(void)sig;
 	if (waitpid(-1, &g_status, 0) > 0)
 	{
 		g_status = 130;
