@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:56:45 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 12:23:55 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 17:33:09 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 void	signal_handler(int sig)
 {
-	if (sig != SIGINT)
-	{
-		rl_redisplay();
-		return ;
-	}
 	if (waitpid(-1, &g_status, 0) > 0)
 	{
 		g_status = 130;
@@ -44,15 +39,13 @@ int	ms_signal(void)
 	size_t				i;
 	int					err;
 	struct sigaction	sa;
-	const int			sigs[3] = {SIGINT, SIGTSTP, SIGQUIT};
+	const int			sigs[3] = {SIGINT, SIGTSTP};
 
 	i = 0;
 	sa.sa_handler = signal_handler;
 	sa.sa_flags = SA_RESTART;
-	while (i < 3)
+	while (i < 2)
 	{
-		if (sigs[i] == SIGQUIT)
-			sa.sa_handler = SIG_IGN;
 		err = sigaction(sigs[i], &sa, NULL);
 		if (err == -1)
 		{

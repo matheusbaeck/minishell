@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/21 17:12:40 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:33:45 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,7 @@ int	ft_exec(t_var	*var)
 			&& ft_strncmp(var->tokens->token->content, "../", 3)))
 		exec_path = var->tokens->token->content;
 	else if (envp && find_path(envp, var->tokens->token->content, &exec_path))
-	{
-		ft_putstr_fd("Command not found\n", 2);
-		exit (127);
-	}
+		exit(ms_error(var->tokens->token->content, "Command not found", 127));
 	if (execve(exec_path, args, envp) == -1)
 	{
 		exit_value = if_exec_fail(exec_path, &envp, &args);

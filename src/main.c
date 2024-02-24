@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 16:51:46 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 18:58:55 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ int	main(int argc, char **argv, const char **envp)
 			ft_lstclear_node(&var.tokens);
 			continue ;
 		}
+		if (argc == 2 && argv[1][0] == 'p')
+			printnodes(&var.tokens);
 		while (var.tokens)
 		{
 			if (run_builtin_parent(&var, &last_status) == IS_NOT_BUILTIN)
 				last_status = process_handler(&var);
-			else
-				var.tokens = ft_lstdelone_node_getnext(var.tokens);
+			var.tokens = ft_lstdelone_node_getnext(var.tokens);
 		}
-		free(var.tokens);
 		g_status = last_status;
 	}
 	ft_freeenv(&var.envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 13:52:09 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/22 13:10:05 by math             ###   ########.fr       */
+/*   Updated: 2024/02/24 16:54:21 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	pipe_split(t_list **node, int (*fptr)(char *))
 		i = -1;
 		while (((char *)cur->content)[++i])
 		{
-			jump_content(&i, cur, &ret, fptr);
+			if (jump_content(&i, cur, &ret, fptr) == -1)
+				return (-1); // free 
 			if (ret > 0)
 			{
 				ft_lstadd_back(node,

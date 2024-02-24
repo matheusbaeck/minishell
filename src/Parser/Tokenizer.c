@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/20 18:10:30 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 18:57:32 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static	void	add_mode_op(t_var *var, int *start, int *i, char *token_string)
 static	int	add_cmd_or_whredir_or_param(t_var *var, char	**str, int *whredir)
 {
 	if ((*str) != NULL
-		&& *(*str) != '\0' && *(*str) != '|' && var->tokens)
+		&& *(*str) != '\0' && var->tokens)
 	{
-		if (*whredir)
+		if (*whredir == 1)
 		{
 			return (ft_lstadd_back_subnode(&var->tokens->where_redir,
 					ft_lstnew_subnode((*str))), 0);
@@ -40,7 +40,7 @@ static	int	add_cmd_or_whredir_or_param(t_var *var, char	**str, int *whredir)
 			return (ft_lstadd_back_subnode(&var->tokens->params,
 					ft_lstnew_subnode((*str))), 0);
 	}
-	if (*whredir && ((*str) == NULL || *(*str) == '\0'))
+	if (*whredir == 1 && ((*str) == NULL || *(*str) == '\0'))
 	{
 		ft_putstr_fd("Minishell: Syntax error\n", 2);
 		g_status = SYNTAX_ERROR;
@@ -104,6 +104,7 @@ int	gnt_startpoint(t_var *var, int start)
 				break ;
 		}
 	}
+	//printf("tokenstring found: %s\n", token_string);
 	add_cmd_or_whredir_or_param(var, &token_string, &wh_redir_flg);
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/18 13:11:09 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:01:57 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int	echo(t_node *tokens)
 	}
 	if (flag == 0)
 		printf("\n");
-	return (EXIT_SUCCESS);
+	return (0);
 }
