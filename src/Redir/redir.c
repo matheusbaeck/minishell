@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 20:12:16 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/24 20:19:26 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ static	int	here_doc_loop(int fd, char *str, char *lim)
 
 	while (1)
 	{
-		write(1, lim, ft_strlen(lim));
 		write(1, ">", 1);
 		i = -1;
 		while (read(0, &buffer, 1) && ++i < (int) ft_strlen(lim)
 			&& buffer != 10 && lim[i] == buffer)
 			str[i] = buffer;
-		if (!ft_strncmp(str, lim, (int) ft_strlen(lim)) && buffer == 10)
+		if (ft_strncmp(str, lim, (int) ft_strlen(lim)) == 0 && buffer == 10)
 			return (0);
-		if (ft_strncmp(str, lim, (int) ft_strlen(lim)) && buffer == 10)
+		if (ft_strncmp(str, lim, (int) ft_strlen(lim)) == 1 && buffer == 10)
 			return (ms_error("warning", "here-doc terminated by EOF.", 0));
 		write(fd, str, (int)ft_strlen(str));
 		write(1, str, (int)ft_strlen(str));
