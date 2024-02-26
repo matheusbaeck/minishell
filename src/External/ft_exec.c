@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 19:33:45 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:44:59 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	if_exec_fail(char *exec_path, char ***envp, char	***args)
 {
 	doublefree(*envp);
 	doublefree(*args);
-	dprintf(2, "is file or dir:%i\n", is_file_or_directory(exec_path));
 	if (is_file_or_directory(exec_path) == 2)
 		return (ft_putstr_fd("Minishell: Is a directory\n", 2), 126);
 	else if (is_file_or_directory(exec_path) == 0)
@@ -110,7 +109,7 @@ int	ft_exec(t_var	*var)
 			&& ft_strncmp(var->tokens->token->content, "../", 3)))
 		exec_path = var->tokens->token->content;
 	else if (envp && find_path(envp, var->tokens->token->content, &exec_path))
-		exit(ms_error(var->tokens->token->content, "Command not found", 127));
+		exit(ms_error(var->tokens->token->content, "command not found", 127));
 	if (execve(exec_path, args, envp) == -1)
 	{
 		exit_value = if_exec_fail(exec_path, &envp, &args);
