@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/20 17:33:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:54:03 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	cd(t_node *tokens)
 			return (1);
 		}
 	}
+	else if (tokens->params->next)
+		return (ft_putstr_fd("Minishell: cd: too many arguments\n", 2), 1);
 	else
 		where = tokens->params->content;
 	status = cd_safe(where);
