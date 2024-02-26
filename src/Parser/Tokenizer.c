@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 19:50:42 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/26 20:42:36 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	gnt_startpoint(t_var *var, int start)
 	while (i < var->len_inputline
 		&& (!is_space_or_eof(var->inputline[i]) || wh_redir_flg == 1))
 	{
-		wh_redir_flg = add_redir_op(var, &start, &i, token_string);
+		if (!wh_redir_flg)
+			wh_redir_flg = add_redir_op(var, &start, &i, token_string);
 		if (wh_redir_flg == -1)
 			break ;
 		else
