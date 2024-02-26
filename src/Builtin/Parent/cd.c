@@ -6,7 +6,7 @@
 /*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/26 15:54:03 by math             ###   ########.fr       */
+/*   Updated: 2024/02/26 17:40:32 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	cd_safe(char *where)
 	return (-1);
 }
 
-int	cd(t_node *tokens)
+int	cd(t_node *tokens, int nb_node)
 {
 	char	*where;
 	int		status;
@@ -52,6 +52,8 @@ int	cd(t_node *tokens)
 	}
 	else if (tokens->params->next)
 		return (ft_putstr_fd("Minishell: cd: too many arguments\n", 2), 1);
+	else if (tokens->next || nb_node > 1)
+		return (EXIT_SUCCESS);
 	else
 		where = tokens->params->content;
 	status = cd_safe(where);

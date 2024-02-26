@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:47:59 by mohafnh           #+#    #+#             */
-/*   Updated: 2024/02/20 12:40:59 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:40:49 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static	int	check_builtin(t_var *var, int *last_status)
 	{
 		if (handle_redirection(var) == -1)
 			perror("redir\n");
-		*last_status = cd(var->tokens);
+		*last_status = cd(var->tokens, var->nb_node);
 		return (IS_BUILTIN);
 	}
 	else if (!ft_strncmp(var->tokens->token->content, "export\0", 7))

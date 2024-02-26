@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 20:14:39 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:30:18 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	lexer(t_var *var)
 	current = list;
 	while (current)
 	{
+		var->nb_node++;
 		var->inputline = ((char *)current->content);
 		var->len_inputline = ft_strlen(var->inputline);
 		var->tokens = ft_lstnew_node();
@@ -64,6 +65,5 @@ int	lexer(t_var *var)
 		current = current->next;
 	}
 	var->tokens = first_node;
-	ft_lstclear(&list, free);
-	return (0);
+	return (ft_lstclear(&list, free), 0);
 }

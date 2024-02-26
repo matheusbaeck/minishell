@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/21 17:01:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/26 17:40:16 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_subnode
 typedef struct s_node
 {
 	t_subnode			*token;
-	//t_subnode			*flags;
 	t_subnode			*params;
 	t_subnode			*redir;
 	t_subnode			*where_redir;
@@ -169,7 +168,7 @@ int			exit_minishell(t_var *var);
 int			unset(t_var *var);
 int			export(t_var *var);
 char		*retrieve_value(char *expr);
-int			cd(t_node *tokens);
+int			cd(t_node *tokens, int nb_node);
 int			clear(t_var *var);
 int			run_builtin_child(t_var *var, int *last_status);
 int			echo(t_node *tokens);
