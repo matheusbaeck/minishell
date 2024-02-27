@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/26 20:42:36 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:41:17 by math             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,11 @@ int	gnt_startpoint(t_var *var, int start)
 		{
 			check_input_and_skip_spaces(var, &start, &i);
 			token_string = check_word_rec(var, &start, &i, token_string);
-			if (wh_redir_flg == 1 && is_space_or_eof(var->inputline[i]))
+			if (wh_redir_flg == 1 && (is_space_or_eof(var->inputline[i]) ||
+				var->inputline[i] == '<' || var->inputline[i] == '>' ||
+				var->inputline[i] == '|'))
 				break ;
 		}
 	}
-	add_cmd_or_whredir_or_param(var, &token_string, &wh_redir_flg);
-	return (i);
+	return (add_cmd_or_whredir_or_param(var, &token_string, &wh_redir_flg), i);
 }
