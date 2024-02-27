@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/26 17:40:16 by math             ###   ########.fr       */
+/*   Updated: 2024/02/27 15:06:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ int			show_values_alpha(t_var *var);
 // <----------------------------------->
 //			###### redir funcs ######
 int			handle_redirection(t_var *var);
+int			here_doc_loop(int fd, char *str, char *lim);
+int			get_char_hd(int *err, char *buffer, char *lim);
 // <---------------------------------->
 //			###### External command execution ######
 int			ft_exec(t_var *var);

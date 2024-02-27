@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: math <math@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 17:33:24 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/27 10:41:17 by math             ###   ########.fr       */
+/*   Updated: 2024/02/27 15:04:48 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static	int	add_cmd_or_whredir_or_param(t_var *var, char	**str, int *whredir)
 
 static	int	check_input_and_skip_spaces(t_var *var, int *start, int *i)
 {
+	*i = *start;
 	if ((var->inputline == NULL) && *start < var->len_inputline)
 		return (1);
 	while (var->inputline[*start] == ' ' || var->inputline[*start] == '\t')
@@ -86,7 +87,6 @@ int	gnt_startpoint(t_var *var, int start)
 	int			i;
 	int			wh_redir_flg;
 
-	i = start;
 	wh_redir_flg = 0;
 	token_string = NULL;
 	check_input_and_skip_spaces(var, &start, &i);
@@ -101,9 +101,9 @@ int	gnt_startpoint(t_var *var, int start)
 		{
 			check_input_and_skip_spaces(var, &start, &i);
 			token_string = check_word_rec(var, &start, &i, token_string);
-			if (wh_redir_flg == 1 && (is_space_or_eof(var->inputline[i]) ||
-				var->inputline[i] == '<' || var->inputline[i] == '>' ||
-				var->inputline[i] == '|'))
+			if (wh_redir_flg == 1 && (is_space_or_eof(var->inputline[i])
+					|| isingle_operator(var->inputline, i)
+					|| isdouble_operator(var->inputline, i)))
 				break ;
 		}
 	}

@@ -3,42 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/24 20:19:26 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:30:56 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-static	int	here_doc_loop(int fd, char *str, char *lim)
+static int	handle_eof_and_error(int err, char *lim)
 {
-	int		i;
-	char	buffer;
-
-	while (1)
+	if (err <= 0)
 	{
-		write(1, ">", 1);
-		i = -1;
-		while (read(0, &buffer, 1) && ++i < (int) ft_strlen(lim)
-			&& buffer != 10 && lim[i] == buffer)
-			str[i] = buffer;
-		if (ft_strncmp(str, lim, (int) ft_strlen(lim)) == 0 && buffer == 10)
+		if (ft_strncmp(lim, "eof", 3) == 0)
 			return (0);
-		if (ft_strncmp(str, lim, (int) ft_strlen(lim)) == 1 && buffer == 10)
+		else
 			return (ms_error("warning", "here-doc terminated by EOF.", 0));
-		write(fd, str, (int)ft_strlen(str));
-		write(1, str, (int)ft_strlen(str));
-		ft_bzero(str, ft_strlen(lim) - 1);
-		if (buffer != 10 && write(fd, &buffer, 1))
-		{
-			while (read(0, &buffer, 1) && buffer != 10)
-				write(fd, &buffer, 1);
-		}
-		write(fd, &buffer, 1);
 	}
-	return (-1);
+	return (1);
+}
+
+int	get_char_hd(int *err, char *buffer, char *lim)
+{
+	*err = read(0, buffer, 1);
+	if (handle_eof_and_error(*err, lim) == 0)
+		return (0);
+	else
+		return (1);
 }
 
 static int	here_doc_task(char *lim)
