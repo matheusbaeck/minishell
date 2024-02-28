@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 14:35:50 by smagniny          #+#    #+#             */
-/*   Updated: 2024/02/27 16:31:52 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:20:59 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,10 @@ int	here_doc_loop(int fd, char *str, char *lim)
 				cpy_lim(&str, &buffer, &flag, &j);
 			else
 			{
-				if (flag)
-				{
-					if (check_lim(j, lim, str, buffer) == 1)
-						return (0);
+				if (flag && check_lim(j, lim, str, buffer) == 1)
+					return (0);
+				else if (flag)
 					cpy_content(&fd, str, lim, &flag);
-				}
 				write(fd, &buffer, 1);
 			}
 		}
